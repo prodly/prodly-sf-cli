@@ -1,15 +1,10 @@
 import { SfError } from '@salesforce/core';
 import { TestContext } from '@salesforce/core/lib/testSetup.js';
 import { expect } from 'chai';
-import ProdlyCheckout from '../../../src/commands/prodly/checkout.js';
+import ProdlyCheckout from '../../../../src/commands/prodly/checkout.js';
 
 describe('prodly:checkout', () => {
   const $$ = new TestContext();
-  // let sfCommandStubs: ReturnType<typeof stubSfCommandUx>;
-
-  // beforeEach(() => {
-  //   sfCommandStubs = stubSfCommandUx($$.SANDBOX);
-  // });
 
   afterEach(() => {
     $$.restore();

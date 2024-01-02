@@ -2,31 +2,17 @@ import { Messages, SfError } from '@salesforce/core';
 import { TestContext } from '@salesforce/core/lib/testSetup.js';
 // import { stubSfCommandUx } from '@salesforce/sf-plugins-core';
 import { expect } from 'chai';
-import ProdlyManage from '../../../src/commands/prodly/manage.js';
+import ProdlyManage from '../../../../src/commands/prodly/manage.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const prodlyMessages = Messages.loadMessages('prodlysfcli', 'prodly');
 
 describe('prodly:manage', () => {
   const $$ = new TestContext();
-  // let sfCommandStubs: ReturnType<typeof stubSfCommandUx>;
-
-  // beforeEach(() => {
-  //   sfCommandStubs = stubSfCommandUx($$.SANDBOX);
-  // });
 
   afterEach(() => {
     $$.restore();
   });
-
-  // it('runs manage', async () => {
-  //   await ProdlyManage.run([]);
-  //   const output = sfCommandStubs.log
-  //     .getCalls()
-  //     .flatMap((c) => c.args)
-  //     .join('\n');
-  //   expect(output).to.equal({});
-  // });
 
   it('should throw an error when target dev hub is not provided', async () => {
     try {
