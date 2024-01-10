@@ -44,6 +44,10 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
     this.log('Data set flag: ' + datasetFlag);
     this.log('Deployment plan flag: ' + planFlag);
 
+    if (!datasetFlag && !planFlag) {
+      throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
+    }
+
     const org = flags['target-org'];
     const hubOrg = flags['target-dev-hub'];
     const hubConn = hubOrg.getConnection();
