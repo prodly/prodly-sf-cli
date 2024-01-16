@@ -126,7 +126,7 @@ const queryConnections: QueryConnectionsFn = async ({ connectionIds, hubConn, pr
 const updateConnection: UpdateConnectionFn = async ({ connectionId, hubConn, org }) => {
   const connection = {
     Id: connectionId,
-    PDRI__Access_Token__c: org.getConnection().getConnectionOptions().accessToken,
+    PDRI__Access_Token__c: org.getConnection()?.getConnectionOptions()?.accessToken,
   };
 
   return hubConn.update('PDRI__Connection__c', connection);

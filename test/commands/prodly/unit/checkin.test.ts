@@ -1,20 +1,14 @@
 import { SfError } from '@salesforce/core';
 import { TestContext } from '@salesforce/core/lib/testSetup.js';
 import { expect } from 'chai';
-import ProdlyCheckin from '../../../src/commands/prodly/checkin.js';
+import ProdlyCheckin from '../../../../src/commands/prodly/checkin.js';
 
 describe('prodly:checkin', () => {
   const $$ = new TestContext();
-  // let sfCommandStubs: ReturnType<typeof stubSfCommandUx>;
-
-  // beforeEach(() => {
-  //   sfCommandStubs = stubSfCommandUx($$.SANDBOX);
-  // });
 
   afterEach(() => {
     $$.restore();
   });
-
   it('should throw an error when target dev hub is not provided', async () => {
     try {
       await ProdlyCheckin.run(['--target-org', 'test']);

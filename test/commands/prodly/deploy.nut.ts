@@ -1,4 +1,0 @@
-
-describe('prodly deploy NUTs', () => {
- 
-});

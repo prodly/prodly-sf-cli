@@ -1,18 +1,13 @@
 import { Messages, SfError } from '@salesforce/core';
 import { TestContext } from '@salesforce/core/lib/testSetup.js';
 import { expect } from 'chai';
-import ProdlyDeploy from '../../../src/commands/prodly/deploy.js';
+import ProdlyDeploy from '../../../../src/commands/prodly/deploy.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const prodlyMessages = Messages.loadMessages('prodlysfcli', 'prodly');
 
 describe('prodly:deploy', () => {
   const $$ = new TestContext();
-  // let sfCommandStubs: ReturnType<typeof stubSfCommandUx>;
-
-  // beforeEach(() => {
-  //   sfCommandStubs = stubSfCommandUx($$.SANDBOX);
-  // });
 
   afterEach(() => {
     $$.restore();
