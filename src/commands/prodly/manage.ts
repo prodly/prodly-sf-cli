@@ -57,23 +57,23 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
     this.log('Comment flag: ' + commentFlag);
     this.log('Connection flag: ' + connectionFlag);
 
-    if (listFlag === undefined && manageFlag === undefined && unmanageFlag === undefined) {
+    if (!listFlag && !manageFlag && !unmanageFlag) {
       throw new SfError(prodlyMessages.getMessage('errorNoManageFlags', []));
     }
 
-    if (listFlag !== undefined && manageFlag !== undefined) {
+    if (listFlag && manageFlag) {
       throw new SfError(prodlyMessages.getMessage('errorMultipleManageFlags', []));
     }
 
-    if (manageFlag !== undefined && labelFlag === undefined) {
+    if (manageFlag && !labelFlag) {
       throw new SfError(prodlyMessages.getMessage('errorManageLabelFlag', []));
     }
 
-    if (listFlag === undefined && printFlag !== undefined) {
+    if (!listFlag && printFlag) {
       throw new SfError(prodlyMessages.getMessage('errorPrintFlagNoListFlag', []));
     }
 
-    if (manageFlag === undefined && versionFlag !== undefined) {
+    if (!manageFlag && versionFlag) {
       throw new SfError(prodlyMessages.getMessage('errorVersionFlagNoManageFlag', []));
     }
 
@@ -81,7 +81,7 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
     const hubOrg = flags['target-dev-hub'];
     const hubConn = hubOrg.getConnection();
     const print = (message: string | undefined, ...args: unknown[]): void => this.log(message, ...args);
-    
+
     if (listFlag) {
       this.log('Listing managed instances.');
       const managedInstances = await getManagedInstances({ hubConn, print });
@@ -101,8 +101,7 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
       });
 
       if (printFlag) {
-        this.log('Printing managed instances.');
-        this.log('');
+        this.log('Printing managed instances.\n');
 
         managedInstances.instances.forEach((instance) => {
           const connection = instance.connectionId ? connections.get(instance.connectionId) : null;
@@ -116,8 +115,7 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
           this.log(`Salesforce Org ID: ${instance.platformInstanceId}`);
           this.log(`Connection Record ID: ${instance.connectionId}`);
           this.log(`Instance Type ${instance.instanceType}`);
-          this.log(`Instance URL ${instanceUrl}`);
-          this.log('');
+          this.log(`Instance URL ${instanceUrl}\n`);
         });
       }
 
@@ -163,11 +161,11 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
         print,
       });
 
-      if (managedInstance === null) {
+      if (!managedInstance) {
         throw new SfError(prodlyMessages.getMessage('errorManagedInstaceNotFound'));
       }
 
-      this.log('New managed instance: ', managedInstance?.id);
+      this.log(`New managed instance: ${managedInstance?.id}`);
 
       return managedInstance.id;
     }
@@ -177,12 +175,12 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
 
       let mangedInstanceId = '';
 
-      if (instanceFlag !== undefined) {
+      if (instanceFlag) {
         // Use provided managed instance
         this.log(`Managed instance ID provided, using instance with id ${instanceFlag}`);
         mangedInstanceId = instanceFlag;
       } else if (connectionFlag) {
-        this.log('Connection to use for the managed instances provided: ' + connectionFlag);
+        this.log(`Connection to use for the managed instances provided: ${connectionFlag}`);
         const connection = await queryConnection({ connectionNameOrId: connectionFlag, hubConn, print });
         const orgId = connection.PDRI__OrganizationId__c;
 

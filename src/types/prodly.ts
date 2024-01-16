@@ -1,3 +1,5 @@
+import { Connection } from '@salesforce/core';
+
 export type ManagedInstances = {
   instances: ManagedInstance[];
 };
@@ -36,4 +38,38 @@ export type Job = {
   started: string;
   status: string;
   userId: string;
+};
+
+export type DeployOptions = {
+  dataSetId?: string;
+  deactivateAllEvents: boolean;
+  deploymentName?: string;
+  deploymentNotes?: string;
+  deploymentPlanId?: string;
+  destinationInstanceId: string;
+  hubConn: Connection;
+  queryFilter?: string;
+  simulation: boolean;
+  sourceInstanceId?: string;
+};
+
+export type CheckoutOptions = {
+  branchFlag: string | undefined;
+  dataSetId: string | undefined;
+  deactivateAllEvents: boolean;
+  deploymentNameFlag: string | undefined;
+  deploymentNotes: string | undefined;
+  deploymentPlanId: string | undefined;
+  hubConn: Connection;
+  mangedInstanceId: string;
+};
+
+export type CheckinOptions = {
+  branchFlag: string | undefined;
+  comment: string | undefined;
+  dataSetId: string | undefined;
+  deploymentNotes: string | undefined;
+  deploymentPlanId: string | undefined;
+  hubConn: Connection;
+  mangedInstanceId: string;
 };

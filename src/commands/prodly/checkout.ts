@@ -1,9 +1,10 @@
-import { Connection, Messages, SfError } from '@salesforce/core';
+import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { AnyJson } from '@salesforce/ts-types';
 import { updateConnection } from '../../services/connections.js';
 import { getManagedInstance } from '../../services/instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
+import { CheckoutOptions } from '../../types/prodly.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.checkout');
@@ -105,44 +106,39 @@ export default class ProdlyCheckout extends SfCommand<AnyJson> {
 
       // Update the connection with the latest access token
       this.log('Updating the connection with the latest access token');
-      await updateConnection({ connectionId: managedInstance.connectionId, org, hubConn});
+      await updateConnection({ connectionId: managedInstance.connectionId, org, hubConn });
     }
 
     // Perform the checkout
-    await this.checkoutInstance(
-      mangedInstanceId,
-      deactivateFlag,
+    await this.checkoutInstance({
       branchFlag,
       dataSetId,
-      deploymentPlanId,
-      deploymentNotesFlag,
+      deactivateAllEvents: deactivateFlag,
       deploymentNameFlag,
-      hubConn
-    );
+      deploymentNotes: deploymentNotesFlag,
+      deploymentPlanId,
+      hubConn,
+      mangedInstanceId,
+    });
 
     return {};
   }
 
-  private async checkoutInstance(
-    mangedInstanceId: string,
-    deactivateAllEvents: boolean,
-    branchFlag: string | undefined,
-    dataSetId: string | undefined,
-    deploymentPlanId: string | undefined,
-    deploymentNotes: string | undefined,
-    deploymentNameFlag: string | undefined,
-    hubConn: Connection
-  ): Promise<void> {
+  private async checkoutInstance({
+    branchFlag,
+    dataSetId,
+    deactivateAllEvents,
+    deploymentNameFlag,
+    deploymentNotes,
+    deploymentPlanId,
+    hubConn,
+    mangedInstanceId,
+  }: CheckoutOptions): Promise<void> {
     this.log(`Performing checkout for managed instance with id ${mangedInstanceId}.`);
 
-    const path = '/services/apexrest/PDRI/v1/instances/' + mangedInstanceId + '/checkout';
-
-    /* let eventControlOptions = {
-        deactivateAll : deactivateAllEvents === undefined ? false : true
-    }*/
+    const path = `/services/apexrest/PDRI/v1/instances/${mangedInstanceId}/checkout`;
 
     const checkoutInstance = {
-      // eventControlOptions : eventControlOptions
       allVersionedData: !dataSetId && !deploymentPlanId ? true : null,
       branchName: branchFlag,
       datasetId: dataSetId,
@@ -155,7 +151,6 @@ export default class ProdlyCheckout extends SfCommand<AnyJson> {
     const request = {
       body: JSON.stringify(checkoutInstance),
       method: 'POST' as const,
-      // headers : { 'vcs-access-token': vcsToken },
       url: path,
     };
 

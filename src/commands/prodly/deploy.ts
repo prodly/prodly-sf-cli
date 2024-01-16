@@ -1,10 +1,10 @@
-import { Connection, Messages, SfError } from '@salesforce/core';
+import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { AnyJson } from '@salesforce/ts-types';
 import { createConnection, getConnectionId, updateConnection } from '../../services/connections.js';
 import { getManagedInstance, manageInstance } from '../../services/instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
-import { Jobs } from '../../types/prodly.js';
+import { DeployOptions, Jobs } from '../../types/prodly.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.deploy');
@@ -61,10 +61,10 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
     this.log('Simulation flag: ' + simulationFlag);
     this.log('Query filter flag: ' + queryFilterFlag);
 
-    if (datasetFlag === undefined && planFlag === undefined) {
+    if (!datasetFlag && !planFlag) {
       throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
     }
-    if (datasetFlag !== undefined && planFlag !== undefined) {
+    if (datasetFlag && planFlag) {
       throw new SfError(prodlyMessages.getMessage('errorDatasetAndPlanFlags', []));
     }
 
@@ -90,39 +90,23 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
     // So only the source or destination instance can be an auto managed
 
     // Set source mamanaged instance
-    if (sourceFlag !== undefined) {
+    if (sourceFlag) {
       // Source and/or destination is a managed instance and the other is a DX managed org
-      this.log('Source managed instance parameter is specified: ', sourceFlag);
+      this.log(`Source managed instance parameter is specified: ${sourceFlag}`);
       // Source is a managed instance, use the managed instance ID
       sourceInstanceId = sourceFlag;
-
-      /* The below logic can be uncommented if/when we want to support updating the refresh token for the source or destination connection
-      //when both source and destination are passed in as instance params, but the targetusername matches on of them
-      //
-      //Check if a managed instance exist with the same instance ID
-      var managedInstance = await this.getManagedInstanceByInstanceId( sourceInstanceId, hubConn );  
-      this.ux.log("Retrieved managed instance: ", managedInstance);       
-      if( managedInstance ) {
-          //If exists, use that managed instance ID
-          this.ux.log("Managed instance found with connection ID: " + managedInstance.connectionId);
-
-          //Update the connection with the latest access token
-          this.ux.log("Updating the connection with the latest access token");
-          await this.updateConnection(managedInstance.connectionId, this.org, hubConn);
-      }*/
     } else if (isOrgSpecified) {
       // Source is a DX managed org
       this.log(
-        'Source managed instance parameter is not specified, finding or creating managed instance by org ID: ',
-        org.getOrgId()
+        `Source managed instance parameter is not specified, finding or creating managed instance by org ID: ${org.getOrgId()}`
       );
 
       // Check if a managed instance exist with the same org ID
       let managedInstance = await getManagedInstance({ hubConn, orgId: org.getOrgId(), print });
-      this.log('Retrieved managed instance:', JSON.stringify(managedInstance));
+      this.log(`Retrieved managed instance: ${JSON.stringify(managedInstance)}`);
       if (managedInstance) {
         // If exists, use that managed instance ID
-        this.log('Managed instance found, using it, with ID: ' + managedInstance.id);
+        this.log(`Managed instance found, using it, with ID: ${managedInstance.id}`);
         sourceInstanceId = managedInstance.id;
 
         // Update the connection with the latest access token
@@ -132,12 +116,12 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
         this.log('Managed instance for the org does not exist, managing instance.');
         // If doesn't exist, query for an active connection to the org
         let connectionId = await getConnectionId({ hubConn, orgId: org.getOrgId(), print });
-        this.log('Retrieved connection ID: ', connectionId);
+        this.log(`Retrieved connection ID: ${connectionId}`);
         if (!connectionId) {
           // If a connection doesn't exist, create it, then use it to manage the new instance
           this.log('Connection does not exist, creating.');
           connectionId = await createConnection({ hubConn, name: labelFlag, org });
-          this.log('Created connection with record ID:', connectionId);
+          this.log(`Created connection with record ID: ${connectionId}`);
         } else {
           // Update the connection with the latest access token
           this.log('Updating the connection with the latest access token');
@@ -155,20 +139,18 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
           hubConn,
           orgId,
         });
-        this.log('New managed instance: ', managedInstance.id);
+        this.log(`New managed instance: ${managedInstance.id}`);
 
         sourceInstanceId = managedInstance.id;
       }
     } else {
       // Source is the dev hub/control org
       this.log(
-        'Source and Destination not specified, setting hub as the source, org ID: ',
-        hubConn.getAuthInfoFields().orgId
+        `Source and Destination not specified, setting hub as the source, org ID: ${hubConn.getAuthInfoFields().orgId}`
       );
 
-      //  const managedInstance = await this.getManagedInstanceByOrgId(hubConn.getAuthInfoFields().orgId, hubConn);
       const managedInstance = await getManagedInstance({ hubConn, orgId: hubConn.getAuthInfoFields().orgId, print });
-      this.log('Retrieved managed instance ID for the control org: ', managedInstance?.id);
+      this.log(`Retrieved managed instance ID for the control org: ${managedInstance?.id}`);
 
       if (!managedInstance) {
         throw new SfError('No managed instance found for the devhub/control org.');
@@ -177,24 +159,22 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
       sourceInstanceId = managedInstance.id;
     }
 
-    if (destinationFlag !== undefined) {
+    if (destinationFlag) {
       this.log('Destination managed instance parameter is specified: ', sourceFlag);
       // Destination is a managed instance, use the managed instance ID
       destinationInstanceId = destinationFlag;
     } else {
       // Destination is a DX managed org
       this.log(
-        'Destination managed instance parameter is not specified, finding or creating managed instance by org ID: ',
-        org.getOrgId()
+        `Destination managed instance parameter is not specified, finding or creating managed instance by org ID: ${org.getOrgId()}`
       );
 
       // Check if a managed instance exist with the same org ID
-      // let managedInstance = await this.getManagedInstanceByOrgId(org.getOrgId(), hubConn);
       let managedInstance = await getManagedInstance({ hubConn, orgId: org.getOrgId(), print });
       this.log('Retrieved managed instance: ', JSON.stringify(managedInstance));
       if (managedInstance) {
         // If exists, use that managed instance ID
-        this.log('Managed instance found, using it, with ID: ' + managedInstance?.id);
+        this.log(`Managed instance found, using it, with ID: ${managedInstance?.id}`);
         destinationInstanceId = managedInstance?.id;
 
         // Update the connection with the latest access token
@@ -209,7 +189,7 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
           // If a connection doesn't exist, create it, then use it to manage the new instance
           this.log('Connection does not exist, creating.');
           connectionId = await createConnection({ hubConn, name: labelFlag, org });
-          this.log('Created connection with record ID: ', connectionId);
+          this.log(`Created connection with record ID: ${connectionId}`);
         } else {
           // Update the connection with the latest access token
           this.log('Updating the connection with the latest access token');
@@ -221,15 +201,14 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
           platformInstance: {
             platformInstanceId: orgId,
             connectionId,
-          }
+          },
         };
         managedInstance = await manageInstance({
           body,
           hubConn,
           orgId,
-          print, // todo remove this
         });
-        this.log('New managed instance ID: ', managedInstance.id);
+        this.log(`New managed instance ID: ${managedInstance.id}`);
 
         destinationInstanceId = managedInstance.id;
       }
@@ -239,19 +218,19 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
     try {
       await org.refreshAuth();
     } catch {
-      // console.log('Target username not valid or not specified, refresh failed');
+      // Target username not valid or not specified, refresh failed
     }
 
     // Retrieve the data set or deployment plan to deploy
     this.log('Retrieving data set or deployment plan to deploy.');
-    if (datasetFlag !== undefined) {
+    if (datasetFlag) {
       dataSetId = await getDeploymentEntityId({
         dataEntityFlag: datasetFlag,
         dataEntityType: 'PDRI__DataSet__c',
         hubConn,
         print,
       });
-    } else if (planFlag !== undefined) {
+    } else if (planFlag) {
       deploymentPlanId = await getDeploymentEntityId({
         dataEntityFlag: planFlag,
         dataEntityType: 'PDRI__Deployment_Plan__c',
@@ -260,18 +239,18 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
       });
     }
     this.log('Launching deployment.');
-    const jobId = await this.deploy(
-      deploymentNameFlag,
-      deploymentNotesFlag,
-      simulationFlag,
-      deactivateFlag,
-      queryFilterFlag,
-      sourceInstanceId,
-      destinationInstanceId,
+    const jobId = await this.deploy({
       dataSetId,
+      deactivateAllEvents: deactivateFlag,
+      deploymentName: deploymentNameFlag,
+      deploymentNotes: deploymentNotesFlag,
       deploymentPlanId,
-      hubConn
-    );
+      destinationInstanceId,
+      hubConn,
+      queryFilter: queryFilterFlag,
+      simulation: simulationFlag,
+      sourceInstanceId,
+    });
 
     this.log(`Deployment launched with job ID ${jobId}.`);
 
@@ -281,24 +260,24 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
     return { resultId: `${jobId}`, outputString };
   }
 
-  private async deploy(
-    deploymentName: string | undefined,
-    deploymentNotes: string | undefined,
-    simulation: boolean,
-    deactivateAllEvents: boolean,
-    queryFilter: string | undefined,
-    sourceInstanceId: string | undefined,
-    destinationInstanceId: string,
-    dataSetId: string | undefined,
-    deploymentPlanId: string | undefined,
-    hubConn: Connection
-  ): Promise<string> {
+  private async deploy({
+    dataSetId,
+    deactivateAllEvents,
+    deploymentName,
+    deploymentNotes,
+    deploymentPlanId,
+    destinationInstanceId,
+    hubConn,
+    queryFilter,
+    simulation,
+    sourceInstanceId,
+  }: DeployOptions): Promise<string> {
     this.log('Invoking deployment.');
 
-    const path = '/services/apexrest/PDRI/v1/instances/' + destinationInstanceId + '/deploy';
+    const path = `/services/apexrest/PDRI/v1/instances/${destinationInstanceId}/deploy`;
 
     const eventControlOptions = {
-      deactivateAll: deactivateAllEvents === undefined ? false : true,
+      deactivateAll: deactivateAllEvents,
     };
 
     const queryFilterOptions = {

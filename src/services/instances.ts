@@ -9,7 +9,6 @@ import {
 } from './instances.types.js';
 import { jobCompletion } from './jobs.js';
 
-
 const BASE_PATH = '/services/apexrest/PDRI/v1/instances';
 
 const getManagedInstances: GetManagedInstancesFn = async ({ hubConn, print }) => {
@@ -27,18 +26,13 @@ const getManagedInstance: GetManagedInstanceFn = async ({ hubConn, orgId, print 
   return managedInstance;
 };
 
-const manageInstance: ManageInstanceFn = async ({
-  body,
-  hubConn,
-  orgId,
-  print,
-}) => {
-  if (print) print(`Managing instance for org ID ${orgId}.`);
-
-  if (print) print('Manage instance body: ' + JSON.stringify(body));
+const manageInstance: ManageInstanceFn = async ({ body, hubConn, orgId, print }) => {
+  if (print) {
+    print(`Managing instance for org ID ${orgId}.`);
+    print(`Manage instance body: ${JSON.stringify(body)}`);
+  }
 
   const request = {
-    // headers : { 'vcs-access-token': vcsToken },
     body: JSON.stringify(body),
     method: 'POST' as const,
     url: BASE_PATH,
@@ -52,9 +46,10 @@ const manageInstance: ManageInstanceFn = async ({
     throw new SfError('No job ID returned after submitting an instance to be managed.');
   }
 
-  if (print) print(`Manage instance job ID ${jobId}.`);
-
-  if (print) print(`Waiting for completion of the manage instance job ID ${jobId}.`);
+  if (print) {
+    print(`Manage instance job ID ${jobId}.`);
+    print(`Waiting for completion of the manage instance job ID ${jobId}.`);
+  }
 
   // Currently wait for no jobs to be returned, which mean the job completed, but bad way of doing this.
   let completedJob = null;
@@ -80,7 +75,7 @@ const manageInstance: ManageInstanceFn = async ({
   return managedInstance;
 };
 
-const unmanageInstance: UnmanageInstanceFn = async ({ instanceId, hubConn, print }) => {
+const unmanageInstance: UnmanageInstanceFn = async ({ hubConn, instanceId, print }) => {
   if (print) print(`Unmanaging instance with ID ${instanceId}.`);
 
   const path = `${BASE_PATH}/${instanceId}`;

@@ -1,5 +1,6 @@
+/* eslint-disable camelcase */
 import { Messages, SfError } from '@salesforce/core';
-import { ORG_ID_REG_EXP } from '../constants/index.js';
+import { ORG_ID_REG_EXP, ORG_TYPE_PRODUCTION, ORG_TYPE_SANDBOX, ORG_TYPE_SCRATCH_ORG } from '../constants/index.js';
 import { ProdlyConnection } from '../types/prodly.js';
 import {
   CreateConnectionFn,
@@ -12,29 +13,22 @@ import {
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const prodlyMessages = Messages.loadMessages('prodlysfcli', 'prodly');
 
-const createConnection: CreateConnectionFn = async ({ name, org, hubConn }) => {
+const createConnection: CreateConnectionFn = async ({ hubConn, name, org }) => {
   const trailSlashRegex = /\/$/;
-  
+
   let type = '';
-  if (await org.determineIfScratch()) type = 'Scratch Org';
-  else if (await org.determineIfSandbox()) type = 'Sandbox';
-  else type = 'Production';
+  if (await org.determineIfScratch()) type = ORG_TYPE_SCRATCH_ORG;
+  else if (await org.determineIfSandbox()) type = ORG_TYPE_SANDBOX;
+  else type = ORG_TYPE_PRODUCTION;
 
   const connection = {
-    // eslint-disable-next-line camelcase
-    PDRI__Active__c: true,
     Name: name ? name : `${org.getUsername()} ${org.getOrgId()}`,
-    // eslint-disable-next-line camelcase
-    PDRI__OrganizationId__c: org.getOrgId(),
-    // eslint-disable-next-line camelcase
     PDRI__Access_Token__c: org.getConnection().getConnectionOptions().accessToken,
-    // eslint-disable-next-line camelcase
-    PDRI__Org_Type__c: type,
-    // eslint-disable-next-line camelcase
+    PDRI__Active__c: true,
     PDRI__Instance_URL__c: org.getConnection().getConnectionOptions().instanceUrl?.replace(trailSlashRegex, ''),
-    // eslint-disable-next-line camelcase
+    PDRI__Org_Type__c: type,
+    PDRI__OrganizationId__c: org.getOrgId(),
     PDRI__User_Id__c: org.getConnection().getConnectionOptions().userId,
-    // eslint-disable-next-line camelcase
     PDRI__Username__c: org.getUsername(),
   };
 
@@ -62,7 +56,7 @@ const getConnectionId: GetConnectionIdFn = async ({ hubConn, orgId, print }) => 
   // Query the org
   const result = await hubConn.query(query);
   if (print) print('Query result: ', result);
-  if (!result.records || result.records.length <= 0) {
+  if (!result?.records || result.records.length === 0) {
     return null;
   }
 
@@ -88,10 +82,9 @@ const queryConnection: QueryConnectionFn = async ({ connectionNameOrId, hubConn,
 
   if (print) print(`Running source query:${query}`);
 
-  // Query the org
   const result = await hubConn.query(query);
 
-  if (!result.records || result.records.length <= 0) {
+  if (!result?.records || result.records.length === 0) {
     throw new SfError(prodlyMessages.getMessage('errorNoConnectionFound', [connectionNameOrId] as string[]));
   }
 
@@ -115,10 +108,9 @@ const queryConnections: QueryConnectionsFn = async ({ connectionIds, hubConn, pr
 
   if (print) print('Running source query: ' + query);
 
-  // Query the org
   const result = await hubConn.query(query);
 
-  if (!result.records || result.records.length <= 0) {
+  if (!result.records || result.records.length === 0) {
     throw new SfError(prodlyMessages.getMessage('errorNoConnectionFound', connectionIds));
   }
 
@@ -134,7 +126,6 @@ const queryConnections: QueryConnectionsFn = async ({ connectionIds, hubConn, pr
 const updateConnection: UpdateConnectionFn = async ({ connectionId, hubConn, org }) => {
   const connection = {
     Id: connectionId,
-    // eslint-disable-next-line camelcase
     PDRI__Access_Token__c: org.getConnection().getConnectionOptions().accessToken,
   };
 

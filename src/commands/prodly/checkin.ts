@@ -1,9 +1,10 @@
-import { Connection, Messages, SfError } from '@salesforce/core';
+import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { AnyJson } from '@salesforce/ts-types';
 import { updateConnection } from '../../services/connections.js';
 import { getManagedInstance } from '../../services/instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
+import { CheckinOptions } from '../../types/prodly.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.checkin');
@@ -60,14 +61,14 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
 
     // Retrieve the data set or deployment plan to deploy
     this.log('Retrieving data set or deployment plan to deploy.');
-    if (datasetFlag !== undefined) {
+    if (datasetFlag) {
       dataSetId = await getDeploymentEntityId({
         dataEntityFlag: datasetFlag,
         dataEntityType: 'PDRI__DataSet__c',
         hubConn,
         print,
       });
-    } else if (planFlag !== undefined) {
+    } else if (planFlag) {
       deploymentPlanId = await getDeploymentEntityId({
         dataEntityFlag: planFlag,
         dataEntityType: 'PDRI__Deployment_Plan__c',
@@ -76,11 +77,11 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
       });
     }
 
-    this.log('Data set ID: ' + dataSetId);
-    this.log('Deployment plan ID: ' + deploymentPlanId);
+    this.log(`Data set ID: ${dataSetId}`);
+    this.log(`Deployment plan ID: ${deploymentPlanId}`);
 
     // Check if instance is provided
-    if (instanceFlag !== undefined) {
+    if (instanceFlag) {
       // Use provided managed instance
       this.log(`Managed instance ID provided, using instance with id ${instanceFlag}`);
       mangedInstanceId = instanceFlag;
@@ -98,7 +99,7 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
       try {
         await org.refreshAuth();
       } catch {
-        // console.log('Target username not valid or not specified, refresh failed');
+        // Target username not valid or not specified, refresh failed
       }
 
       // Update the connection with the latest access token
@@ -107,28 +108,28 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
     }
 
     // Perform the checkin
-    await this.checkinInstance(
-      mangedInstanceId,
-      commentFlag,
+    await this.checkinInstance({
       branchFlag,
+      comment: commentFlag,
       dataSetId,
+      deploymentNotes: deploymentNotesFlag,
       deploymentPlanId,
-      deploymentNotesFlag,
-      hubConn
-    );
+      hubConn,
+      mangedInstanceId,
+    });
 
     return {};
   }
 
-  private async checkinInstance(
-    mangedInstanceId: string,
-    comment: string | undefined,
-    branchFlag: string | undefined,
-    dataSetId: string | undefined,
-    deploymentPlanId: string | undefined,
-    deploymentNotes: string | undefined,
-    hubConn: Connection
-  ): Promise<void> {
+  private async checkinInstance({
+    branchFlag,
+    comment,
+    dataSetId,
+    deploymentNotes,
+    deploymentPlanId,
+    hubConn,
+    mangedInstanceId,
+  }: CheckinOptions): Promise<void> {
     this.log(`Performing checkin for managed instance with id ${mangedInstanceId}.`);
 
     const path = `/services/apexrest/PDRI/v1/instances/${mangedInstanceId}/checkin`;
@@ -145,7 +146,6 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
     const request = {
       body: JSON.stringify(checkinInstance),
       method: 'POST' as const,
-      // headers : { 'vcs-access-token': vcsToken },
       url: path,
     };
 
