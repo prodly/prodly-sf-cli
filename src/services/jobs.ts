@@ -1,8 +1,15 @@
 import { JOB_STATUS_COMPLETED } from '../constants/index.js';
 import { Jobs } from '../types/prodly.js';
-import { JobCompletionFn } from './jobs.types.js';
+import { GetJobFn, JobCompletionFn } from './jobs.types.js';
 
 const BASE_PATH = '/services/apexrest/PDRI/v1/jobs';
+
+const getJob: GetJobFn = async ({ hubConn, jobId }) => {
+  const path = `${BASE_PATH}/${jobId}`;
+  const res: string = await hubConn.request(`${hubConn.instanceUrl}${path}`);
+  const jobsWrapper = JSON.parse(res) as Jobs;
+  return jobsWrapper.jobs[0];
+};
 
 const jobCompletion: JobCompletionFn = async ({ hubConn, jobId, print }) => {
   const path = `${BASE_PATH}/${jobId}`;
@@ -21,4 +28,4 @@ const jobCompletion: JobCompletionFn = async ({ hubConn, jobId, print }) => {
   }
 };
 
-export { jobCompletion };
+export { getJob, jobCompletion };

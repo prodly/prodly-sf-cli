@@ -3,6 +3,8 @@ import { Job } from '../types/prodly.js';
 
 type printFn = (message: string) => void;
 
+export type GetJobFn = ({ hubConn, jobId }: { hubConn: Connection; jobId: string }) => Promise<Job | undefined>;
+
 export type JobCompletionFn = ({
   hubConn,
   jobId,
