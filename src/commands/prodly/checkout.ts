@@ -52,6 +52,10 @@ export default class ProdlyCheckout extends SfCommand<AnyJson> {
       throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
     }
 
+    if (!deploymentNameFlag) {
+      throw new SfError(prodlyMessages.getMessage('errorDeploymentNameFlag', []));
+    }
+
     const org = flags['target-org'];
     const hubOrg = flags['target-dev-hub'];
     const hubConn = hubOrg.getConnection();

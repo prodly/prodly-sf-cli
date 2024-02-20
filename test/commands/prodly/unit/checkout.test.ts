@@ -42,4 +42,21 @@ describe('prodly:checkout', () => {
       }
     }
   });
+
+  it('should throw an error when data set or deployment flags are provided but deployment name flag is not provided.', async () => {
+    try {
+      await ProdlyCheckout.run(['--target-org', 'test', '--target-dev-hub', 'test', '-t', 'test']);
+    } catch (error) {
+      if (error instanceof SfError) {
+        expect(error.message).to.include(prodlyMessages.getMessage('errorDeploymentNameFlag', []));
+      }
+    }
+    try {
+      await ProdlyCheckout.run(['--target-org', 'test', '--target-dev-hub', 'test', '-p', 'test']);
+    } catch (error) {
+      if (error instanceof SfError) {
+        expect(error.message).to.include(prodlyMessages.getMessage('errorDeploymentNameFlag', []));
+      }
+    }
+  });
 });

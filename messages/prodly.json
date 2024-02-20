@@ -21,6 +21,7 @@
   "versionFlagDescription": "version the new managed instance, branch created and data deployed to the org",
 
   "errorDatasetAndPlanFlags": "Specify either the data set or deployment plan parameter, but not both.",
+  "errorDeploymentNameFlag": "Deployment name flag is required.",
   "errorManageLabelFlag": "Instance name flag is required when managing an instance",
   "errorManagedInstaceNotFound": "Managed instance not found for the specified org id",
   "errorManagedInstaceNotProvided": "Managed instance is not provided for unmanage",
