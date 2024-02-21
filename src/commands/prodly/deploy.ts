@@ -277,7 +277,7 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
     const path = `/services/apexrest/PDRI/v1/instances/${destinationInstanceId}/deploy`;
 
     const eventControlOptions = {
-      deactivateAll: deactivateAllEvents,
+      deactivateAll: !!deactivateAllEvents,
     };
 
     const queryFilterOptions = {
