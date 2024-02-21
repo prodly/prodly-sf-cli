@@ -4,7 +4,7 @@ import { AnyJson } from '@salesforce/ts-types';
 import { updateConnection } from '../../services/connections.js';
 import { getManagedInstance } from '../../services/instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
-import { CheckoutOptions } from '../../types/prodly.js';
+import { CheckoutOptions, Jobs } from '../../types/prodly.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.checkout');
@@ -114,7 +114,7 @@ export default class ProdlyCheckout extends SfCommand<AnyJson> {
     }
 
     // Perform the checkout
-    await this.checkoutInstance({
+    const jobId = await this.checkoutInstance({
       branchFlag,
       dataSetId,
       deactivateAllEvents: deactivateFlag,
@@ -125,7 +125,7 @@ export default class ProdlyCheckout extends SfCommand<AnyJson> {
       mangedInstanceId,
     });
 
-    return {};
+    return { jobId, message: 'Checkout launched' };
   }
 
   private async checkoutInstance({
@@ -137,7 +137,7 @@ export default class ProdlyCheckout extends SfCommand<AnyJson> {
     deploymentPlanId,
     hubConn,
     mangedInstanceId,
-  }: CheckoutOptions): Promise<void> {
+  }: CheckoutOptions): Promise<string> {
     this.log(`Performing checkout for managed instance with id ${mangedInstanceId}.`);
 
     const path = `/services/apexrest/PDRI/v1/instances/${mangedInstanceId}/checkout`;
@@ -158,6 +158,11 @@ export default class ProdlyCheckout extends SfCommand<AnyJson> {
       url: path,
     };
 
-    await hubConn.request(request);
+    const res: string = await hubConn.request(request);
+    const jobsWrapper = JSON.parse(res) as Jobs;
+
+    const jobId = jobsWrapper.jobs[0].id;
+
+    return jobId;
   }
 }

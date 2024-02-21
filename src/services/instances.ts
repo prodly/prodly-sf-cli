@@ -72,7 +72,7 @@ const manageInstance: ManageInstanceFn = async ({ body, hubConn, orgId, print })
   }
 
   const managedInstance = JSON.parse(completedJob.resultData) as ManagedInstance;
-  return managedInstance;
+  return { jobId: completedJob.id, managedInstance };
 };
 
 const unmanageInstance: UnmanageInstanceFn = async ({ hubConn, instanceId, print }) => {

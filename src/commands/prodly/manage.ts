@@ -154,7 +154,7 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
       } else {
         body.options = { checkin: false, checkout: false, environmentExists: false };
       }
-      const managedInstance = await manageInstance({
+      const { jobId, managedInstance } = await manageInstance({
         body,
         hubConn,
         orgId: org.getOrgId(),
@@ -167,7 +167,7 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
 
       this.log(`New managed instance: ${managedInstance?.id}`);
 
-      return managedInstance.id;
+      return { jobId, managedInstance, message: 'Successfully managed instance' };
     }
 
     if (unmanageFlag) {
@@ -195,22 +195,16 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
         throw new SfError(prodlyMessages.getMessage('errorManagedInstaceNotProvided'));
       }
 
-      const readline = await import('node:readline');
+      const readline = await import('node:readline/promises');
+      const rl = readline.createInterface({ input: process.stdin, output: process.stdout, prompt: '>' });
+      const answer = await rl.question(prodlyMessages.getMessage('unmanageInstancePrompt'));
+      rl.close();
 
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-        prompt: '>',
-      });
-
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      rl.question(prodlyMessages.getMessage('unmanageInstancePrompt'), async (answer) => {
-        rl.close();
-
-        if (answer.trim() === mangedInstanceId) {
-          await unmanageInstance({ instanceId: mangedInstanceId, hubConn, print });
-        }
-      });
+      if (answer.trim() === mangedInstanceId) {
+        await unmanageInstance({ instanceId: mangedInstanceId, hubConn, print });
+        return { message: `Successfully unmanaged instance with Id: ${mangedInstanceId}` };
+      }
+      return { message: `Unmanage instance with Id ${mangedInstanceId} aborted` };
     }
 
     return {};

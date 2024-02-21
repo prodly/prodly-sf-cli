@@ -29,11 +29,11 @@ export type ManageInstanceFn = ({
 }: {
   body: {
     [key: string]: { [key: string]: unknown };
-  }; 
+  };
   orgId: string;
   hubConn: Connection;
   print?: printFn;
-}) => Promise<ManagedInstance>;
+}) => Promise<{ jobId: string; managedInstance: ManagedInstance }>;
 
 export type UnmanageInstanceFn = ({
   instanceId,

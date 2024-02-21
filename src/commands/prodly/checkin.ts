@@ -4,7 +4,7 @@ import { AnyJson } from '@salesforce/ts-types';
 import { updateConnection } from '../../services/connections.js';
 import { getManagedInstance } from '../../services/instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
-import { CheckinOptions } from '../../types/prodly.js';
+import { CheckinOptions, Jobs } from '../../types/prodly.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.checkin');
@@ -108,7 +108,7 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
     }
 
     // Perform the checkin
-    await this.checkinInstance({
+    const jobId = await this.checkinInstance({
       branchFlag,
       comment: commentFlag,
       dataSetId,
@@ -118,7 +118,7 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
       mangedInstanceId,
     });
 
-    return {};
+    return { jobId, message: 'Checkin launched' };
   }
 
   private async checkinInstance({
@@ -129,7 +129,7 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
     deploymentPlanId,
     hubConn,
     mangedInstanceId,
-  }: CheckinOptions): Promise<void> {
+  }: CheckinOptions): Promise<string> {
     this.log(`Performing checkin for managed instance with id ${mangedInstanceId}.`);
 
     const path = `/services/apexrest/PDRI/v1/instances/${mangedInstanceId}/checkin`;
@@ -149,6 +149,11 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
       url: path,
     };
 
-    await hubConn.request(request);
+    const res: string = await hubConn.request(request);
+    const jobsWrapper = JSON.parse(res) as Jobs;
+
+    const jobId = jobsWrapper.jobs[0].id;
+
+    return jobId;
   }
 }

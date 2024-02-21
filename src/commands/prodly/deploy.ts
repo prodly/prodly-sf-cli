@@ -129,7 +129,7 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
         }
         // Connection exists, use it to manage the new instance
         const orgId = org.getOrgId();
-        managedInstance = await manageInstance({
+        const { managedInstance: newManagedInstance } = await manageInstance({
           body: {
             platformInstance: {
               platformInstanceId: orgId,
@@ -139,6 +139,7 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
           hubConn,
           orgId,
         });
+        managedInstance = newManagedInstance;
         this.log(`New managed instance: ${managedInstance.id}`);
 
         sourceInstanceId = managedInstance.id;
@@ -203,11 +204,12 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
             connectionId,
           },
         };
-        managedInstance = await manageInstance({
+        const { managedInstance: newManagedInstance } = await manageInstance({
           body,
           hubConn,
           orgId,
         });
+        managedInstance = newManagedInstance;
         this.log(`New managed instance ID: ${managedInstance.id}`);
 
         destinationInstanceId = managedInstance.id;
@@ -254,10 +256,8 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
 
     this.log(`Deployment launched with job ID ${jobId}.`);
 
-    const outputString = `Deployment launched with the job ID ${jobId}`;
-
     // Return an object to be displayed with --json
-    return { resultId: `${jobId}`, outputString };
+    return { jobId, message: 'Deployment launched' };
   }
 
   private async deploy({
