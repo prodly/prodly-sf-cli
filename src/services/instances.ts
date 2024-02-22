@@ -4,6 +4,7 @@ import { delay } from '../utils/index.js';
 import {
   GetManagedInstanceFn,
   GetManagedInstancesFn,
+  ManageInstanceAsyncFn,
   ManageInstanceFn,
   UnmanageInstanceFn,
 } from './instances.types.js';
@@ -75,6 +76,27 @@ const manageInstance: ManageInstanceFn = async ({ body, hubConn, orgId, print })
   return { jobId: completedJob.id, managedInstance };
 };
 
+const manageInstanceAsync: ManageInstanceAsyncFn = async ({ body, hubConn, print }) => {
+  const request = {
+    body: JSON.stringify(body),
+    method: 'POST' as const,
+    url: BASE_PATH,
+  };
+
+  const res: string = await hubConn.request(request);
+  if (print) {
+    print('Manage instance response:');
+    print(res);
+  }
+  const jobsWrapper = JSON.parse(res) as Jobs;
+  const jobId = jobsWrapper.jobs[0].id;
+  if (!jobId) {
+    throw new SfError('No job ID returned after submitting an instance to be managed.');
+  }
+
+  return jobId;
+};
+
 const unmanageInstance: UnmanageInstanceFn = async ({ hubConn, instanceId, print }) => {
   if (print) print(`Unmanaging instance with ID ${instanceId}.`);
 
@@ -89,4 +111,4 @@ const unmanageInstance: UnmanageInstanceFn = async ({ hubConn, instanceId, print
   return;
 };
 
-export { getManagedInstance, getManagedInstances, manageInstance, unmanageInstance };
+export { getManagedInstance, getManagedInstances, manageInstance, manageInstanceAsync, unmanageInstance };

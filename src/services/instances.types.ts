@@ -35,6 +35,18 @@ export type ManageInstanceFn = ({
   print?: printFn;
 }) => Promise<{ jobId: string; managedInstance: ManagedInstance }>;
 
+export type ManageInstanceAsyncFn = ({
+  body,
+  hubConn,
+  print,
+}: {
+  body: {
+    [key: string]: { [key: string]: unknown };
+  };
+  hubConn: Connection;
+  print?: printFn;
+}) => Promise<string>;
+
 export type UnmanageInstanceFn = ({
   instanceId,
   hubConn,

@@ -254,7 +254,7 @@ export default class ProdlyDeploy extends SfCommand<AnyJson> {
       sourceInstanceId,
     });
 
-    this.log(`Deployment launched with job ID ${jobId}.`);
+    this.log(`Deployment launched with Job ID: ${jobId}`);
 
     // Return an object to be displayed with --json
     return { jobId, message: 'Deployment launched' };

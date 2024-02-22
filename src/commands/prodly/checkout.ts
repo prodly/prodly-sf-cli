@@ -125,6 +125,7 @@ export default class ProdlyCheckout extends SfCommand<AnyJson> {
       mangedInstanceId,
     });
 
+    this.log(`Checkout launched with Job ID: ${jobId}`);
     return { jobId, message: 'Checkout launched' };
   }
 

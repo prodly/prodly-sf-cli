@@ -118,6 +118,7 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
       mangedInstanceId,
     });
 
+    this.log(`Checkin launched with Job ID: ${jobId}`);
     return { jobId, message: 'Checkin launched' };
   }
 

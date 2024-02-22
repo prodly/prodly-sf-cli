@@ -2,7 +2,12 @@ import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { AnyJson } from '@salesforce/ts-types';
 import { createConnection, queryConnection, queryConnections } from '../../services/connections.js';
-import { getManagedInstance, getManagedInstances, manageInstance, unmanageInstance } from '../../services/instances.js';
+import {
+  getManagedInstance,
+  getManagedInstances,
+  manageInstanceAsync,
+  unmanageInstance,
+} from '../../services/instances.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.manage');
@@ -138,11 +143,12 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
         this.log('Created connection with record ID: ', connectionId);
       }
 
+      const orgId = org.getOrgId();
       const body: {
         [key: string]: { [key: string]: unknown };
       } = {
         platformInstance: {
-          platformInstanceId: org.getOrgId(),
+          platformInstanceId: orgId,
           connectionId,
           instanceName: labelFlag,
         },
@@ -154,20 +160,15 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
       } else {
         body.options = { checkin: false, checkout: false, environmentExists: false };
       }
-      const { jobId, managedInstance } = await manageInstance({
-        body,
-        hubConn,
-        orgId: org.getOrgId(),
-        print,
-      });
 
-      if (!managedInstance) {
-        throw new SfError(prodlyMessages.getMessage('errorManagedInstaceNotFound'));
-      }
+      this.log(`Managing instance for org ID: ${orgId}`);
+      this.log('Manage instance body:');
+      this.log(JSON.stringify(body));
 
-      this.log(`New managed instance: ${managedInstance?.id}`);
+      const jobId = await manageInstanceAsync({ body, hubConn, print });
 
-      return { jobId, managedInstance, message: 'Successfully managed instance' };
+      this.log(`Manage Instance launched with Job ID: ${jobId}`);
+      return { jobId, message: 'Manage Instance launched' };
     }
 
     if (unmanageFlag) {
@@ -202,9 +203,11 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
 
       if (answer.trim() === mangedInstanceId) {
         await unmanageInstance({ instanceId: mangedInstanceId, hubConn, print });
-        return { message: `Successfully unmanaged instance with Id: ${mangedInstanceId}` };
+        this.log(`Successfully Unmanaged Instance with Id: ${mangedInstanceId}`);
+        return { message: `Successfully Unmanaged Instance with Id: ${mangedInstanceId}` };
       }
-      return { message: `Unmanage instance with Id ${mangedInstanceId} aborted` };
+      this.log(`Unmanage Instance with Id ${mangedInstanceId} aborted`);
+      return { message: `Unmanage Instance with Id ${mangedInstanceId} aborted` };
     }
 
     return {};
