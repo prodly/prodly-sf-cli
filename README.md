@@ -42,10 +42,11 @@ sf plugins
 
 <!-- commands -->
 
-- [`sf prodly checkin`](#sf-prodly-checkin)
-- [`sf prodly checkout`](#sf-prodly-checkout)
-- [`sf prodly deploy`](#sf-prodly-deploy)
-- [`sf prodly manage`](#sf-prodly-manage)
+- [`sf prodly:checkin`](#sf-prodlycheckin)
+- [`sf prodly:checkout`](#sf-prodlycheckout)
+- [`sf prodly:deploy`](#sf-prodlydeploy)
+- [`sf prodly:manage`](#sf-prodlymanage)
+- [`sf prodly:jobs`](#sf-prodlyjobs)
 
 ## `sf prodly:checkin`
 
@@ -58,11 +59,11 @@ FLAGS
   -b, --branch=<value>          branch name for deployment
   -c, --comment=<value>         comment for the command versioning commit
   -i, --instance=<value>        managed instance ID on which to perform the action
-  -o, --target-org=<value>      (required) [default: aandreou@prodly.co.qa1] Username or alias of the target org. Not
+  -o, --target-org=<value>      (required) Username or alias of the target org. Not
                                 required if the `target-org` configuration variable is already set.
   -p, --plan=<value>            name or record ID of the deployment plan to deploy
   -t, --dataset=<value>         name or record ID of the data set to deploy
-  -v, --target-dev-hub=<value>  (required) [default: aandreou@prodly.co.qa1] Username or alias of the Dev Hub org. Not
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not
                                 required if the `target-dev-hub` configuration variable is already set.
   -z, --notes=<value>           notes for the deployment
 
@@ -100,11 +101,11 @@ FLAGS
   -e, --deactivate              deactivate all events for the deployment
   -i, --instance=<value>        managed instance ID on which to perform the action
   -n, --name=<value>            name for the deployment
-  -o, --target-org=<value>      (required) [default: aandreou@prodly.co.qa1] Username or alias of the target org. Not
+  -o, --target-org=<value>      (required) Username or alias of the target org. Not
                                 required if the `target-org` configuration variable is already set.
   -p, --plan=<value>            name or record ID of the deployment plan to deploy
   -t, --dataset=<value>         name or record ID of the data set to deploy
-  -v, --target-dev-hub=<value>  (required) [default: aandreou@prodly.co.qa1] Username or alias of the Dev Hub org. Not
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not
                                 required if the `target-dev-hub` configuration variable is already set.
   -z, --notes=<value>           notes for the deployment
 
@@ -143,13 +144,13 @@ FLAGS
   -e, --deactivate              deactivate all events for the deployment
   -l, --simulation              perform a data simulation
   -n, --name=<value>            name for the deployment
-  -o, --target-org=<value>      (required) [default: aandreou@prodly.co.qa1] Username or alias of the target org. Not
+  -o, --target-org=<value>      (required) Username or alias of the target org. Not
                                 required if the `target-org` configuration variable is already set.
   -p, --plan=<value>            name or record ID of the deployment plan to deploy
   -q, --filter=<value>          query filter override for a data set deployment
   -s, --source=<value>          source managed instance ID
   -t, --dataset=<value>         name or record ID of the data set to deploy
-  -v, --target-dev-hub=<value>  (required) [default: aandreou@prodly.co.qa1] Username or alias of the Dev Hub org. Not
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not
                                 required if the `target-dev-hub` configuration variable is already set.
   -z, --notes=<value>           notes for the deployment
 
@@ -190,12 +191,12 @@ FLAGS
   -l, --list                    list all managed instances
   -m, --manage                  manage a new instance
   -n, --connection=<value>      connection to use for the managed instance
-  -o, --target-org=<value>      (required) [default: aandreou@prodly.co.qa1] Username or alias of the target org. Not
+  -o, --target-org=<value>      (required) Username or alias of the target org. Not
                                 required if the `target-org` configuration variable is already set.
   -p, --print                   print the managed instances in a standard format in addition to returning structured
                                 data
   -s, --version                 version the new managed instance, branch created and data deployed to the org
-  -v, --target-dev-hub=<value>  (required) [default: aandreou@prodly.co.qa1] Username or alias of the Dev Hub org. Not
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not
                                 required if the `target-dev-hub` configuration variable is already set.
   -x, --unmanage                unmanage the specified instance
 
@@ -216,6 +217,31 @@ EXAMPLES
 
   $ sf prodly:manage -m -u test-utxac7gbati9@example.com -n dev7sbx
   Manage and version the org associated with the target username under the Prodly account associated with the default DevHub control org.
+
+```
+
+## `sf prodly:jobs`
+
+```
+USAGE
+  $ sf prodly jobs -v <value> -j <value> [--json]
+
+FLAGS
+  -j, --job=<value>             (required) Prodly Job ID
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org.
+                                Not required if the `target-dev-hub` configuration variable is already set.
+
+GLOBAL FLAGS
+  --json  Format output as json.
+
+DESCRIPTION
+  prodly:jobs command
+
+  Launches an Prodly relational data deployment.
+
+EXAMPLES
+  $ sf prodly:jobs -j jobId -v MainDevHub
+  Print the job status for the provided job Id.
 ```
 
 <!-- commandsstop -->
@@ -226,7 +252,7 @@ EXAMPLES
 
 We recommend using the Visual Studio Code (VS Code) IDE for your plugin development. Included in the `.vscode` directory of this plugin is a `launch.json` config file, which allows you to attach a debugger to the node process when running your commands.
 
-To debug the `hello:org` command:
+To debug the `prodly:manage -l -p` command:
 
 1. Start the inspector
 
