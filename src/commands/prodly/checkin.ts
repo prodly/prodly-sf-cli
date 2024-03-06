@@ -19,7 +19,7 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
     'target-dev-hub': Flags.requiredHub(),
     'target-org': Flags.requiredOrg(),
     branch: Flags.string({ char: 'b', summary: prodlyMessages.getMessage('branchFlagDescription') }),
-    comment: Flags.string({ char: 'c', summary: prodlyMessages.getMessage('commentFlagDescription') }),
+    comment: Flags.string({ char: 'c', required: true, summary: prodlyMessages.getMessage('commentFlagDescription') }),
     dataset: Flags.string({ char: 't', summary: prodlyMessages.getMessage('dataSetFlagDescription') }),
     instance: Flags.string({ char: 'i', summary: prodlyMessages.getMessage('instanceFlagDescription') }),
     notes: Flags.string({ char: 'z', summary: prodlyMessages.getMessage('notesFlagDescription') }),

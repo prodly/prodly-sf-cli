@@ -57,7 +57,7 @@ USAGE
 
 FLAGS
   -b, --branch=<value>          branch name for deployment
-  -c, --comment=<value>         comment for the command versioning commit
+  -c, --comment=<value>         (required) comment for the command versioning commit
   -i, --instance=<value>        managed instance ID on which to perform the action
   -o, --target-org=<value>      (required) Username or alias of the target org. Not
                                 required if the `target-org` configuration variable is already set.
