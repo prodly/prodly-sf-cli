@@ -33,9 +33,19 @@ describe('prodly:checkin', () => {
     }
   });
 
-  it('should throw an error when data set or deployment flags are not provided.', async () => {
+  it('should throw an error when comment flag is not provided.', async () => {
     try {
       await ProdlyCheckin.run(['--target-org', 'test', '--target-dev-hub', 'test']);
+    } catch (error) {
+      if (error instanceof SfError) {
+        expect(error.message).to.include('Missing required flag comment');
+      }
+    }
+  });
+
+  it('should throw an error when data set or deployment flags are not provided.', async () => {
+    try {
+      await ProdlyCheckin.run(['--target-org', 'test', '--target-dev-hub', 'test', '--comment', 'test']);
     } catch (error) {
       if (error instanceof SfError) {
         expect(error.message).to.include(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
