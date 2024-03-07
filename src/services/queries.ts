@@ -38,7 +38,7 @@ const getDeploymentEntityId = async ({
     ${queryWhereClause}
   ORDER BY
     lastmodifieddate DESC
-  LIMIT 1`;
+  LIMIT ${isId ? 1 : 2}`;
 
   if (print) print('Running query: ' + query);
 
@@ -49,6 +49,13 @@ const getDeploymentEntityId = async ({
       throw new SfError(prodlyMessages.getMessage('errorNoDataSetFound', [dataEntityFlag]));
     } else {
       throw new SfError(prodlyMessages.getMessage('errorNoDeploymentPlanFound', [dataEntityFlag]));
+    }
+  }
+  if (result.records.length > 1) {
+    if (dataEntityType === 'PDRI__DataSet__c') {
+      throw new SfError(prodlyMessages.getMessage('errorMultipleDataSetsFound', [dataEntityFlag]));
+    } else {
+      throw new SfError(prodlyMessages.getMessage('errorMultipleDeploymentPlansFound', [dataEntityFlag]));
     }
   }
   return result.records[0].Id;
