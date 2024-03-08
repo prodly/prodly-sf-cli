@@ -11,18 +11,18 @@
     "url": "https://github.com/prodly/prodly-sf-cli/issues"
   },
   "dependencies": {
-    "@oclif/core": "^3.15.0",
-    "@salesforce/core": "^6.4.2",
-    "@salesforce/sf-plugins-core": "^5.0.12"
+    "@oclif/core": "^3.23.0",
+    "@salesforce/core": "^6.7.0",
+    "@salesforce/sf-plugins-core": "7.1.14"
   },
   "devDependencies": {
-    "@oclif/plugin-command-snapshot": "^5.0.5",
-    "@salesforce/cli-plugins-testkit": "^5.1.2",
-    "@salesforce/dev-scripts": "^8.1.2",
-    "eslint-plugin-sf-plugin": "^1.17.0",
-    "oclif": "^4.1.0",
+    "@oclif/plugin-command-snapshot": "^5.1.1",
+    "@salesforce/cli-plugins-testkit": "^5.1.10",
+    "@salesforce/dev-scripts": "^8.4.2",
+    "eslint-plugin-sf-plugin": "^1.17.4",
+    "oclif": "^4.5.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.4.2"
   },
   "lint-staged": {
     "**/*.{ts}": "eslint --cache --fix"
