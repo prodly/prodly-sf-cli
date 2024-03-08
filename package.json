@@ -1,7 +1,7 @@
 {
   "name": "prodlysfcli",
   "description": "A plugin which provides Prodly application commands on top of the Salesforce CLI.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Prodly Inc.",
   "repository": {
     "type": "git",

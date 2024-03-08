@@ -1,6 +1,5 @@
 import { Messages, SfError } from '@salesforce/core';
-import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { AnyJson } from '@salesforce/ts-types';
+import { Flags, JsonObject, SfCommand } from '@salesforce/sf-plugins-core';
 import { createConnection, queryConnection, queryConnections } from '../../services/connections.js';
 import {
   getManagedInstance,
@@ -17,7 +16,7 @@ export type ProdlyManageResult = {
   path: string;
 };
 
-export default class ProdlyManage extends SfCommand<AnyJson> {
+export default class ProdlyManage extends SfCommand<JsonObject> {
   public static readonly summary = commandMessages.getMessage('summary');
   public static readonly description = prodlyMessages.getMessage('commandDescription');
   public static readonly examples = commandMessages.getMessages('examples');
@@ -37,7 +36,7 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
   };
 
   // eslint-disable-next-line complexity
-  public async run(): Promise<AnyJson> {
+  public async run(): Promise<JsonObject> {
     const { flags } = await this.parse(ProdlyManage);
 
     const {
@@ -124,7 +123,7 @@ export default class ProdlyManage extends SfCommand<AnyJson> {
         });
       }
 
-      return managedInstances as unknown as AnyJson;
+      return managedInstances as unknown as JsonObject;
     }
 
     if (manageFlag) {
