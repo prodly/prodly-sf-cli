@@ -1,16 +1,16 @@
 import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { AnyJson } from '@salesforce/ts-types';
 import { updateConnection } from '../../services/connections.js';
 import { getManagedInstance } from '../../services/instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
+import { JSONObject } from '../../types/generic.js';
 import { CheckoutOptions, Jobs } from '../../types/prodly.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.checkout');
 const prodlyMessages = Messages.loadMessages('prodlysfcli', 'prodly');
 
-export default class ProdlyCheckout extends SfCommand<AnyJson> {
+export default class ProdlyCheckout extends SfCommand<JSONObject> {
   public static readonly summary = commandMessages.getMessage('summary');
   public static readonly description = prodlyMessages.getMessage('commandDescription');
   public static readonly examples = commandMessages.getMessages('examples');
@@ -27,7 +27,7 @@ export default class ProdlyCheckout extends SfCommand<AnyJson> {
     plan: Flags.string({ char: 'p', summary: prodlyMessages.getMessage('deploymentPlanFlagDescription') }),
   };
 
-  public async run(): Promise<AnyJson> {
+  public async run(): Promise<JSONObject> {
     const { flags } = await this.parse(ProdlyCheckout);
 
     const {
