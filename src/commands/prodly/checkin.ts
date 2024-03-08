@@ -1,16 +1,16 @@
 import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { AnyJson } from '@salesforce/ts-types';
 import { updateConnection } from '../../services/connections.js';
-import { getManagedInstance } from '../../services/instances.js';
+import { getManagedInstance } from '../../services/manage-instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
+import { JSONObject } from '../../types/generic.js';
 import { CheckinOptions, Jobs } from '../../types/prodly.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.checkin');
 const prodlyMessages = Messages.loadMessages('prodlysfcli', 'prodly');
 
-export default class ProdlyCheckin extends SfCommand<AnyJson> {
+export default class ProdlyCheckin extends SfCommand<JSONObject> {
   public static readonly summary = commandMessages.getMessage('summary');
   public static readonly description = prodlyMessages.getMessage('commandDescription');
   public static readonly examples = commandMessages.getMessages('examples');
@@ -26,7 +26,7 @@ export default class ProdlyCheckin extends SfCommand<AnyJson> {
     plan: Flags.string({ char: 'p', summary: prodlyMessages.getMessage('deploymentPlanFlagDescription') }),
   };
 
-  public async run(): Promise<AnyJson> {
+  public async run(): Promise<JSONObject> {
     const { flags } = await this.parse(ProdlyCheckin);
 
     const {

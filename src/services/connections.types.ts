@@ -1,6 +1,6 @@
 import { Connection, Org } from '@salesforce/core';
-import { SaveResult } from 'jsforce';
 import { ProdlyConnection } from '../types/prodly.js';
+import { SaveResult } from '../types/salesforce.js';
 
 type printFn = (message?: string | undefined, ...args: unknown[]) => void;
 
