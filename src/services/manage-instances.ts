@@ -1,14 +1,14 @@
 import { SfError } from '@salesforce/core';
 import { Jobs, ManagedInstance, ManagedInstances } from '../types/prodly.js';
 import { delay } from '../utils/index.js';
+import { jobCompletion } from './jobs.js';
 import {
   GetManagedInstanceFn,
   GetManagedInstancesFn,
   ManageInstanceAsyncFn,
   ManageInstanceFn,
   UnmanageInstanceFn,
-} from './instances.types.js';
-import { jobCompletion } from './jobs.js';
+} from './manage-instances.types.js';
 
 const BASE_PATH = '/services/apexrest/PDRI/v1/instances';
 

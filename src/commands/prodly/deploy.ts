@@ -1,7 +1,7 @@
 import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { createConnection, getConnectionId, updateConnection } from '../../services/connections.js';
-import { getManagedInstance, manageInstance } from '../../services/instances.js';
+import { getManagedInstance, manageInstance } from '../../services/manage-instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
 import { JSONObject } from '../../types/generic.js';
 import { DeployOptions, Jobs } from '../../types/prodly.js';

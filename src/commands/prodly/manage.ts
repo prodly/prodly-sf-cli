@@ -6,7 +6,7 @@ import {
   getManagedInstances,
   manageInstanceAsync,
   unmanageInstance,
-} from '../../services/instances.js';
+} from '../../services/manage-instances.js';
 import { JSONObject } from '../../types/generic.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
