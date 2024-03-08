@@ -1,7 +1,7 @@
 import { AuthInfo, Connection } from '@salesforce/core';
 import { expect } from 'chai';
 import sinon, { SinonSandbox, SinonStub } from 'sinon';
-import { getManagedInstance, getManagedInstances } from '../../src/services/instances.js';
+import { getManagedInstance, getManagedInstances } from '../../src/services/manage-instances.js';
 
 describe('instances service', () => {
   let sandbox: SinonSandbox;
@@ -65,5 +65,5 @@ describe('instances service', () => {
 
     expect(managedInstance).to.deep.equal(managedInstancesMock.instances[0]);
     expect(hubConnStub.calledOnce).to.be.true;
-  }); 
+  });
 });
