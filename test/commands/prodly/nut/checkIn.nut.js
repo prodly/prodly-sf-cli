@@ -1,17 +1,15 @@
 import { execCmd } from '@salesforce/cli-plugins-testkit';
 import { expect } from 'chai';
-import * as CONSTANT from 'test/utilities/constants.js'
-
 
 describe('CLI CheckIn Commands Automation', () => {
   // 1. Check-in With all the correct Flag
   it('Check-In commands with all the flags using Dataset flag with Name', () => {
     const rv = execCmd(
-      `prodly:checkin -i '${process.env.CONTROL_ORG_MANAGE}' -b 'main' -t  -c 'Automation CLI checkin with all the flags' --json`
+      `prodly:checkin -i 'c31b1cde-7520-4f93-8b54-7347415764f3' -b 'main' -t 'Automation Dataset Account' -c 'Automation CLI checkin with all the flags' --json`
     );
     const response = JSON.parse(rv.shellOutput.stdout);
     expect(response.result.jobId).to.exist;
-    expect(response.result.message).to.be.string(CONSTANT.CHECKIN_LAUNCHED_MESSAGE);
+    expect(response.result.message).to.be.string('Checkin launched');
   });
 
   // 2. Check-in Without Instance flag 
@@ -21,22 +19,22 @@ describe('CLI CheckIn Commands Automation', () => {
     );
     const response = JSON.parse(rv.shellOutput.stdout);
     expect(response.result.jobId).to.exist;
-    expect(response.result.message).to.be.string(CONSTANT.CHECKIN_LAUNCHED_MESSAGE);
+    expect(response.result.message).to.be.string('Checkin launched');
   });
 
   //3. Check-in With all the correct Flag
   it('Check-In commands without branch flag using Dataset flag with Name', () => {
     const rv = execCmd(
-      `prodly:checkin -i '${process.env.CONTROL_ORG_MANAGE}' -t 'Automation Dataset Account' -c 'Automation Test CLI' --json`
+      `prodly:checkin -i 'c31b1cde-7520-4f93-8b54-7347415764f3' -t 'Automation Dataset Account' -c 'Automation Test CLI' --json`
     );
     const response = JSON.parse(rv.shellOutput.stdout);
     expect(response.result.jobId).to.exist;
-    expect(response.result.message).to.be.string(CONSTANT.CHECKIN_LAUNCHED_MESSAGE);
+    expect(response.result.message).to.be.string('Checkin launched');
   });
   // 4. Check-in Without dataset flag
   it('Check-In commands Without dataset flag with Name flag', () => {
     const rv = execCmd(
-      `prodly:checkin -i '${process.env.CONTROL_ORG_MANAGE}' -b 'main' -c 'Automation Test CLI' --json`
+      `prodly:checkin -i 'c31b1cde-7520-4f93-8b54-7347415764f3' -b 'main' -c 'Automation Test CLI' --json`
     );
     const response = JSON.parse(rv.shellOutput.stdout);
     expect(response.message).to.be.string('Specify either the data set or deployment plan parameter.');
@@ -48,7 +46,7 @@ describe('CLI CheckIn Commands Automation', () => {
   // 5. Check-in with the dataset flag having wrong value
   it('Check-In commands with the dataset flag having wrong value', () => {
     const rv = execCmd(
-      `prodly:checkin -i '${process.env.CONTROL_ORG_MANAGE}' -b 'main' -t 'Automation' -c 'Automation Test CLI ' --json`
+      `prodly:checkin -i 'c31b1cde-7520-4f93-8b54-7347415764f3' -b 'main' -t 'Automation' -c 'Automation Test CLI ' --json`
     );
     const response = JSON.parse(rv.shellOutput.stdout);
     expect(response.message).to.be.string("No active data set with the name or record ID 'Automation' found in the dev hub control org.");
@@ -60,16 +58,16 @@ describe('CLI CheckIn Commands Automation', () => {
   // 6. Check-in with flexible branch
   it('Check-In commands with flexible branch', () => {
     const rv = execCmd(
-      `prodly:checkin -i '${process.env.CONTROL_ORG_MANAGE}' -b 'S3' -t 'Automation Dataset Account' -c 'Automation Test CLI checkin with flexible branch' --json`
+      `prodly:checkin -i 'c31b1cde-7520-4f93-8b54-7347415764f3' -b 'S3' -t 'Automation Dataset Account' -c 'Automation Test CLI checkin with flexible branch' --json`
     );
     const response = JSON.parse(rv.shellOutput.stdout);
     expect(response.result.jobId).to.exist;
-    expect(response.result.message).to.be.string(CONSTANT.CHECKIN_LAUNCHED_MESSAGE);
+    expect(response.result.message).to.be.string('Checkin launched');
   });
   // 8. Check-in With plan flag but invalid value
   it('Check-In commands with all the flags using Dataset flag with Name', () => {
     const rv = execCmd(
-      `prodly:checkin -i '${process.env.CONTROL_ORG_MANAGE}' -b 'main' -p 'Automation Dataset' -c 'CLI checkin Plan Flag with invalid value' --json`
+      `prodly:checkin -i 'c31b1cde-7520-4f93-8b54-7347415764f3' -b 'main' -p 'Automation Dataset' -c 'CLI checkin Plan Flag with invalid value' --json`
     );
     const response = JSON.parse(rv.shellOutput.stdout);
     expect(response.message).to.be.string("No deployment plan with the name or record ID 'Automation Dataset' found in the dev hub control org.");
@@ -81,16 +79,16 @@ describe('CLI CheckIn Commands Automation', () => {
   // 9. Check-in With plan flag and notes flag
   it('Check-In commands With plan flag and notes flag', () => {
     const rv = execCmd(
-      `prodly:checkin -i '${process.env.CONTROL_ORG_MANAGE}' -b 'main' -p 'Automation Deployment Plan' -c 'CLI checkin Plan Flag with notes flags' -z 'CLI Notes' --json`
+      `prodly:checkin -i 'c31b1cde-7520-4f93-8b54-7347415764f3' -b 'main' -p 'Automation Deployment Plan' -c 'CLI checkin Plan Flag with notes flags' -z 'CLI Notes' --json`
     );
     const response = JSON.parse(rv.shellOutput.stdout);
     expect(response.result.jobId).to.exist;
-    expect(response.result.message).to.be.string(CONSTANT.CHECKIN_LAUNCHED_MESSAGE);
+    expect(response.result.message).to.be.string('Checkin launched');
   });
   // 10. Check-in Without comment flag
   it('Check-In commands Without comment flag', () => {
     const rv = execCmd(
-      `prodly:checkin -i '${process.env.CONTROL_ORG_MANAGE}' -b 'main' -p 'Automation Deployment Plan' -z 'CLI Notes' --json`
+      `prodly:checkin -i 'c31b1cde-7520-4f93-8b54-7347415764f3' -b 'main' -p 'Automation Deployment Plan' -z 'CLI Notes' --json`
     );
     const response = JSON.parse(rv.shellOutput.stdout);
     expect(response.message).to.contain(`{"errorMessage":"Commit message is required."}`);

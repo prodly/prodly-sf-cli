@@ -1,6 +1,6 @@
 {
   "extends": "@salesforce/dev-config/tsconfig-test-strict-esm",
-  "include": ["./**/*.ts", "commands/prodly/nut/manage.nut.js"],
+  "include": ["./**/*.ts", "commands/prodly/nut/*.nut.js"],
   "compilerOptions": {
     "skipLibCheck": true
   }
