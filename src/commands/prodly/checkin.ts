@@ -1,5 +1,6 @@
 import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { constructQueryFilter } from '../../helpers/index.js';
 import { updateConnection } from '../../services/connections.js';
 import { getManagedInstance } from '../../services/manage-instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
@@ -21,6 +22,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     branch: Flags.string({ char: 'b', summary: prodlyMessages.getMessage('branchFlagDescription') }),
     comment: Flags.string({ char: 'c', required: true, summary: prodlyMessages.getMessage('commentFlagDescription') }),
     dataset: Flags.string({ char: 't', summary: prodlyMessages.getMessage('dataSetFlagDescription') }),
+    filter: Flags.string({ char: 'q', summary: prodlyMessages.getMessage('queryFilterFlagDescription') }),
     instance: Flags.string({ char: 'i', summary: prodlyMessages.getMessage('instanceFlagDescription') }),
     notes: Flags.string({ char: 'z', summary: prodlyMessages.getMessage('notesFlagDescription') }),
     plan: Flags.string({ char: 'p', summary: prodlyMessages.getMessage('deploymentPlanFlagDescription') }),
@@ -33,6 +35,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
       branch: branchFlag,
       comment: commentFlag,
       dataset: datasetFlag,
+      filter: queryFilterFlag,
       instance: instanceFlag,
       notes: deploymentNotesFlag,
       plan: planFlag,
@@ -44,9 +47,14 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     this.log('Branch flag: ' + branchFlag);
     this.log('Data set flag: ' + datasetFlag);
     this.log('Deployment plan flag: ' + planFlag);
+    this.log('Query filter flag: ' + queryFilterFlag);
 
     if (!datasetFlag && !planFlag) {
       throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
+    }
+
+    if (!datasetFlag && queryFilterFlag) {
+      throw new SfError(prodlyMessages.getMessage('errorQueryFilterFlag', []));
     }
 
     const org = flags['target-org'];
@@ -114,6 +122,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
       dataSetId,
       deploymentNotes: deploymentNotesFlag,
       deploymentPlanId,
+      filter: queryFilterFlag,
       hubConn,
       mangedInstanceId,
     });
@@ -128,6 +137,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     dataSetId,
     deploymentNotes,
     deploymentPlanId,
+    filter,
     hubConn,
     mangedInstanceId,
   }: CheckinOptions): Promise<string> {
@@ -136,12 +146,12 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     const path = `/services/apexrest/PDRI/v1/instances/${mangedInstanceId}/checkin`;
 
     const checkinInstance = {
-      allVersionedData: !dataSetId && !deploymentPlanId ? true : null,
       branchName: branchFlag,
       datasetId: dataSetId,
       deploymentNotes,
       deploymentPlanId,
       options: { commitMessage: comment },
+      queryFilter: constructQueryFilter(filter),
     };
 
     const request = {

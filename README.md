@@ -62,6 +62,7 @@ FLAGS
   -o, --target-org=<value>      (required) Username or alias of the target org. Not
                                 required if the `target-org` configuration variable is already set.
   -p, --plan=<value>            name or record ID of the deployment plan to deploy
+  -q, --filter=<value>          query filter override for a data set deployment
   -t, --dataset=<value>         name or record ID of the data set to deploy
   -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not
                                 required if the `target-dev-hub` configuration variable is already set.
@@ -104,6 +105,7 @@ FLAGS
   -o, --target-org=<value>      (required) Username or alias of the target org. Not
                                 required if the `target-org` configuration variable is already set.
   -p, --plan=<value>            name or record ID of the deployment plan to deploy
+  -q, --filter=<value>          query filter override for a data set deployment
   -t, --dataset=<value>         name or record ID of the data set to deploy
   -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not
                                 required if the `target-dev-hub` configuration variable is already set.

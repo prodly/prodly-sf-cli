@@ -1,5 +1,6 @@
 import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { constructQueryFilter } from '../../helpers/index.js';
 import { createConnection, getConnectionId, updateConnection } from '../../services/connections.js';
 import { getManagedInstance, manageInstance } from '../../services/manage-instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
@@ -66,6 +67,10 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
     }
     if (datasetFlag && planFlag) {
       throw new SfError(prodlyMessages.getMessage('errorDatasetAndPlanFlags', []));
+    }
+
+    if (!datasetFlag && queryFilterFlag) {
+      throw new SfError(prodlyMessages.getMessage('errorQueryFilterFlag', []));
     }
 
     const org = flags['target-org'];
@@ -280,16 +285,12 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
       deactivateAll: !!deactivateAllEvents,
     };
 
-    const queryFilterOptions = {
-      filter: queryFilter ?? undefined,
-    };
-
     const dataDeploymentOptions = {
       dataSetId,
       deploymentPlanId,
       simulation: simulation ?? false,
       eventControlOptions,
-      queryFilter: queryFilterOptions,
+      queryFilter: constructQueryFilter(queryFilter),
     };
 
     const sourceOptions = {

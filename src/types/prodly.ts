@@ -60,6 +60,7 @@ export type CheckoutOptions = {
   deploymentNameFlag: string | undefined;
   deploymentNotes: string | undefined;
   deploymentPlanId: string | undefined;
+  filter: string | undefined;
   hubConn: Connection;
   mangedInstanceId: string;
 };
@@ -70,6 +71,7 @@ export type CheckinOptions = {
   dataSetId: string | undefined;
   deploymentNotes: string | undefined;
   deploymentPlanId: string | undefined;
+  filter: string | undefined;
   hubConn: Connection;
   mangedInstanceId: string;
 };

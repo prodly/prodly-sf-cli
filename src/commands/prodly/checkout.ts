@@ -1,5 +1,6 @@
 import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
+import { constructQueryFilter } from '../../helpers/index.js';
 import { updateConnection } from '../../services/connections.js';
 import { getManagedInstance } from '../../services/manage-instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
@@ -21,6 +22,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     branch: Flags.string({ char: 'b', summary: prodlyMessages.getMessage('branchFlagDescription') }),
     dataset: Flags.string({ char: 't', summary: prodlyMessages.getMessage('dataSetFlagDescription') }),
     deactivate: Flags.boolean({ char: 'e', summary: prodlyMessages.getMessage('deactivateFlagDescription') }),
+    filter: Flags.string({ char: 'q', summary: prodlyMessages.getMessage('queryFilterFlagDescription') }),
     instance: Flags.string({ char: 'i', summary: prodlyMessages.getMessage('instanceFlagDescription') }),
     name: Flags.string({ char: 'n', summary: prodlyMessages.getMessage('deplomentNameFlagDescription') }),
     notes: Flags.string({ char: 'z', summary: prodlyMessages.getMessage('notesFlagDescription') }),
@@ -31,12 +33,13 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     const { flags } = await this.parse(ProdlyCheckout);
 
     const {
-      instance: instanceFlag,
-      deactivate: deactivateFlag,
-      name: deploymentNameFlag,
-      notes: deploymentNotesFlag,
       branch: branchFlag,
       dataset: datasetFlag,
+      deactivate: deactivateFlag,
+      filter: queryFilterFlag,
+      instance: instanceFlag,
+      name: deploymentNameFlag,
+      notes: deploymentNotesFlag,
       plan: planFlag,
     } = flags;
 
@@ -47,6 +50,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     this.log('Branch flag: ' + branchFlag);
     this.log('Data set flag: ' + datasetFlag);
     this.log('Deployment plan flag: ' + planFlag);
+    this.log('Query filter flag: ' + queryFilterFlag);
 
     if (!datasetFlag && !planFlag) {
       throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
@@ -54,6 +58,10 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
 
     if (!deploymentNameFlag) {
       throw new SfError(prodlyMessages.getMessage('errorDeploymentNameFlag', []));
+    }
+
+    if (!datasetFlag && queryFilterFlag) {
+      throw new SfError(prodlyMessages.getMessage('errorQueryFilterFlag', []));
     }
 
     const org = flags['target-org'];
@@ -121,6 +129,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
       deploymentNameFlag,
       deploymentNotes: deploymentNotesFlag,
       deploymentPlanId,
+      filter: queryFilterFlag,
       hubConn,
       mangedInstanceId,
     });
@@ -136,6 +145,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     deploymentNameFlag,
     deploymentNotes,
     deploymentPlanId,
+    filter,
     hubConn,
     mangedInstanceId,
   }: CheckoutOptions): Promise<string> {
@@ -144,13 +154,13 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     const path = `/services/apexrest/PDRI/v1/instances/${mangedInstanceId}/checkout`;
 
     const checkoutInstance = {
-      allVersionedData: !dataSetId && !deploymentPlanId ? true : null,
       branchName: branchFlag,
       datasetId: dataSetId,
       deactivateAll: deactivateAllEvents === undefined ? false : true,
       deploymentName: deploymentNameFlag,
       deploymentNotes,
       deploymentPlanId,
+      queryFilter: constructQueryFilter(filter),
     };
 
     const request = {
