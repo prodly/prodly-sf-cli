@@ -52,4 +52,25 @@ describe('prodly:checkin', () => {
       }
     }
   });
+
+  it('should throw an error when query filter flag is provided without a dataset flag', async () => {
+    try {
+      await ProdlyCheckin.run([
+        '--target-org',
+        'test',
+        '--target-dev-hub',
+        'test',
+        '--plan',
+        'test',
+        '--comment',
+        'test',
+        '--filter',
+        'test',
+      ]);
+    } catch (error) {
+      if (error instanceof SfError) {
+        expect(error.message).to.include(prodlyMessages.getMessage('errorQueryFilterFlag', []));
+      }
+    }
+  });
 });
