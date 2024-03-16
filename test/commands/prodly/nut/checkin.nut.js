@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import * as CONST from './utilities/constants.js';
 
 describe('CLI checkin commands automation', () => {
-  // 1. Check-in With all the correct Flag
+  // 1. Check-in with all the correct flags
   it('1. Check-In commands with all the flags', () => {
     const rv = execCmd(
       `prodly:checkin -i '${process.env.CONTROL_MANAGE_ID}' -b '${CONST.BRANCH_MAIN}' -t '${CONST.DATASET_NAME}' -c '${CONST.COMMIT_MESSAGE}${CONST.CHECK_IN_COMMIT_1}' --json`
@@ -12,7 +12,7 @@ describe('CLI checkin commands automation', () => {
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.CHECKIN_LAUNCHED);
   });
-  // 2. Check-in without Instance flag 
+  // 2. Check-in without instance flag 
   it('2. Check-In commands without instance flag', () => {
     const rv = execCmd(
       `prodly:checkin -b '${CONST.BRANCH_MAIN}' -t '${CONST.DATASET_NAME}' -c '${CONST.COMMIT_MESSAGE}${CONST.CHECK_IN_COMMIT_2}' --json`
@@ -21,7 +21,7 @@ describe('CLI checkin commands automation', () => {
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.CHECKIN_LAUNCHED);
   });
-  //3. Check-in With all the correct Flag
+  //3. Check-in without branch flag
   it('3. Check-In commands without branch flag', () => {
     const rv = execCmd(
       `prodly:checkin -i '${process.env.CONTROL_MANAGE_ID}' -t '${CONST.DATASET_NAME}' -c '${CONST.COMMIT_MESSAGE}${CONST.CHECK_IN_COMMIT_3}' --json`
@@ -30,8 +30,8 @@ describe('CLI checkin commands automation', () => {
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.CHECKIN_LAUNCHED);
   });
-  // 4. Check-in Without dataset flag
-  it('4. Check-In commands Without dataset flag', () => {
+  // 4. Check-in wthout dataset flag
+  it('4. Check-In commands without dataset flag', () => {
     const rv = execCmd(
       `prodly:checkin -i '${process.env.CONTROL_MANAGE_ID}' -b '${CONST.BRANCH_MAIN}' -c '${CONST.COMMIT_MESSAGE}${CONST.CHECK_IN_COMMIT_4}' --json`
     );
@@ -84,7 +84,7 @@ describe('CLI checkin commands automation', () => {
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.CHECKIN_LAUNCHED);
   });
-  // 9. Check-in Without comment flag
+  // 9. Check-in without comment flag
   it('9. Check-In commands without comment flag', () => {
     const rv = execCmd(
       `prodly:checkin -i '${process.env.CONTROL_MANAGE_ID}' -b '${CONST.BRANCH_MAIN}' -p ${CONST.PLAN_NAME} -z '${CONST.DEPLOYMENT_NOTE_TEXT}' --json`
@@ -102,7 +102,6 @@ describe('CLI checkin commands automation', () => {
       `prodly:checkin -i '${process.env.CONTROL_MANAGE_ID}' -b '${CONST.BRANCH_MAIN}' -q '${CONST.QUERY}' -t '${CONST.DATASET_NAME}' -c '${CONST.COMMIT_MESSAGE}${CONST.CHECK_IN_COMMIT_10}' -z '${CONST.DEPLOYMENT_NOTE_TEXT}' --json`
     );
     const response = JSON.parse(rv.shellOutput.stdout);
-    console.log(response);
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.CHECKIN_LAUNCHED);
   });
@@ -112,7 +111,6 @@ describe('CLI checkin commands automation', () => {
       `prodly:checkin -i '${process.env.CONTROL_MANAGE_ID}' -b '${CONST.BRANCH_MAIN}' -q '${CONST.INVALID_QUERY}' -t '${CONST.DATASET_NAME}' -c '${CONST.COMMIT_MESSAGE}${CONST.CHECK_IN_COMMIT_11}' -z '${CONST.DEPLOYMENT_NOTE_TEXT}' --json`
     );
     const response = JSON.parse(rv.shellOutput.stdout);
-    console.log(response);
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.CHECKIN_LAUNCHED);
   });

@@ -4,7 +4,7 @@ import * as CONST from './utilities/constants.js';
 
 describe('CLI deploy commands automation', () => {
   // Deploy Commands
-  // 1. Deploy without Dataset/Plan Flag 
+  // 1. Deploy without dataset/plan flag 
   it('1. Deploy commands without dataset/plan flag', () => {
     const rv = execCmd(
       `prodly:deploy -s '${process.env.CONTROL_MANAGE_ID}' -d '${process.env.S4_MANAGE_ID}' -n '${CONST.DEPLOYMENT_NAME}${CONST.DEPLOY_MESSAGE_1}' --json`
@@ -34,7 +34,7 @@ describe('CLI deploy commands automation', () => {
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.DEPLOYMENT_LAUNCHED);
   });
-  // 4. Deploy Command without source flag
+  // 4. Deploy command without source flag
   it('4. Deploy command without source flag', () => {
     const rv = execCmd(
       `prodly:deploy -d '${process.env.CONTROL_MANAGE_ID}' -t '${CONST.DATASET_NAME}' -n '${CONST.DEPLOYMENT_NAME}${CONST.DEPLOY_MESSAGE_4}' --json`
@@ -52,8 +52,8 @@ describe('CLI deploy commands automation', () => {
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.DEPLOYMENT_LAUNCHED);
   });
-  // 6. Deploy command without source and destination
-  it('6. Deploy command without source flag & destination', () => {
+  // 6. Deploy command without source and destination flag
+  it('6. Deploy command without source & destination flag', () => {
     const rv = execCmd(
       `prodly:deploy  -t '${CONST.DATASET_NAME}' -n '${CONST.DEPLOYMENT_NAME}${CONST.DEPLOY_MESSAGE_6}' --json`
     );
@@ -98,7 +98,7 @@ describe('CLI deploy commands automation', () => {
     expect(response.stack).to.exist;
   });
   // 10.  With deployment note flag
-  it('10. Deploy commands with deployment note flag throws an error', () => {
+  it('10. Deploy commands with deployment note flag', () => {
     const rv = execCmd(
       `prodly:deploy -s '${process.env.CONTROL_MANAGE_ID}' -d '${process.env.S4_MANAGE_ID}' -t '${CONST.DATASET_NAME}' -n '${CONST.DEPLOYMENT_NAME}${CONST.DEPLOY_MESSAGE_10}' -z '${CONST.DEPLOYMENT_NOTE_TEXT}' --json`
     );

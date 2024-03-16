@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import * as CONST from './utilities/constants.js';
 
 describe('CLI checkout commands automation', () => {
-  // 1. Check-Out With all the correct Flag
+  // 1. Check-Out with all the correct Flag
   it('1. Check-Out commands with all the flags', () => {
     const rv = execCmd(
       `prodly:checkout -i '${process.env.CONTROL_MANAGE_ID}' -b '${CONST.BRANCH_MAIN}' -t '${CONST.DATASET_NAME}' -n '${CONST.CHECKOUT_DEPLOYMENT_NAME}${CONST.CHECK_OUT_MESSAGE_1}' --json`
@@ -12,8 +12,8 @@ describe('CLI checkout commands automation', () => {
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.CHECKOUT_LAUNCHED);
   });
-  // 2. Check-Out Without Instance flag 
-  it('2. Check-Out commands Without Instance flag using Dataset flag with Name', () => {
+  // 2. Check-Out without instance flag 
+  it('2. Check-Out commands without instance flag', () => {
     const rv = execCmd(
       `prodly:checkout -b '${CONST.BRANCH_MAIN}' -t '${CONST.DATASET_NAME}' -n '${CONST.CHECKOUT_DEPLOYMENT_NAME}${CONST.CHECK_OUT_MESSAGE_2}' --json`
     );
@@ -21,8 +21,8 @@ describe('CLI checkout commands automation', () => {
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.CHECKOUT_LAUNCHED);
   });
-  //3. Check-Out With all the correct Flag
-  it('3. Check-Out commands without branch flag using Dataset flag with Name', () => {
+  //3. Check-Out with all the correct Flag
+  it('3. Check-Out commands without branch flag', () => {
     const rv = execCmd(
       `prodly:checkout -i '${process.env.CONTROL_MANAGE_ID}' -t '${CONST.DATASET_NAME}' -n '${CONST.CHECKOUT_DEPLOYMENT_NAME}${CONST.CHECK_OUT_MESSAGE_3}' --json`
     );
@@ -30,8 +30,8 @@ describe('CLI checkout commands automation', () => {
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.CHECKOUT_LAUNCHED);
   });
-  // 4. Check-Out Without dataset flag
-  it('4. Check-Out commands Without dataset flag with Name flag', () => {
+  // 4. Check-Out without dataset flag
+  it('4. Check-Out commands without dataset flag with name flag', () => {
     const rv = execCmd(
       `prodly:checkout -i '${process.env.CONTROL_MANAGE_ID}' -b '${CONST.BRANCH_MAIN}' -n '${CONST.CHECKOUT_DEPLOYMENT_NAME}${CONST.CHECK_OUT_MESSAGE_4}' --json`
     );
@@ -63,8 +63,8 @@ describe('CLI checkout commands automation', () => {
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.CHECKOUT_LAUNCHED);
   });
-  // 7. Check-Out With plan flag but invalid value
-  it('7. Check-Out commands with all the flags using Dataset flag with Name', () => {
+  // 7. Check-Out with plan flag but invalid value
+  it('7. Check-Out commands with plan flag but invalid value', () => {
     const rv = execCmd(
       `prodly:checkout -i '${process.env.CONTROL_MANAGE_ID}' -b '${CONST.BRANCH_MAIN}' -p '${CONST.INVALID_PLAN_NAME}' -n '${CONST.CHECKOUT_DEPLOYMENT_NAME}${CONST.CHECK_OUT_MESSAGE_7}' --json`
     );
@@ -84,7 +84,7 @@ describe('CLI checkout commands automation', () => {
     expect(response.result.jobId).to.exist;
     expect(response.result.message).to.be.string(CONST.CHECKOUT_LAUNCHED);
   });
-  // 9. Check-Out Without deployment name flag
+  // 9. Check-Out without deployment name flag
   it('9. Check-Out commands without deployment name flag', () => {
     const rv = execCmd(
       `prodly:checkout -i '${process.env.CONTROL_MANAGE_ID}' -b '${CONST.BRANCH_MAIN}' -p '${CONST.PLAN_NAME}'  -z '${CONST.DEPLOYMENT_NOTE_TEXT}' --json`
@@ -97,7 +97,7 @@ describe('CLI checkout commands automation', () => {
     expect(response.stack).to.exist;
   });
   // 10. Check-Out with query filter
-  it('10. Check-Out commands with plan flag and notes flag', () => {
+  it('10. Check-Out commands  with query filter', () => {
     const rv = execCmd(
       `prodly:checkout -i '${process.env.CONTROL_MANAGE_ID}' -b '${CONST.BRANCH_MAIN}' -t '${CONST.DATASET_NAME}' -n '${CONST.CHECKOUT_DEPLOYMENT_NAME}${CONST.CHECK_OUT_MESSAGE_10}' -z '${CONST.DEPLOYMENT_NOTE_TEXT}' --json`
     );
