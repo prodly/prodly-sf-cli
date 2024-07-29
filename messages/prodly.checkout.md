@@ -5,7 +5,7 @@ prodly:checkout command
 # examples
 
 - <%= config.bin %> prodly:checkout --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com
-  Deploy managed data to the managed instance identified by the target org from the associated branch..
+  Deploy managed data to the managed instance identified by the target org from the associated branch.
   The instance should be managed by the Prodly account associated with the provided DevHub control org.
 - <%= config.bin %> prodly:checkout -u test-utxac7gbati9@example.com
   Deploy managed data to the managed instance org identified by the target username from the associated branch.
