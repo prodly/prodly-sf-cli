@@ -92,7 +92,7 @@ export default class ProdlyManage extends SfCommand<JSONObject> {
       const managedInstances = await getManagedInstances({ hubConn, print });
       const connectionIds = managedInstances.instances
         .map((instance) => instance.connectionId)
-        .filter((connectionId) => connectionId !== undefined);
+        .filter((connectionId) => connectionId);
 
       const connections = await queryConnections({ connectionIds, hubConn, print });
 
