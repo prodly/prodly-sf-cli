@@ -85,8 +85,8 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
       });
     }
 
-    this.log(`Data set ID: ${dataSetId}`);
-    this.log(`Deployment plan ID: ${deploymentPlanId}`);
+    this.log(`Data set ID: ${dataSetId ?? ''}`);
+    this.log(`Deployment plan ID: ${deploymentPlanId ?? ''}`);
 
     // Check if instance is provided
     if (instanceFlag) {
