@@ -22,7 +22,7 @@ const createConnection: CreateConnectionFn = async ({ hubConn, name, org }) => {
   else type = ORG_TYPE_PRODUCTION;
 
   const connection = {
-    Name: name ? name : `${org.getUsername()} ${org.getOrgId()}`,
+    Name: name ? name : `${org.getUsername() ?? ''} ${org.getOrgId()}`,
     PDRI__Access_Token__c: org.getConnection().getConnectionOptions().accessToken,
     PDRI__Active__c: true,
     PDRI__Instance_URL__c: org.getConnection().getConnectionOptions().instanceUrl?.replace(trailSlashRegex, ''),

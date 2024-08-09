@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.1.1] - 2024-08-08
+
+### Fixed
+
+- Fixed manage command when connection id is null.
+
+### Changed
+
+- Updated `@oclif/core` to v4.0.17
+- Updated `@salesforce/core` to v8.2.8
+- Updated `@salesforce/sf-plugins-core` to v11.2.8
+- Updated `@oclif/plugin-command-snapshot` to v5.2.12
+- Updated `@salesforce/cli-plugins-testkit` to v5.3.23
+- Updated `@salesforce/dev-scripts` to v10.2.9
+- Updated `eslint-plugin-sf-plugin` to v1.20.3
+- Updated `oclif` to v4.14.15
+- Updated `typescript` to v5.5.4
+
 ## [1.1.0] - 2024-03-22
 
 ### Added

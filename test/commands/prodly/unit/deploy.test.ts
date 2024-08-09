@@ -1,5 +1,5 @@
 import { Messages, SfError } from '@salesforce/core';
-import { TestContext } from '@salesforce/core/lib/testSetup.js';
+import { TestContext } from '@salesforce/core/testSetup';
 import { expect } from 'chai';
 import ProdlyDeploy from '../../../../src/commands/prodly/deploy.js';
 

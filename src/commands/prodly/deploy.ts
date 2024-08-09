@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
 import { constructQueryFilter } from '../../helpers/index.js';
@@ -121,12 +122,12 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
         this.log('Managed instance for the org does not exist, managing instance.');
         // If doesn't exist, query for an active connection to the org
         let connectionId = await getConnectionId({ hubConn, orgId: org.getOrgId(), print });
-        this.log(`Retrieved connection ID: ${connectionId}`);
+        this.log(`Retrieved connection ID: ${connectionId ?? ''}`);
         if (!connectionId) {
           // If a connection doesn't exist, create it, then use it to manage the new instance
           this.log('Connection does not exist, creating.');
           connectionId = await createConnection({ hubConn, name: labelFlag, org });
-          this.log(`Created connection with record ID: ${connectionId}`);
+          this.log(`Created connection with record ID: ${connectionId ?? ''}`);
         } else {
           // Update the connection with the latest access token
           this.log('Updating the connection with the latest access token');
@@ -152,11 +153,13 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
     } else {
       // Source is the dev hub/control org
       this.log(
-        `Source and Destination not specified, setting hub as the source, org ID: ${hubConn.getAuthInfoFields().orgId}`
+        `Source and Destination not specified, setting hub as the source, org ID: ${
+          hubConn.getAuthInfoFields().orgId ?? ''
+        }`
       );
 
       const managedInstance = await getManagedInstance({ hubConn, orgId: hubConn.getAuthInfoFields().orgId, print });
-      this.log(`Retrieved managed instance ID for the control org: ${managedInstance?.id}`);
+      this.log(`Retrieved managed instance ID for the control org: ${managedInstance?.id ?? ''}`);
 
       if (!managedInstance) {
         throw new SfError('No managed instance found for the devhub/control org.');
@@ -195,7 +198,7 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
           // If a connection doesn't exist, create it, then use it to manage the new instance
           this.log('Connection does not exist, creating.');
           connectionId = await createConnection({ hubConn, name: labelFlag, org });
-          this.log(`Created connection with record ID: ${connectionId}`);
+          this.log(`Created connection with record ID: ${connectionId ?? ''}`);
         } else {
           // Update the connection with the latest access token
           this.log('Updating the connection with the latest access token');

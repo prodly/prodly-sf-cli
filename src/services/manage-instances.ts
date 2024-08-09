@@ -20,7 +20,7 @@ const getManagedInstances: GetManagedInstancesFn = async ({ hubConn, print }) =>
 };
 
 const getManagedInstance: GetManagedInstanceFn = async ({ hubConn, orgId, print }) => {
-  if (print) print(`Retrieving the managed instance ID for org ${orgId}.`);
+  if (print) print(`Retrieving the managed instance ID for org ${orgId ?? ''}.`);
 
   const managedInstances = await getManagedInstances({ hubConn });
   const managedInstance = managedInstances.instances.find((instance) => instance.platformInstanceId === orgId);
