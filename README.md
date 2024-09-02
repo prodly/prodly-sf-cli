@@ -74,7 +74,7 @@ GLOBAL FLAGS
 DESCRIPTION
   prodly:checkin command
 
-  Launches an Prodly relational data deployment.
+  Save data from a Salesforce environment to a VCS repository branch.
 
 EXAMPLES
   $ sf prodly:checkin --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com
@@ -117,7 +117,7 @@ GLOBAL FLAGS
 DESCRIPTION
   prodly:checkout command
 
-  Launches an Prodly relational data deployment.
+  Deploy data from a VCS repository branch to a Salesforce environment.
 
 EXAMPLES
   $ sf prodly:checkin --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com
@@ -162,7 +162,7 @@ GLOBAL FLAGS
 DESCRIPTION
   prodly:deploy command
 
-  Launches an Prodly relational data deployment.
+  Deploy data from one Salesforce environment directly to another Salesforce environment.
 
 EXAMPLES
   $ sf prodly:deploy -n scratchorg -u FixesScratchOrg -v MainDevHub
@@ -208,7 +208,7 @@ GLOBAL FLAGS
 DESCRIPTION
   prodly:manage command
 
-  Launches an Prodly relational data deployment.
+  Authorize (or unauthorize) a Salesforce environment (not already added to the Environments page in Release tab) for use by the plugin.
 
 EXAMPLES
   $ sf prodly:manage -l -p
@@ -239,7 +239,7 @@ GLOBAL FLAGS
 DESCRIPTION
   prodly:jobs command
 
-  Launches an Prodly relational data deployment.
+  Check the job status.
 
 EXAMPLES
   $ sf prodly:jobs -j jobId -v MainDevHub

@@ -1,6 +1,5 @@
 {
   "branchFlagDescription": "branch name for deployment",
-  "commandDescription": "Launches an Prodly relational data deployment.",
   "commentFlagDescription": "comment for the command versioning commit",
   "connectionFlagDescription": "connection to use for the managed instance",
   "dataSetFlagDescription": "name or record ID of the data set to deploy",
@@ -40,5 +39,11 @@
   "errorQueryFilterFlag": "Query filter flag is only applicable for data set deployment",
   "errorVersionFlagNoManageFlag": "Version flag only specified with the manage operation flag",
 
-  "unmanageInstancePrompt": "Unmanaging is a destructive and irreversible change which will delete all record mappings for this instance. Provide the instance ID if you are sure you want to continue? "
+  "unmanageInstancePrompt": "Unmanaging is a destructive and irreversible change which will delete all record mappings for this instance. Provide the instance ID if you are sure you want to continue? ",
+
+  "descriptionCheckinCommand": "Save data from a Salesforce environment to a VCS repository branch.",
+  "descriptionCheckoutCommand": "Deploy data from a VCS repository branch to a Salesforce environment.",
+  "descriptionDeployCommand": "Deploy data from one Salesforce environment directly to another Salesforce environment.",
+  "descriptionJobsCommand": " Check the job status.",
+  "descriptionManageCommand": "Authorize (or unauthorize) a Salesforce environment (not already added to the Environments page in Release tab) for use by the plugin."
 }
