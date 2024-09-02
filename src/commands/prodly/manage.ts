@@ -19,7 +19,7 @@ export type ProdlyManageResult = {
 
 export default class ProdlyManage extends SfCommand<JSONObject> {
   public static readonly summary = commandMessages.getMessage('summary');
-  public static readonly description = prodlyMessages.getMessage('commandDescription');
+  public static readonly description = prodlyMessages.getMessage('descriptionManageCommand');
   public static readonly examples = commandMessages.getMessages('examples');
 
   public static readonly flags = {
