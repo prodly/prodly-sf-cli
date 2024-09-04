@@ -250,7 +250,7 @@ EXAMPLES
 
 ```
 USAGE
-  $ sf prodly:version -s <value> -v <value> -o <value> [--json] [--flags-dir <value>] [-b <value>] [-i <value>]
+  $ sf prodly:version -s <value> -v <value> -o <value> [--json] [-b <value>] [-i <value>]
 
 FLAGS
   -b, --new-branch=<value>      if provided it creates a new branch based on the source branch that will be used for
