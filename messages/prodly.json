@@ -48,5 +48,5 @@
   "descriptionDeployCommand": "Deploy data from one Salesforce environment directly to another Salesforce environment.",
   "descriptionJobsCommand": " Check the job status.",
   "descriptionManageCommand": "Authorize (or unauthorize) a Salesforce environment (not already added to the Environments page in Release tab) for use by the plugin.",
-  "descriptionVersionCommand": "Test"
+  "descriptionVersionCommand": "Adds version control to a managed environment."
 }
