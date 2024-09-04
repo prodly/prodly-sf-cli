@@ -9,16 +9,18 @@
   "destinationFlagDescription": "destination managed instance ID",
   "instanceFlagDescription": "managed instance ID on which to perform the action",
   "instanceNameFlagDescription": "connection and managed instance name",
+  "jobIdFlagSummary": "Prodly Job ID",
   "listFlagDescription": "list all managed instances",
   "manageFlagDescription": "manage a new instance",
+  "newBranchFlagSummary": "if provided it creates a new branch based on the source branch that will be used for version control",
   "notesFlagDescription": "notes for the deployment",
   "printFlagDescription": "print the managed instances in a standard format in addition to returning structured data",
   "queryFilterFlagDescription": "query filter override for a data set deployment",
   "simulationFlagDescription": "perform a data simulation",
+  "sourceBranchFlagSummary": "the version control branch or the base for the new branch (if provided)",
   "sourceFlagDescription": "source managed instance ID",
   "unmanageFlagDescription": "unmanage the specified instance",
   "versionFlagDescription": "version the new managed instance, branch created and data deployed to the org",
-  "jobIdFlagSummary": "Prodly Job ID",
 
   "errorDatasetAndPlanFlags": "Specify either the data set or deployment plan parameter, but not both.",
   "errorDeploymentNameFlag": "Deployment name flag is required.",
@@ -45,5 +47,6 @@
   "descriptionCheckoutCommand": "Deploy data from a VCS repository branch to a Salesforce environment.",
   "descriptionDeployCommand": "Deploy data from one Salesforce environment directly to another Salesforce environment.",
   "descriptionJobsCommand": " Check the job status.",
-  "descriptionManageCommand": "Authorize (or unauthorize) a Salesforce environment (not already added to the Environments page in Release tab) for use by the plugin."
+  "descriptionManageCommand": "Authorize (or unauthorize) a Salesforce environment (not already added to the Environments page in Release tab) for use by the plugin.",
+  "descriptionVersionCommand": "Test"
 }

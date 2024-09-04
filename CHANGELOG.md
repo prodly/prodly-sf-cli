@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.0] - 2024-10-03
+
+### Added
+
+- New command `prodly:version` added. This command allows the user to add version control to a managed environment.
+
 ## [1.1.3] - 2024-09-03
 
 ### Changed
