@@ -56,3 +56,13 @@ export type UnmanageInstanceFn = ({
   hubConn: Connection;
   print?: printFn;
 }) => Promise<void>;
+
+export type PostInstancesFn = ({
+  body,
+  hubConn,
+}: {
+  hubConn: Connection;
+  body: {
+    [key: string]: { [key: string]: unknown };
+  };
+}) => Promise<{ jobId: string }>;
