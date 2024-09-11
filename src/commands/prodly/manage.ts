@@ -19,7 +19,7 @@ export type ProdlyManageResult = {
 
 export default class ProdlyManage extends SfCommand<JSONObject> {
   public static readonly summary = commandMessages.getMessage('summary');
-  public static readonly description = prodlyMessages.getMessage('commandDescription');
+  public static readonly description = prodlyMessages.getMessage('descriptionManageCommand');
   public static readonly examples = commandMessages.getMessages('examples');
 
   public static readonly flags = {
@@ -92,7 +92,7 @@ export default class ProdlyManage extends SfCommand<JSONObject> {
       const managedInstances = await getManagedInstances({ hubConn, print });
       const connectionIds = managedInstances.instances
         .map((instance) => instance.connectionId)
-        .filter((connectionId) => connectionId !== undefined);
+        .filter((connectionId) => connectionId);
 
       const connections = await queryConnections({ connectionIds, hubConn, print });
 

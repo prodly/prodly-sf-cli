@@ -13,7 +13,7 @@ const prodlyMessages = Messages.loadMessages('prodlysfcli', 'prodly');
 
 export default class ProdlyCheckout extends SfCommand<JSONObject> {
   public static readonly summary = commandMessages.getMessage('summary');
-  public static readonly description = prodlyMessages.getMessage('commandDescription');
+  public static readonly description = prodlyMessages.getMessage('descriptionCheckoutCommand');
   public static readonly examples = commandMessages.getMessages('examples');
 
   public static readonly flags = {

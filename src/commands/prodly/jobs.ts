@@ -13,7 +13,7 @@ export type JobsResult = {
 
 export default class ProdlyJobs extends SfCommand<JobsResult> {
   public static readonly summary = commandMessages.getMessage('summary');
-  public static readonly description = prodlyMessages.getMessage('commandDescription');
+  public static readonly description = prodlyMessages.getMessage('descriptionJobsCommand');
   public static readonly examples = commandMessages.getMessages('examples');
 
   public static readonly flags = {

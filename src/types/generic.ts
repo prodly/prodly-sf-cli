@@ -1,7 +1,5 @@
-type JSONValue = string | number | boolean | JSONObject | JSONArray;
+type JSONValue = string | number | boolean | JSONObject;
 
-export interface JSONObject {
+export type JSONObject = {
   [x: string]: JSONValue;
-}
-
-interface JSONArray extends Array<JSONValue> {}
+};

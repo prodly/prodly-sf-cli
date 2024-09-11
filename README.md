@@ -74,7 +74,7 @@ GLOBAL FLAGS
 DESCRIPTION
   prodly:checkin command
 
-  Launches an Prodly relational data deployment.
+  Save data from a Salesforce environment to a VCS repository branch.
 
 EXAMPLES
   $ sf prodly:checkin --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com
@@ -117,7 +117,7 @@ GLOBAL FLAGS
 DESCRIPTION
   prodly:checkout command
 
-  Launches an Prodly relational data deployment.
+  Deploy data from a VCS repository branch to a Salesforce environment.
 
 EXAMPLES
   $ sf prodly:checkin --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com
@@ -162,7 +162,7 @@ GLOBAL FLAGS
 DESCRIPTION
   prodly:deploy command
 
-  Launches an Prodly relational data deployment.
+  Deploy data from one Salesforce environment directly to another Salesforce environment.
 
 EXAMPLES
   $ sf prodly:deploy -n scratchorg -u FixesScratchOrg -v MainDevHub
@@ -208,7 +208,7 @@ GLOBAL FLAGS
 DESCRIPTION
   prodly:manage command
 
-  Launches an Prodly relational data deployment.
+  Authorize (or unauthorize) a Salesforce environment (not already added to the Environments page in Release tab) for use by the plugin.
 
 EXAMPLES
   $ sf prodly:manage -l -p
@@ -226,7 +226,7 @@ EXAMPLES
 
 ```
 USAGE
-  $ sf prodly jobs -v <value> -j <value> [--json]
+  $ sf prodly:jobs -v <value> -j <value> [--json]
 
 FLAGS
   -j, --job=<value>             (required) Prodly Job ID
@@ -239,11 +239,45 @@ GLOBAL FLAGS
 DESCRIPTION
   prodly:jobs command
 
-  Launches an Prodly relational data deployment.
+  Check the job status.
 
 EXAMPLES
   $ sf prodly:jobs -j jobId -v MainDevHub
   Print the job status for the provided job Id.
+```
+
+## `sf prodly:version`
+
+```
+USAGE
+  $ sf prodly:version -s <value> -v <value> -o <value> [--json] [-b <value>] [-i <value>]
+
+FLAGS
+  -b, --new-branch=<value>      if provided it creates a new branch based on the source branch that will be used for
+                                version control
+  -i, --instance=<value>        managed instance ID on which to perform the action
+  -o, --target-org=<value>      (required) [default: aandreou@prodly.co.appopsqa3] Username or alias of the target org.
+                                Not required if the `target-org` configuration variable is already set.
+  -s, --source-branch=<value>   (required) the version control branch or the base for the new branch (if provided)
+  -v, --target-dev-hub=<value>  (required) [default: aandreou@prodly.co.appopsqa3] Username or alias of the Dev Hub org.
+                                Not required if the `target-dev-hub` configuration variable is already set.
+
+GLOBAL FLAGS
+  --json               Format output as json.
+
+DESCRIPTION
+  prodly:version command
+
+  Adds version control to a managed environment.
+
+EXAMPLES
+  $ sf prodly:version -s main
+  Add version control to the managed instance identified by the target org. Use the "main" branch.
+  The instance should be managed by the Prodly account associated with the default DevHub control org.
+
+  $ sf prodly:version -s main -b cli-branch -i f50616b6-57b1-4941-802f-ee0e2506f217
+  Add version control to the managed instance identified by the provided ID. Use the "main" branch as a base for a new branch called "cli-branch"
+  The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
 <!-- commandsstop -->

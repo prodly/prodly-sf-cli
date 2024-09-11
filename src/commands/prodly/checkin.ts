@@ -13,7 +13,7 @@ const prodlyMessages = Messages.loadMessages('prodlysfcli', 'prodly');
 
 export default class ProdlyCheckin extends SfCommand<JSONObject> {
   public static readonly summary = commandMessages.getMessage('summary');
-  public static readonly description = prodlyMessages.getMessage('commandDescription');
+  public static readonly description = prodlyMessages.getMessage('descriptionCheckinCommand');
   public static readonly examples = commandMessages.getMessages('examples');
 
   public static readonly flags = {
@@ -85,8 +85,8 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
       });
     }
 
-    this.log(`Data set ID: ${dataSetId}`);
-    this.log(`Deployment plan ID: ${deploymentPlanId}`);
+    this.log(`Data set ID: ${dataSetId ?? ''}`);
+    this.log(`Deployment plan ID: ${deploymentPlanId ?? ''}`);
 
     // Check if instance is provided
     if (instanceFlag) {

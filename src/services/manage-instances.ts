@@ -7,6 +7,7 @@ import {
   GetManagedInstancesFn,
   ManageInstanceAsyncFn,
   ManageInstanceFn,
+  PostInstancesFn,
   UnmanageInstanceFn,
 } from './manage-instances.types.js';
 
@@ -20,7 +21,7 @@ const getManagedInstances: GetManagedInstancesFn = async ({ hubConn, print }) =>
 };
 
 const getManagedInstance: GetManagedInstanceFn = async ({ hubConn, orgId, print }) => {
-  if (print) print(`Retrieving the managed instance ID for org ${orgId}.`);
+  if (print) print(`Retrieving the managed instance ID for org ${orgId ?? ''}.`);
 
   const managedInstances = await getManagedInstances({ hubConn });
   const managedInstance = managedInstances.instances.find((instance) => instance.platformInstanceId === orgId);
@@ -97,6 +98,22 @@ const manageInstanceAsync: ManageInstanceAsyncFn = async ({ body, hubConn, print
   return jobId;
 };
 
+const postInstances: PostInstancesFn = async ({ body, hubConn }) => {
+  const request = {
+    body: JSON.stringify(body),
+    method: 'POST' as const,
+    url: BASE_PATH,
+  };
+
+  const res: string = await hubConn.request(request);
+  const jobsWrapper = JSON.parse(res) as Jobs;
+  const jobId = jobsWrapper.jobs[0].id;
+  if (!jobId) {
+    throw new SfError('No job ID returned.');
+  }
+  return { jobId };
+};
+
 const unmanageInstance: UnmanageInstanceFn = async ({ hubConn, instanceId, print }) => {
   if (print) print(`Unmanaging instance with ID ${instanceId}.`);
 
@@ -111,4 +128,11 @@ const unmanageInstance: UnmanageInstanceFn = async ({ hubConn, instanceId, print
   return;
 };
 
-export { getManagedInstance, getManagedInstances, manageInstance, manageInstanceAsync, unmanageInstance };
+export {
+  getManagedInstance,
+  getManagedInstances,
+  manageInstance,
+  manageInstanceAsync,
+  postInstances,
+  unmanageInstance,
+};
