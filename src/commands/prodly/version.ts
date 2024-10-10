@@ -1,6 +1,11 @@
 import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { getManagedInstance, getManagedInstances, postInstances } from '../../services/manage-instances.js';
+import {
+  getManagedInstance,
+  getManagedInstances,
+  postInstances,
+  putInstances,
+} from '../../services/manage-instances.js';
 import { JSONObject } from '../../types/generic.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
@@ -21,7 +26,7 @@ export default class ProdlyVersion extends SfCommand<JSONObject> {
     'source-branch': Flags.string({
       summary: prodlyMessages.getMessage('sourceBranchFlagSummary'),
       char: 's',
-      required: true,
+      required: false,
     }),
     'target-dev-hub': Flags.requiredHub(),
     'target-org': Flags.requiredOrg(),
@@ -30,6 +35,7 @@ export default class ProdlyVersion extends SfCommand<JSONObject> {
       char: 'i',
       required: false,
     }),
+    unlink: Flags.boolean({ char: 'x', summary: prodlyMessages.getMessage('unlinkBranchFlagDescription') }),
   };
 
   public async run(): Promise<JSONObject> {
@@ -40,7 +46,11 @@ export default class ProdlyVersion extends SfCommand<JSONObject> {
     const hubConn = hubOrg.getConnection();
     const print = (message: string | undefined, ...args: unknown[]): void => this.log(message, ...args);
 
-    const { instance } = flags;
+    const { instance, unlink } = flags;
+
+    if (!unlink && !flags['source-branch']) {
+      throw new SfError('Flag source-branch is required to version control managed environment');
+    }
 
     let managedInstance;
     // Check if managed instance Id is provided else get the managed instance from the target org
@@ -55,6 +65,24 @@ export default class ProdlyVersion extends SfCommand<JSONObject> {
     }
     if (!managedInstance) {
       throw new SfError(prodlyMessages.getMessage('errorManagedInstaceNotFound'));
+    }
+
+    if (unlink) {
+      await putInstances({
+        hubConn,
+        body: {
+          options: { checkin: false, checkout: false, commitMessage: '', environmentExists: true },
+          platformInstance: {
+            branchName: null,
+            connectionId: managedInstance.connectionId,
+            platformInstanceId: managedInstance.platformInstanceId,
+            sourceBranchName: null,
+          },
+        },
+      });
+
+      print('Version control managed environment unlinked');
+      return {};
     }
 
     const { jobId } = await postInstances({
