@@ -66,3 +66,13 @@ export type PostInstancesFn = ({
     [key: string]: { [key: string]: unknown };
   };
 }) => Promise<{ jobId: string }>;
+
+export type PutInstancesFn = ({
+  body,
+  hubConn,
+}: {
+  hubConn: Connection;
+  body: {
+    [key: string]: { [key: string]: unknown };
+  };
+}) => Promise<void>;

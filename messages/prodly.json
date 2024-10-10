@@ -19,6 +19,7 @@
   "simulationFlagDescription": "perform a data simulation",
   "sourceBranchFlagSummary": "the version control branch or the base for the new branch (if provided)",
   "sourceFlagDescription": "source managed instance ID",
+  "unlinkBranchFlagDescription": "unlink the branch from the managed instance",
   "unmanageFlagDescription": "unmanage the specified instance",
   "versionFlagDescription": "version the new managed instance, branch created and data deployed to the org",
 

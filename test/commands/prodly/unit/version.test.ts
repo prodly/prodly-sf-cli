@@ -35,7 +35,7 @@ describe('prodly version', () => {
       await ProdlyVersion.run(['--target-org', 'test', '--target-dev-hub', 'test']);
     } catch (error) {
       if (error instanceof SfError) {
-        expect(error.message).to.include('Missing required flag source-branch');
+        expect(error.message).to.include('Flag source-branch is required to version control managed environment');
       }
     }
   });
