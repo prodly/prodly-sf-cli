@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.2] - 2024-10-10
+
+### Added
+
+- `prodly:version` now supports `--unlink` (`-x`) flag.
+
 ## [1.2.1] - 2024-09-30
 
 ### Changed

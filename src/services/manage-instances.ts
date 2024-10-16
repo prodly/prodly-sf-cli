@@ -8,6 +8,7 @@ import {
   ManageInstanceAsyncFn,
   ManageInstanceFn,
   PostInstancesFn,
+  PutInstancesFn,
   UnmanageInstanceFn,
 } from './manage-instances.types.js';
 
@@ -114,6 +115,16 @@ const postInstances: PostInstancesFn = async ({ body, hubConn }) => {
   return { jobId };
 };
 
+const putInstances: PutInstancesFn = async ({ body, hubConn }) => {
+  const request = {
+    body: JSON.stringify(body),
+    method: 'PUT' as const,
+    url: BASE_PATH,
+  };
+
+  await hubConn.request(request);
+};
+
 const unmanageInstance: UnmanageInstanceFn = async ({ hubConn, instanceId, print }) => {
   if (print) print(`Unmanaging instance with ID ${instanceId}.`);
 
@@ -134,5 +145,6 @@ export {
   manageInstance,
   manageInstanceAsync,
   postInstances,
+  putInstances,
   unmanageInstance,
 };
