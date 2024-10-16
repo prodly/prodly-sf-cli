@@ -81,7 +81,7 @@ EXAMPLES
   Save managed data to the branch associated with the managed instance identified by the target username.
   The instance should be managed by the Prodly account associated with the provided DevHub control org.
 
-  $ sf prodly:checkin -u test-utxac7gbati9@example.com
+  $ sf prodly:checkin --target-org test-utxac7gbati9@example.com
   Save managed data to the branch associated with the managed instance identified by the target username.
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 
@@ -120,16 +120,16 @@ DESCRIPTION
   Deploy data from a VCS repository branch to a Salesforce environment.
 
 EXAMPLES
-  $ sf prodly:checkin --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com
-  Save managed data to the branch associated with the managed instance identified by the target username.
+  $ sf prodly:checkout --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com
+  Deploy managed data to the managed instance identified by the target org from the associated branch.
   The instance should be managed by the Prodly account associated with the provided DevHub control org.
 
-  $ sf prodly:checkin -u test-utxac7gbati9@example.com
-  Save managed data to the branch associated with the managed instance identified by the target username.
+  $ sf prodly:checkout --target-org test-utxac7gbati9@example.com
+  Deploy managed data to the managed instance org identified by the target username from the associated branch.
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 
-  $ sf prodly:checkin -i f50616b6-57b1-4941-802f-ee0e2506f217
-  Save managed data to the branch associated with the managed instance identified by the provided ID.
+  $ sf prodly:checkout -i f50616b6-57b1-4941-802f-ee0e2506f217
+  Deploy managed data to the managed instance org from the associated branch.
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
@@ -165,14 +165,14 @@ DESCRIPTION
   Deploy data from one Salesforce environment directly to another Salesforce environment.
 
 EXAMPLES
-  $ sf prodly:deploy -n scratchorg -u FixesScratchOrg -v MainDevHub
+  $ sf prodly:deploy -n scratchorg --target-org FixesScratchOrg -v MainDevHub
   Command output... deploying from the dev hub, the control org, to the scratch org, auto managed with provided name.
   Command output...
 
   $ sf prodly:deploy --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com
   Command output... deploying from the dev hub, the control org, to the scratch org. Long param names.
 
-  $ sf prodly:deploy -u test-utxac7gbati9@example.com -v jsmith@acme.com -d "UAT Sandbox Connection"
+  $ sf prodly:deploy --target-org test-utxac7gbati9@example.com -v jsmith@acme.com -d "UAT Sandbox Connection"
   Command output... deploying from the scratch org to the UAT sandbox, using the named connection record in the dev hub, control org.
 
   $ sf prodly:deploy --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com --source "UAT Sandbox Connection"
@@ -217,7 +217,7 @@ EXAMPLES
   $ sf prodly:manage -m --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com
   Manage the org associated with the target username under the Prodly account associated with the provided DevHub control org.
 
-  $ sf prodly:manage -m -u test-utxac7gbati9@example.com -n dev7sbx
+  $ sf prodly:manage -m --target-org test-utxac7gbati9@example.com -n dev7sbx
   Manage and version the org associated with the target username under the Prodly account associated with the default DevHub control org.
 
 ```
