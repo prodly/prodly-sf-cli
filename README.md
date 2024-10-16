@@ -250,7 +250,7 @@ EXAMPLES
 
 ```
 USAGE
-  $ sf prodly:version -v <value> -o <value> [--json] [--flags-dir <value>] [-b <value>] [-s <value>] [-i <value>]
+  $ sf prodly:version -v <value> -o <value> [--json] [-b <value>] [-s <value>] [-i <value>]
     [-x]
 
 FLAGS
