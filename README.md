@@ -250,17 +250,19 @@ EXAMPLES
 
 ```
 USAGE
-  $ sf prodly:version -s <value> -v <value> -o <value> [--json] [-b <value>] [-i <value>]
+  $ sf prodly:version -v <value> -o <value> [--json] [-b <value>] [-s <value>] [-i <value>]
+    [-x]
 
 FLAGS
   -b, --new-branch=<value>      if provided it creates a new branch based on the source branch that will be used for
                                 version control
   -i, --instance=<value>        managed instance ID on which to perform the action
-  -o, --target-org=<value>      (required) [default: aandreou@prodly.co.appopsqa3] Username or alias of the target org.
-                                Not required if the `target-org` configuration variable is already set.
-  -s, --source-branch=<value>   (required) the version control branch or the base for the new branch (if provided)
-  -v, --target-dev-hub=<value>  (required) [default: aandreou@prodly.co.appopsqa3] Username or alias of the Dev Hub org.
-                                Not required if the `target-dev-hub` configuration variable is already set.
+  -o, --target-org=<value>      (required) Username or alias of the target org. Not required if the `target-org`
+                                configuration variable is already set.
+  -s, --source-branch=<value>   the version control branch or the base for the new branch (if provided)
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
+                                configuration variable is already set.
+  -x, --unlink                  unlink the branch from the managed instance
 
 GLOBAL FLAGS
   --json               Format output as json.
