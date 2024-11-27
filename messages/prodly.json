@@ -1,7 +1,11 @@
 {
   "branchFlagDescription": "branch name for deployment",
+  "changeTypeIdFlagDescription": "change type ID",
   "commentFlagDescription": "comment for the command versioning commit",
   "connectionFlagDescription": "connection to use for the managed instance",
+  "createFromChangeTypeFlagDescription": "create a scratch org from a change type",
+  "createFromChangeTypeNameFlagDescription": "name to use for the scratch org",
+  "createFromChangeTypeUsernameFlagDescription": "username to use for the scratch org",
   "dataSetFlagDescription": "name or record ID of the data set to deploy",
   "deactivateFlagDescription": "deactivate all events for the deployment",
   "deplomentNameFlagDescription": "name for the deployment",
@@ -10,6 +14,7 @@
   "instanceFlagDescription": "managed instance ID on which to perform the action",
   "instanceNameFlagDescription": "connection and managed instance name",
   "jobIdFlagSummary": "Prodly Job ID",
+  "listChangeTypesFlagDescription": "list all change types or specific change type",
   "listFlagDescription": "list all managed instances",
   "manageFlagDescription": "manage a new instance",
   "newBranchFlagSummary": "if provided it creates a new branch based on the source branch that will be used for version control",
@@ -44,6 +49,7 @@
 
   "unmanageInstancePrompt": "Unmanaging is a destructive and irreversible change which will delete all record mappings for this instance. Provide the instance ID if you are sure you want to continue? ",
 
+  "descriptionChangeTypesCommand": "List all or a specific change type and create scratch org from a change type.",
   "descriptionCheckinCommand": "Save data from a Salesforce environment to a VCS repository branch.",
   "descriptionCheckoutCommand": "Deploy data from a VCS repository branch to a Salesforce environment.",
   "descriptionDeployCommand": "Deploy data from one Salesforce environment directly to another Salesforce environment.",
