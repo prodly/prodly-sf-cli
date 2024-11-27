@@ -42,11 +42,50 @@ sf plugins
 
 <!-- commands -->
 
+- [`sf prodly:change-types`](#sf-prodlychange-types)
 - [`sf prodly:checkin`](#sf-prodlycheckin)
 - [`sf prodly:checkout`](#sf-prodlycheckout)
 - [`sf prodly:deploy`](#sf-prodlydeploy)
 - [`sf prodly:manage`](#sf-prodlymanage)
 - [`sf prodly:jobs`](#sf-prodlyjobs)
+
+## `sf prodly:change-types`
+
+prodly:change-types command
+
+```
+USAGE
+  $ sf prodly:change-types -v <value> [--json] [--api-version <value>] [-t <value>] [-l] [-c] [-n
+    <value>] [-u <value>]
+
+FLAGS
+  -c, --create                  create a scratch org from a change type
+  -l, --list                    list all change types or specific change type
+  -n, --name=<value>            name to use for the scratch org
+  -t, --id=<value>              change type ID
+  -u, --username=<value>        username to use for the scratch org
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
+                                configuration variable is already set.
+      --api-version=<value>     Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --json               Format output as json.
+
+DESCRIPTION
+  prodly:change-types command
+
+  List all or a specific change type and create scratch org from a change type.
+
+EXAMPLES
+  $ sf prodly:change-types --target-dev-hub jsmith@acme.com -l
+  Lists all the change types
+
+  $ sf prodly:change-types --target-dev-hub jsmith@acme.com -l -t a1h3t00000JN9lhAAD
+  Lists a specific change type
+
+  $ sf prodly:change-types --target-dev-hub jsmith@acme.com -c -n "SO FROM CLI" -u "username@example.com" -t a1h3t00000JN9lhAAD
+  Creates a scratch org based on a change type
+```
 
 ## `sf prodly:checkin`
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.0] - 2024-11-27
+
+### Added
+
+- New command `prodly:change-types` added. This command allows the user to list change types and create scratch orgs from them.
+
 ## [1.2.4] - 2024-11-27
 
 ### Changed

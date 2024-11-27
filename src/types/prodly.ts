@@ -75,3 +75,32 @@ export type CheckinOptions = {
   hubConn: Connection;
   mangedInstanceId: string;
 };
+
+export type ChangeType = {
+  dataset: NameAndId;
+  deploymentPlan: NameAndId;
+  durationDays: number;
+  generatedEnvironmentType: string;
+  id: string;
+  managedEnvironment: CTManagedEnvironment;
+  metadataFilter: NameAndId;
+  metadataRollbackOnFailure: boolean;
+  name: string;
+  salesforcePackageIds: string[];
+  skipDataOnMetadataFailure: boolean;
+};
+
+export type CTManagedEnvironment = {
+  controlInstance: boolean;
+  id: string;
+  instanceId: string;
+  instanceName: string;
+  instanceType: string;
+  instanceUrl: string;
+  licenseType: string;
+};
+
+export type NameAndId = {
+  id: string;
+  name: string;
+};
