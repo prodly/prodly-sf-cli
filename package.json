@@ -13,7 +13,7 @@
   "dependencies": {
     "@oclif/core": "4.0.33",
     "@salesforce/core": "8.8.0",
-    "@salesforce/sf-plugins-core": "12.1.0"
+    "@salesforce/sf-plugins-core": "12.1.2"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.2.22",
