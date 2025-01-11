@@ -11,7 +11,7 @@
     "url": "https://github.com/prodly/prodly-sf-cli/issues"
   },
   "dependencies": {
-    "@oclif/core": "4.0.33",
+    "@oclif/core": "4.2.2",
     "@salesforce/core": "8.8.0",
     "@salesforce/sf-plugins-core": "12.1.0"
   },
