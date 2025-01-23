@@ -71,4 +71,14 @@ describe('prodly:deploy', () => {
       }
     }
   });
+
+  it('should throw an error when deployment name flag is not provided.', async () => {
+    try {
+      await ProdlyDeploy.run(['--target-org', 'test', '--target-dev-hub', 'test', '--dataset', 'test']);
+    } catch (error) {
+      if (error instanceof SfError) {
+        expect(error.message).to.include(prodlyMessages.getMessage('errorDeploymentNameFlag', []));
+      }
+    }
+  });
 });
