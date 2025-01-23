@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.3.1] - 2025-1-23
+
+### Changed
+
+- Name is now required in `prodly:deploy`
+
 ## [1.3.0] - 2024-11-27
 
 ### Added

@@ -74,6 +74,10 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
       throw new SfError(prodlyMessages.getMessage('errorQueryFilterFlag', []));
     }
 
+    if (!deploymentNameFlag) {
+      throw new SfError(prodlyMessages.getMessage('errorDeploymentNameFlag', []));
+    }
+
     const org = flags['target-org'];
     const hubOrg = flags['target-dev-hub'];
     const hubConn = hubOrg.getConnection();
