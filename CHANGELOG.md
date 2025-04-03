@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.4.0] - 2024-04-03
+
+### Added
+
+- New command `prodly:releases` added. This command allows the user to list releases and deploy a release.
+
 ## [1.3.2] - 2025-02-03
 
 ### Changed
