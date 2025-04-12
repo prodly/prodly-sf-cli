@@ -1268,6 +1268,22 @@
     node-fetch "^2.6.1"
     xml2js "^0.6.2"
 
+"@jsforce/jsforce-node@^3.7.0":
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/@jsforce/jsforce-node/-/jsforce-node-3.7.0.tgz#aaa317eef3207489db90498f79e96c5bd9f53469"
+  integrity sha512-v9pc3lPM5RMuB81Gasz5/NKcjktE1LLEACRFopB9LiXRafb4K9bStSMl3nLEHq7+OFdtxfQB3Sx2rYXJGG4DKw==
+  dependencies:
+    "@sindresorhus/is" "^4"
+    base64url "^3.0.1"
+    csv-parse "^5.5.2"
+    csv-stringify "^6.4.4"
+    faye "^1.4.0"
+    form-data "^4.0.0"
+    https-proxy-agent "^5.0.0"
+    multistream "^3.1.0"
+    node-fetch "^2.6.1"
+    xml2js "^0.6.2"
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -1289,13 +1305,37 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@oclif/core@4.2.6", "@oclif/core@^4", "@oclif/core@^4.2.3", "@oclif/core@^4.2.4":
+"@oclif/core@4.2.6":
   version "4.2.6"
   resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.2.6.tgz#f2f1696be03a815a4c391504312f90fce29fbb4e"
   integrity sha512-agk1Tlm7qMemWx+qq5aNgkYwX2JCkoVP4M0ruFveJrarmdUPbKZTMW1j/eg8lNKZh1sp68ytZyKhYXYEfRPcww==
   dependencies:
     ansi-escapes "^4.3.2"
     ansis "^3.10.0"
+    clean-stack "^3.0.1"
+    cli-spinners "^2.9.2"
+    debug "^4.4.0"
+    ejs "^3.1.10"
+    get-package-type "^0.1.0"
+    globby "^11.1.0"
+    indent-string "^4.0.0"
+    is-wsl "^2.2.0"
+    lilconfig "^3.1.3"
+    minimatch "^9.0.5"
+    semver "^7.6.3"
+    string-width "^4.2.3"
+    supports-color "^8"
+    widest-line "^3.1.0"
+    wordwrap "^1.0.0"
+    wrap-ansi "^7.0.0"
+
+"@oclif/core@^4", "@oclif/core@^4.2.10", "@oclif/core@^4.2.3":
+  version "4.2.10"
+  resolved "https://registry.yarnpkg.com/@oclif/core/-/core-4.2.10.tgz#31dfb7481c79887c3e672e10c981fcc01fcbaeb3"
+  integrity sha512-fAqcXgqkUm4v5FYy7qWP4w1HaOlVSVJveah+yVTo5Nm5kTiXhmD5mQQ7+knGeBaStyrtQy6WardoC2xSic9rlQ==
+  dependencies:
+    ansi-escapes "^4.3.2"
+    ansis "^3.17.0"
     clean-stack "^3.0.1"
     cli-spinners "^2.9.2"
     debug "^4.4.0"
@@ -1357,12 +1397,11 @@
     lodash "^4.17.21"
     registry-auth-token "^5.0.3"
 
-"@oclif/table@^0.4.0":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@oclif/table/-/table-0.4.5.tgz#f878cf3b5a381351753d78f23f9fe2db3c849e41"
-  integrity sha512-ldqrkQjWMCsIZ+yApLMs+eVqIgdBsp7lwTPTcSn8dvEVcifmTnBbMbZidhryKlsr9G+4MgjefOZ4akJvdcPN3A==
+"@oclif/table@^0.4.6":
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/@oclif/table/-/table-0.4.7.tgz#5e2d3690f897a68f3d2fb13573f15cdfcff84e29"
+  integrity sha512-NZGHzQbsy4w30fw9p+5eANmPUB4aXyIAbU+qAlxbAGzRm1ogxm06EmuuCfdH25rUIlq4GnycGEO3AQIkPnG9Cg==
   dependencies:
-    "@oclif/core" "^4"
     "@types/react" "^18.3.12"
     change-case "^5.4.4"
     cli-truncate "^4.0.0"
@@ -1420,12 +1459,36 @@
     strip-ansi "6.0.1"
     ts-retry-promise "^0.8.1"
 
-"@salesforce/core@8.8.2", "@salesforce/core@^8.5.1", "@salesforce/core@^8.8.0", "@salesforce/core@^8.8.2":
+"@salesforce/core@8.8.2":
   version "8.8.2"
   resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-8.8.2.tgz#0fc1632cc183b8c62e333f1f884bf3ee0f4aee6e"
   integrity sha512-EOH75R2Nr2tg7b3gbyzRNwZPfZ/dZOpmMKmFHKL9oCtUI59+N4IkVljg6dpKYypVKuJJTzjI7T2ibnA8/cluZg==
   dependencies:
     "@jsforce/jsforce-node" "^3.6.1"
+    "@salesforce/kit" "^3.2.2"
+    "@salesforce/schemas" "^1.9.0"
+    "@salesforce/ts-types" "^2.0.10"
+    ajv "^8.17.1"
+    change-case "^4.1.2"
+    fast-levenshtein "^3.0.0"
+    faye "^1.4.0"
+    form-data "^4.0.0"
+    js2xmlparser "^4.0.1"
+    jsonwebtoken "9.0.2"
+    jszip "3.10.1"
+    pino "^9.4.0"
+    pino-abstract-transport "^1.2.0"
+    pino-pretty "^11.2.2"
+    proper-lockfile "^4.1.2"
+    semver "^7.6.3"
+    ts-retry-promise "^0.8.1"
+
+"@salesforce/core@^8.8.0", "@salesforce/core@^8.8.2", "@salesforce/core@^8.8.5":
+  version "8.9.0"
+  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-8.9.0.tgz#318dead8c9399c016df5a8e526665d69dca17fb9"
+  integrity sha512-p3ihmhGRfMrbup9unQ+YjDQb0o7WiNPUg38KB9J11YRMd2zKvERE1ncQcsnfOQ1MLRxvDMUchlKNrAe5Xw7RZw==
+  dependencies:
+    "@jsforce/jsforce-node" "^3.7.0"
     "@salesforce/kit" "^3.2.2"
     "@salesforce/schemas" "^1.9.0"
     "@salesforce/ts-types" "^2.0.10"
@@ -1498,16 +1561,16 @@
   resolved "https://registry.yarnpkg.com/@salesforce/schemas/-/schemas-1.9.0.tgz#ba477a112653a20b4edcf989c61c57bdff9aa3ca"
   integrity sha512-LiN37zG5ODT6z70sL1fxF7BQwtCX9JOWofSU8iliSNIM+WDEeinnoFtVqPInRSNt8I0RiJxIKCrqstsmQRBNvA==
 
-"@salesforce/sf-plugins-core@12.1.3":
-  version "12.1.3"
-  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-12.1.3.tgz#4150b231f50bcdb64d6bd471a9d8f25f7ca57273"
-  integrity sha512-xJSzwl2G7OYSpZTokzWgq9Ybfw/ZtR3reQEFvJTNATLoPk7nv7UGo8WWbX1gcaepURBVvtmQlHsa8mVyoKjYmw==
+"@salesforce/sf-plugins-core@12.2.1":
+  version "12.2.1"
+  resolved "https://registry.yarnpkg.com/@salesforce/sf-plugins-core/-/sf-plugins-core-12.2.1.tgz#1048a5d1245f07f0e864f0f76e8818fd21a84fe6"
+  integrity sha512-b3eRSzGO0weBLL1clHaJNgNP1aKkD1Qy2DQEc0ieteEm+fh1FfPA0QpJ9rh/hdmkJRip2x2R2zz9tflJ0wflbg==
   dependencies:
     "@inquirer/confirm" "^3.1.22"
     "@inquirer/password" "^2.2.0"
-    "@oclif/core" "^4.2.4"
-    "@oclif/table" "^0.4.0"
-    "@salesforce/core" "^8.5.1"
+    "@oclif/core" "^4.2.10"
+    "@oclif/table" "^0.4.6"
+    "@salesforce/core" "^8.8.5"
     "@salesforce/kit" "^3.2.3"
     "@salesforce/ts-types" "^2.0.12"
     ansis "^3.3.2"
@@ -2550,10 +2613,10 @@ ansi-styles@^6.0.0, ansi-styles@^6.1.0, ansi-styles@^6.2.1:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-6.2.1.tgz#0e62320cf99c21afff3b3012192546aacbfb05c5"
   integrity sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==
 
-ansis@^3.10.0, ansis@^3.3.2:
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/ansis/-/ansis-3.10.0.tgz#6886afb0f729b1fa865df6b710b97a9915b7d0d4"
-  integrity sha512-hxDKLYT7hy3Y4sF3HxI926A3urzPxi73mZBB629m9bCVF+NyKNxbwCqqm+C/YrGPtxLwnl6d8/ZASCsz6SyvJA==
+ansis@^3.10.0, ansis@^3.17.0, ansis@^3.3.2:
+  version "3.17.0"
+  resolved "https://registry.yarnpkg.com/ansis/-/ansis-3.17.0.tgz#fa8d9c2a93fe7d1177e0c17f9eeb562a58a832d7"
+  integrity sha512-0qWUglt9JEqLFr3w1I1pbrChn1grhaiAR2ocX1PP/flRmxgtwTzPFFFnfIlD6aMOLQZgSuCRlidD70lvx8yhzg==
 
 anymatch@~3.1.2:
   version "3.1.3"
