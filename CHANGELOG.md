@@ -6,6 +6,19 @@
 
 - New command `prodly:releases` added. This command allows the user to list releases and deploy a release.
 
+## [1.3.3] - 2025-04-03
+
+### Changed
+
+- Updated `@oclif/core` to v4.2.10
+- Updated `@salesforce/core` to v8.8.7
+- Updated `@salesforce/sf-plugins-core` to v12.2.1
+- Updated `@oclif/plugin-command-snapshot` to v5.2.38
+- Updated `@salesforce/dev-scripts` to v10.2.12
+- Updated `eslint-plugin-sf-plugin` to v1.20.18
+- Updated `oclif` to v4.17.42
+- Updated `typescript` to v5.8.2
+
 ## [1.3.2] - 2025-02-03
 
 ### Changed
@@ -19,7 +32,7 @@
 - Updated `oclif` to v4.17.25
 - Updated `typescript` to v5.7.3
 
-## [1.3.1] - 2025-1-23
+## [1.3.1] - 2025-01-23
 
 ### Changed
 
