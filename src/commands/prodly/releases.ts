@@ -6,12 +6,12 @@ import { JSONObject } from '../../types/generic.js';
 import { ReleaseConfiguration } from '../../types/prodly.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.change-types');
+const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.releases');
 const prodlyMessages = Messages.loadMessages('prodlysfcli', 'prodly');
 
 export default class ProdlyReleases extends SfCommand<JSONObject> {
   public static readonly summary = commandMessages.getMessage('summary');
-  public static readonly description = prodlyMessages.getMessage('descriptionChangeTypesCommand');
+  public static readonly description = prodlyMessages.getMessage('descriptionReleasesCommand');
   public static readonly examples = commandMessages.getMessages('examples');
 
   public static readonly flags = {

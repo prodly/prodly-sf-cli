@@ -41,15 +41,14 @@ sf plugins
 ## Commands
 
 <!-- commands -->
-
-- [`sf prodly change-types`](#sf-prodly-change-types)
-- [`sf prodly checkin`](#sf-prodly-checkin)
-- [`sf prodly checkout`](#sf-prodly-checkout)
-- [`sf prodly deploy`](#sf-prodly-deploy)
-- [`sf prodly jobs`](#sf-prodly-jobs)
-- [`sf prodly manage`](#sf-prodly-manage)
-- [`sf prodly releases`](#sf-prodly-releases)
-- [`sf prodly version`](#sf-prodly-version)
+* [`sf prodly change-types`](#sf-prodly-change-types)
+* [`sf prodly checkin`](#sf-prodly-checkin)
+* [`sf prodly checkout`](#sf-prodly-checkout)
+* [`sf prodly deploy`](#sf-prodly-deploy)
+* [`sf prodly jobs`](#sf-prodly-jobs)
+* [`sf prodly manage`](#sf-prodly-manage)
+* [`sf prodly releases`](#sf-prodly-releases)
+* [`sf prodly version`](#sf-prodly-version)
 
 ## `sf prodly change-types`
 
@@ -339,19 +338,17 @@ GLOBAL FLAGS
   --json               Format output as json.
 
 DESCRIPTION
-  prodly:change-types command
+  prodly:releases command
 
-  List all or a specific change type and create scratch org from a change type.
+  List all releases and deploys a release.
 
 EXAMPLES
-  $ sf prodly:change-types --target-dev-hub jsmith@acme.com -l
-  Lists all the change types
+  $ sf prodly:releases --target-dev-hub jsmith@acme.com -l
+  Lists all the releases
 
-  $ sf prodly:change-types --target-dev-hub jsmith@acme.com -l -t a1h3t00000JN9lhAAD
-  Lists a specific change type
-
-  $ sf prodly:change-types --target-dev-hub jsmith@acme.com -c -n "SO FROM CLI" -u "username@example.com" -t a1h3t00000JN9lhAAD
-  Creates a scratch org based on a change type
+  $ sf prodly:releases --target-dev-hub jsmith@acme.com -d -i "f50616b6-57b1-4941-802f-ee0e2506f217" -r "a5H6e0000024xKUEAY"
+  Creates a release given a release id and a destination instance id
+  The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
 _See code: [src/commands/prodly/releases.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.4.0/src/commands/prodly/releases.ts)_
@@ -400,7 +397,6 @@ EXAMPLES
 ```
 
 _See code: [src/commands/prodly/version.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.4.0/src/commands/prodly/version.ts)_
-
 <!-- commandsstop -->
 
 <!-- debugging-your-plugin -->
