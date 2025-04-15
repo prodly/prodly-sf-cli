@@ -80,7 +80,7 @@ export default class ProdlyReleases extends SfCommand<JSONObject> {
     this.log('ID:', release.Id);
     this.log('Description:', release?.PDRI__Description__c ?? '');
     this.log('Status:', release?.PDRI__Status__c);
-    this.log('Created Date:', release.CreatedDate);
-    this.log('Created By:', `${release.CreatedBy?.Name ?? ''}\n`);
+    this.log('Created Date:', new Date(release.CreatedDate).toLocaleString());
+    this.log('Created By:', `${release['CreatedBy.Name'] ?? ''}\n`);
   }
 }

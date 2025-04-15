@@ -133,12 +133,6 @@ export type BundleRelationship = {
   PDRI__Deployment_Order__c: number;
 };
 
-export type CreatedModifiedBy = {
-  Id: string;
-  Name: string;
-  Username: string;
-};
-
 export type ReleaseConfiguration = {
   releaseBundleRelationships?: BundleRelationship[];
   Id: string;
@@ -148,8 +142,12 @@ export type ReleaseConfiguration = {
   PDRI__Status__c: string;
   CreatedDate: string;
   LastModifiedDate: string;
-  CreatedBy: CreatedModifiedBy;
-  LastModifiedBy: CreatedModifiedBy;
+  'CreatedBy.Name': string;
+  'CreatedBy.Username': string;
+  'CreatedBy.Id': string;
+  'LastModifiedBy.Name': string;
+  'LastModifiedBy.Username': string;
+  'LastModifiedBy.Id': string;
 };
 
 export type ReleasesResponse = {

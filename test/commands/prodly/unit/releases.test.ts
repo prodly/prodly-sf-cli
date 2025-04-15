@@ -31,7 +31,7 @@ describe('prodly:releases', () => {
     }
   });
 
-  it('should throw an error when both list and list flags are provided.', async () => {
+  it('should throw an error when both deploy and list flags are provided.', async () => {
     try {
       await ProdlyReleases.run(['--target-dev-hub', 'test', '--deploy', '--list']);
     } catch (error) {
@@ -46,7 +46,7 @@ describe('prodly:releases', () => {
     }
   });
 
-  it('should throw an error when depoy flag is provided but release-id username or instance are not provided', async () => {
+  it('should throw an error when deploy flag is provided but release-id, username or instance are not provided', async () => {
     try {
       await ProdlyReleases.run(['--target-dev-hub', 'test', '--deploy']);
     } catch (error) {

@@ -6,9 +6,7 @@ export type PostReleasesFn = ({
   body,
   hubConn,
 }: {
-  body: {
-    [key: string]: unknown;
-  };
+  body: { [key: string]: unknown };
   hubConn: Connection;
 }) => Promise<{ jobId: string }>;
 export const postReleases: PostReleasesFn = async ({ body, hubConn }) => {
@@ -17,8 +15,9 @@ export const postReleases: PostReleasesFn = async ({ body, hubConn }) => {
     method: 'POST' as const,
     url: BASE_PATH,
   };
-  const res: { id: string } = await hubConn.request(request);
-  const jobId = res.id;
+  const res: string = await hubConn.request(request);
+  const jobWrapper = JSON.parse(res) as { id: string };
+  const jobId = jobWrapper.id;
   if (!jobId) throw new SfError('No job ID returned.');
   return { jobId };
 };
