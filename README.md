@@ -41,21 +41,22 @@ sf plugins
 ## Commands
 
 <!-- commands -->
+* [`sf prodly change-types`](#sf-prodly-change-types)
+* [`sf prodly checkin`](#sf-prodly-checkin)
+* [`sf prodly checkout`](#sf-prodly-checkout)
+* [`sf prodly deploy`](#sf-prodly-deploy)
+* [`sf prodly jobs`](#sf-prodly-jobs)
+* [`sf prodly manage`](#sf-prodly-manage)
+* [`sf prodly releases`](#sf-prodly-releases)
+* [`sf prodly version`](#sf-prodly-version)
 
-- [`sf prodly:change-types`](#sf-prodlychange-types)
-- [`sf prodly:checkin`](#sf-prodlycheckin)
-- [`sf prodly:checkout`](#sf-prodlycheckout)
-- [`sf prodly:deploy`](#sf-prodlydeploy)
-- [`sf prodly:manage`](#sf-prodlymanage)
-- [`sf prodly:jobs`](#sf-prodlyjobs)
-
-## `sf prodly:change-types`
+## `sf prodly change-types`
 
 prodly:change-types command
 
 ```
 USAGE
-  $ sf prodly:change-types -v <value> [--json] [--api-version <value>] [-t <value>] [-l] [-c] [-n
+  $ sf prodly change-types -v <value> [--json] [--flags-dir <value>] [--api-version <value>] [-t <value>] [-l] [-c] [-n
     <value>] [-u <value>]
 
 FLAGS
@@ -69,6 +70,7 @@ FLAGS
       --api-version=<value>     Override the api version used for api requests made by this command
 
 GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
   --json               Format output as json.
 
 DESCRIPTION
@@ -87,28 +89,33 @@ EXAMPLES
   Creates a scratch org based on a change type
 ```
 
-## `sf prodly:checkin`
+_See code: [src/commands/prodly/change-types.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.4.0/src/commands/prodly/change-types.ts)_
+
+## `sf prodly checkin`
+
+prodly:checkin command
 
 ```
 USAGE
-  $ sf prodly:checkin -v <value> -o <value> [--json] [-b <value>] [-c <value>] [-t <value>] [-i <value>] [-z
-    <value>] [-p <value>]
+  $ sf prodly checkin -v <value> -o <value> -c <value> [--json] [--flags-dir <value>] [-b <value>] [-t <value>] [-q
+    <value>] [-i <value>] [-z <value>] [-p <value>]
 
 FLAGS
   -b, --branch=<value>          branch name for deployment
   -c, --comment=<value>         (required) comment for the command versioning commit
   -i, --instance=<value>        managed instance ID on which to perform the action
-  -o, --target-org=<value>      (required) Username or alias of the target org. Not
-                                required if the `target-org` configuration variable is already set.
+  -o, --target-org=<value>      (required) Username or alias of the target org. Not required if the `target-org`
+                                configuration variable is already set.
   -p, --plan=<value>            name or record ID of the deployment plan to deploy
   -q, --filter=<value>          query filter override for a data set deployment
   -t, --dataset=<value>         name or record ID of the data set to deploy
-  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not
-                                required if the `target-dev-hub` configuration variable is already set.
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
+                                configuration variable is already set.
   -z, --notes=<value>           notes for the deployment
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
 
 DESCRIPTION
   prodly:checkin command
@@ -129,29 +136,34 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-## `sf prodly:checkout`
+_See code: [src/commands/prodly/checkin.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.4.0/src/commands/prodly/checkin.ts)_
+
+## `sf prodly checkout`
+
+prodly:checkout command
 
 ```
 USAGE
-  $ sf prodly:checkout -v <value> -o <value> [--json] [-b <value>] [-t <value>] [-e] [-i <value>] [-n <value>] [-z
-    <value>] [-p <value>]
+  $ sf prodly checkout -v <value> -o <value> [--json] [--flags-dir <value>] [-b <value>] [-t <value>] [-e] [-q
+    <value>] [-i <value>] [-n <value>] [-z <value>] [-p <value>]
 
 FLAGS
   -b, --branch=<value>          branch name for deployment
   -e, --deactivate              deactivate all events for the deployment
   -i, --instance=<value>        managed instance ID on which to perform the action
   -n, --name=<value>            name for the deployment
-  -o, --target-org=<value>      (required) Username or alias of the target org. Not
-                                required if the `target-org` configuration variable is already set.
+  -o, --target-org=<value>      (required) Username or alias of the target org. Not required if the `target-org`
+                                configuration variable is already set.
   -p, --plan=<value>            name or record ID of the deployment plan to deploy
   -q, --filter=<value>          query filter override for a data set deployment
   -t, --dataset=<value>         name or record ID of the data set to deploy
-  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not
-                                required if the `target-dev-hub` configuration variable is already set.
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
+                                configuration variable is already set.
   -z, --notes=<value>           notes for the deployment
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
 
 DESCRIPTION
   prodly:checkout command
@@ -172,12 +184,16 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-## `sf prodly:deploy`
+_See code: [src/commands/prodly/checkout.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.4.0/src/commands/prodly/checkout.ts)_
+
+## `sf prodly deploy`
+
+prodly:deploy command
 
 ```
 USAGE
-  $ sf prodly:deploy -v <value> -o <value> [--json] [-t <value>] [-e] [-d <value>] [-q <value>] [-b <value>] [-n
-    <value>] [-z <value>] [-p <value>] [-l] [-s <value>]
+  $ sf prodly deploy -v <value> -o <value> [--json] [--flags-dir <value>] [-t <value>] [-e] [-d <value>] [-q
+    <value>] [-b <value>] [-n <value>] [-z <value>] [-p <value>] [-l] [-s <value>]
 
 FLAGS
   -b, --label=<value>           connection and managed instance name
@@ -185,18 +201,19 @@ FLAGS
   -e, --deactivate              deactivate all events for the deployment
   -l, --simulation              perform a data simulation
   -n, --name=<value>            name for the deployment
-  -o, --target-org=<value>      (required) Username or alias of the target org. Not
-                                required if the `target-org` configuration variable is already set.
+  -o, --target-org=<value>      (required) Username or alias of the target org. Not required if the `target-org`
+                                configuration variable is already set.
   -p, --plan=<value>            name or record ID of the deployment plan to deploy
   -q, --filter=<value>          query filter override for a data set deployment
   -s, --source=<value>          source managed instance ID
   -t, --dataset=<value>         name or record ID of the data set to deploy
-  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not
-                                required if the `target-dev-hub` configuration variable is already set.
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
+                                configuration variable is already set.
   -z, --notes=<value>           notes for the deployment
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
 
 DESCRIPTION
   prodly:deploy command
@@ -206,7 +223,6 @@ DESCRIPTION
 EXAMPLES
   $ sf prodly:deploy -n scratchorg --target-org FixesScratchOrg -v MainDevHub
   Command output... deploying from the dev hub, the control org, to the scratch org, auto managed with provided name.
-  Command output...
 
   $ sf prodly:deploy --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com
   Command output... deploying from the dev hub, the control org, to the scratch org. Long param names.
@@ -218,62 +234,24 @@ EXAMPLES
   Command output... deploying to the scratch org from the UAT sandbox, using the named connection record in the dev hub, control org. Long param names.
 ```
 
-## `sf prodly:manage`
+_See code: [src/commands/prodly/deploy.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.4.0/src/commands/prodly/deploy.ts)_
+
+## `sf prodly jobs`
+
+prodly:jobs command
 
 ```
 USAGE
-  $ sf prodly:manage -v <value> -o <value> [--json] [-c <value>] [-n <value>] [-i <value>] [-b <value>] [-l] [-m]
-    [-p] [-x] [-s]
-
-FLAGS
-  -b, --label=<value>           connection and managed instance name
-  -c, --comment=<value>         comment for the command versioning commit
-  -i, --instance=<value>        managed instance ID on which to perform the action
-  -l, --list                    list all managed instances
-  -m, --manage                  manage a new instance
-  -n, --connection=<value>      connection to use for the managed instance
-  -o, --target-org=<value>      (required) Username or alias of the target org. Not
-                                required if the `target-org` configuration variable is already set.
-  -p, --print                   print the managed instances in a standard format in addition to returning structured
-                                data
-  -s, --version                 version the new managed instance, branch created and data deployed to the org
-  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not
-                                required if the `target-dev-hub` configuration variable is already set.
-  -x, --unmanage                unmanage the specified instance
-
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  prodly:manage command
-
-  Authorize (or unauthorize) a Salesforce environment (not already added to the Environments page in Release tab) for use by the plugin.
-
-EXAMPLES
-  $ sf prodly:manage -l -p
-  List and print all of the managed instances for the Prodly account associated with the default DevHub control org.
-
-  $ sf prodly:manage -m --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com
-  Manage the org associated with the target username under the Prodly account associated with the provided DevHub control org.
-
-  $ sf prodly:manage -m --target-org test-utxac7gbati9@example.com -n dev7sbx
-  Manage and version the org associated with the target username under the Prodly account associated with the default DevHub control org.
-
-```
-
-## `sf prodly:jobs`
-
-```
-USAGE
-  $ sf prodly:jobs -v <value> -j <value> [--json]
+  $ sf prodly jobs -v <value> -j <value> [--json] [--flags-dir <value>]
 
 FLAGS
   -j, --job=<value>             (required) Prodly Job ID
-  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org.
-                                Not required if the `target-dev-hub` configuration variable is already set.
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
+                                configuration variable is already set.
 
 GLOBAL FLAGS
-  --json  Format output as json.
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
 
 DESCRIPTION
   prodly:jobs command
@@ -285,11 +263,103 @@ EXAMPLES
   Print the job status for the provided job Id.
 ```
 
-## `sf prodly:version`
+_See code: [src/commands/prodly/jobs.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.4.0/src/commands/prodly/jobs.ts)_
+
+## `sf prodly manage`
+
+prodly:manage command
 
 ```
 USAGE
-  $ sf prodly:version -v <value> -o <value> [--json] [-b <value>] [-s <value>] [-i <value>]
+  $ sf prodly manage -v <value> -o <value> [--json] [--flags-dir <value>] [-c <value>] [-n <value>] [-i <value>]
+    [-b <value>] [-l] [-m] [-p] [-x] [-s]
+
+FLAGS
+  -b, --label=<value>           connection and managed instance name
+  -c, --comment=<value>         comment for the command versioning commit
+  -i, --instance=<value>        managed instance ID on which to perform the action
+  -l, --list                    list all managed instances
+  -m, --manage                  manage a new instance
+  -n, --connection=<value>      connection to use for the managed instance
+  -o, --target-org=<value>      (required) Username or alias of the target org. Not required if the `target-org`
+                                configuration variable is already set.
+  -p, --print                   print the managed instances in a standard format in addition to returning structured
+                                data
+  -s, --version                 version the new managed instance, branch created and data deployed to the org
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
+                                configuration variable is already set.
+  -x, --unmanage                unmanage the specified instance
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  prodly:manage command
+
+  Authorize (or unauthorize) a Salesforce environment (not already added to the Environments page in Release tab) for
+  use by the plugin.
+
+EXAMPLES
+  $ sf prodly:manage -l -p
+  List and print all of the managed instances for the Prodly account associated with the default DevHub control org.
+
+  $ sf prodly:manage -m --target-org test-utxac7gbati9@example.com --target-dev-hub jsmith@acme.com
+  Manage the org associated with the target username under the Prodly account associated with the provided DevHub control org.
+
+  $ sf prodly:manage -m --target-org test-utxac7gbati9@example.com -n dev7sbx
+  Manage and version the org associated with the target username under the Prodly account associated with the default DevHub control org.
+```
+
+_See code: [src/commands/prodly/manage.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.4.0/src/commands/prodly/manage.ts)_
+
+## `sf prodly releases`
+
+prodly:releases command
+
+```
+USAGE
+  $ sf prodly releases -v <value> [--json] [--flags-dir <value>] [--api-version <value>] [-a] [-l | [-d -i <value> -r
+    <value>] | ] [-n]
+
+FLAGS
+  -a, --deactivate-all-events   deactivate all events for the release
+  -d, --deploy                  deploy a release
+  -i, --instance=<value>        managed instance ID on which to perform the action
+  -l, --list                    list all releases
+  -n, --validation              perform a data/metadata validation
+  -r, --release-id=<value>      release Id to deploy
+  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
+                                configuration variable is already set.
+      --api-version=<value>     Override the api version used for api requests made by this command
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  prodly:releases command
+
+  List all releases and deploys a release.
+
+EXAMPLES
+  $ sf prodly:releases --target-dev-hub jsmith@acme.com -l
+  Lists all the releases
+
+  $ sf prodly:releases --target-dev-hub jsmith@acme.com -d -i "f50616b6-57b1-4941-802f-ee0e2506f217" -r "a5H6e0000024xKUEAY"
+  Creates a release given a release id and a destination instance id
+  The instance should be managed by the Prodly account associated with the default DevHub control org.
+```
+
+_See code: [src/commands/prodly/releases.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.4.0/src/commands/prodly/releases.ts)_
+
+## `sf prodly version`
+
+prodly:version command
+
+```
+USAGE
+  $ sf prodly version -v <value> -o <value> [--json] [--flags-dir <value>] [-b <value>] [-s <value>] [-i <value>]
     [-x]
 
 FLAGS
@@ -304,6 +374,7 @@ FLAGS
   -x, --unlink                  unlink the branch from the managed instance
 
 GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
   --json               Format output as json.
 
 DESCRIPTION
@@ -319,8 +390,13 @@ EXAMPLES
   $ sf prodly:version -s main -b cli-branch -i f50616b6-57b1-4941-802f-ee0e2506f217
   Add version control to the managed instance identified by the provided ID. Use the "main" branch as a base for a new branch called "cli-branch"
   The instance should be managed by the Prodly account associated with the default DevHub control org.
+
+  $ sf prodly:version -x -i f50616b6-57b1-4941-802f-ee0e2506f217
+  Remove version control from the managed instance identified by the provided ID.
+  The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
+_See code: [src/commands/prodly/version.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.4.0/src/commands/prodly/version.ts)_
 <!-- commandsstop -->
 
 <!-- debugging-your-plugin -->

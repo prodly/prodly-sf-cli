@@ -104,3 +104,52 @@ export type NameAndId = {
   id: string;
   name: string;
 };
+
+export type WorkItem = {
+  Id: string;
+  Name: string;
+  PDRI__Name__c: string;
+  PDRI__Description__c: string;
+  PDRI__Issue_Type__c: string;
+  PDRI__Link__c: string;
+  PDRI__Work_Item_ID__c: string;
+  PDRI__Work_Item_Key__c: string;
+  PDRI__Work_Item_Type__c: string;
+};
+
+export type Bundle = {
+  workItems: WorkItem[];
+  Id: string;
+  PDRI__Deployment_Bundle_Name__c: string;
+  PDRI__Deployment_Bundle_Type__c: string;
+  PDRI__Metadata_Rollback_On_Failure__c: string;
+  PDRI__Skip_Data_On_Metadata_Failure__c: string;
+  PDRI__Test_Level__c: string;
+};
+
+export type BundleRelationship = {
+  bundle: Bundle;
+  Id: string;
+  PDRI__Deployment_Order__c: number;
+};
+
+export type ReleaseConfiguration = {
+  releaseBundleRelationships?: BundleRelationship[];
+  Id: string;
+  Name: string;
+  PDRI__Release_Name__c: string;
+  PDRI__Description__c?: string;
+  PDRI__Status__c: string;
+  CreatedDate: string;
+  LastModifiedDate: string;
+  'CreatedBy.Name': string;
+  'CreatedBy.Username': string;
+  'CreatedBy.Id': string;
+  'LastModifiedBy.Name': string;
+  'LastModifiedBy.Username': string;
+  'LastModifiedBy.Id': string;
+};
+
+export type ReleasesResponse = {
+  id: string;
+};
