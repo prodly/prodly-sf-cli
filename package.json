@@ -46,7 +46,7 @@
     "sfdx",
     "sfdx-plugin"
   ],
-  "license": "Apache-2.0",
+  "license": "BSD-3-Clause",
   "oclif": {
     "commands": "./lib/commands",
     "bin": "sf",
@@ -67,7 +67,6 @@
     "clean-all": "sf-clean all",
     "compile": "wireit",
     "docs": "sf-docs",
-    "fix-license": "eslint src test --fix --rule \"header/header: [2]\"",
     "format": "wireit",
     "link-check": "wireit",
     "lint": "wireit",
