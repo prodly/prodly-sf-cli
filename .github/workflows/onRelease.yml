@@ -1,8 +1,9 @@
 name: publish
 on:
-  release:
+  #release:
     # both release and prereleases
-    types: [published]
+    #types: [published]
+  
   # support manual release in case something goes wrong and needs to be repeated or tested
   workflow_dispatch:
     inputs:
