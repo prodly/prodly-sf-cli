@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0] - 2025-06-02
+
+### Added
+
+- New command `prodly:branch-folders` added. This command allows the user to list branch folders.
+- `prodly:checkin` and `prodly:checkout` now support `--data-folder` (`-f`) flag.
+
 ## [1.4.2] - 2025-05-15
 
 ### Changed

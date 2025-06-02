@@ -17,6 +17,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
   public static readonly examples = commandMessages.getMessages('examples');
 
   public static readonly flags = {
+    'data-folder': Flags.string({ char: 'f', summary: prodlyMessages.getMessage('dataBranchFolderFlagDescription') }),
     'target-dev-hub': Flags.requiredHub(),
     'target-org': Flags.requiredOrg(),
     branch: Flags.string({ char: 'b', summary: prodlyMessages.getMessage('branchFlagDescription') }),
@@ -124,6 +125,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     // Perform the checkout
     const jobId = await this.checkoutInstance({
       branchFlag,
+      dataFolder: flags['data-folder'],
       dataSetId,
       deactivateAllEvents: deactivateFlag,
       deploymentNameFlag,
@@ -140,6 +142,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
 
   private async checkoutInstance({
     branchFlag,
+    dataFolder,
     dataSetId,
     deactivateAllEvents,
     deploymentNameFlag,
@@ -155,6 +158,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
 
     const checkoutInstance = {
       branchName: branchFlag,
+      dataFolder,
       datasetId: dataSetId,
       deactivateAll: deactivateAllEvents === undefined ? false : true,
       deploymentName: deploymentNameFlag,
