@@ -46,7 +46,7 @@
     "sfdx",
     "sfdx-plugin"
   ],
-  "license": "Apache-2.0",
+  "license": "BSD-3-Clause",
   "oclif": {
     "commands": "./lib/commands",
     "bin": "sf",
