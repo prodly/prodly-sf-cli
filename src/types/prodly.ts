@@ -55,6 +55,7 @@ export type DeployOptions = {
 
 export type CheckoutOptions = {
   branchFlag: string | undefined;
+  dataFolder: string | undefined;
   dataSetId: string | undefined;
   deactivateAllEvents: boolean;
   deploymentNameFlag: string | undefined;
@@ -68,6 +69,7 @@ export type CheckoutOptions = {
 export type CheckinOptions = {
   branchFlag: string | undefined;
   comment: string | undefined;
+  dataFolder: string | undefined;
   dataSetId: string | undefined;
   deploymentNotes: string | undefined;
   deploymentPlanId: string | undefined;
@@ -152,4 +154,11 @@ export type ReleaseConfiguration = {
 
 export type ReleasesResponse = {
   id: string;
+};
+
+export type VCSRepoFolder = {
+  id: string;
+  folderPath: string;
+  folderType: 'Data' | 'Metadata';
+  isDefault: boolean;
 };

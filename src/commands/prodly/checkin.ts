@@ -17,6 +17,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
   public static readonly examples = commandMessages.getMessages('examples');
 
   public static readonly flags = {
+    'data-folder': Flags.string({ char: 'f', summary: prodlyMessages.getMessage('dataBranchFolderFlagDescription') }),
     'target-dev-hub': Flags.requiredHub(),
     'target-org': Flags.requiredOrg(),
     branch: Flags.string({ char: 'b', summary: prodlyMessages.getMessage('branchFlagDescription') }),
@@ -119,6 +120,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     const jobId = await this.checkinInstance({
       branchFlag,
       comment: commentFlag,
+      dataFolder: flags['data-folder'],
       dataSetId,
       deploymentNotes: deploymentNotesFlag,
       deploymentPlanId,
@@ -134,6 +136,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
   private async checkinInstance({
     branchFlag,
     comment,
+    dataFolder,
     dataSetId,
     deploymentNotes,
     deploymentPlanId,
@@ -147,6 +150,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
 
     const checkinInstance = {
       branchName: branchFlag,
+      dataFolder,
       datasetId: dataSetId,
       deploymentNotes,
       deploymentPlanId,
