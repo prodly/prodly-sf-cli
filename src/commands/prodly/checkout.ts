@@ -49,6 +49,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     this.log('Deactivate flag: ' + deactivateFlag);
     this.log('Deployment description flag: ' + deploymentNotesFlag);
     this.log('Branch flag: ' + branchFlag);
+    this.log('Data folder flag: ' + flags['data-folder']);
     this.log('Data set flag: ' + datasetFlag);
     this.log('Deployment plan flag: ' + planFlag);
     this.log('Query filter flag: ' + queryFilterFlag);
