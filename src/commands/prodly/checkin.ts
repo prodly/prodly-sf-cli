@@ -46,6 +46,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     this.log('Deployment description flag: ' + deploymentNotesFlag);
     this.log('Comment flag: ' + commentFlag);
     this.log('Branch flag: ' + branchFlag);
+    this.log('Data folder flag: ' + flags['data-folder']);
     this.log('Data set flag: ' + datasetFlag);
     this.log('Deployment plan flag: ' + planFlag);
     this.log('Query filter flag: ' + queryFilterFlag);
