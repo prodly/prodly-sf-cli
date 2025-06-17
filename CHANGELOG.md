@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.5.2] - 2025-06-16
+
+### Changed
+
+- Updated `@oclif/core` to v4.3.3
+- Updated `@oclif/plugin-command-snapshot` to v5.3.2
+- Updated `@salesforce/core` to v8.14.0
+- Updated `eslint-plugin-sf-plugin` to v1.20.25
+- Updated `oclif` to v4.18.4
+
 ## [1.5.1] - 2025-06-02
 
 ### Changed
