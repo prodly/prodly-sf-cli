@@ -11,16 +11,16 @@
     "url": "https://github.com/prodly/prodly-sf-cli/issues"
   },
   "dependencies": {
-    "@oclif/core": "4.5.0",
-    "@salesforce/core": "8.18.1",
+    "@oclif/core": "4.5.2",
+    "@salesforce/core": "8.18.5",
     "@salesforce/sf-plugins-core": "12.2.3"
   },
   "devDependencies": {
-    "@oclif/plugin-command-snapshot": "^5.3.4",
+    "@oclif/plugin-command-snapshot": "^5.3.5",
     "@salesforce/cli-plugins-testkit": "^5.3.39",
     "@salesforce/dev-scripts": "^11.0.2",
-    "eslint-plugin-sf-plugin": "^1.20.27",
-    "oclif": "^4.20.6",
+    "eslint-plugin-sf-plugin": "^1.20.30",
+    "oclif": "^4.22.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
