@@ -25,13 +25,13 @@
     "typescript": "^5.9.2"
   },
   "resolutions": {
-    "@types/node": "22.18.0"
+    "@types/node": "20.19.4"
   },
   "lint-staged": {
     "**/*.{ts}": "eslint --cache --fix"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=20.0.0"
   },
   "files": [
     "/lib",
