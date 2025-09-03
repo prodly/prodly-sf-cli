@@ -69,7 +69,6 @@
     "clean-all": "sf-clean all",
     "compile": "wireit",
     "docs": "sf-docs",
-    "fix-license": "eslint src test --fix --rule \"header/header: [2]\"",
     "format": "wireit",
     "link-check": "wireit",
     "lint": "wireit",
@@ -196,6 +195,5 @@
     }
   },
   "exports": "./lib/index.js",
-  "type": "module",
-  "license": "Apache-2.0"
+  "type": "module"
 }

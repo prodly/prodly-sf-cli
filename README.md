@@ -1,6 +1,6 @@
 # prodlysfcli
 
-[![NPM](https://img.shields.io/npm/v/prodlysfcli.svg?label=prodlysfcli)](https://www.npmjs.com/package/prodlysfcli) [![Downloads/week](https://img.shields.io/npm/dw/prodlysfcli.svg)](https://npmjs.org/package/prodlysfcli) [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://opensource.org/license/apache-2-0)
+[![NPM](https://img.shields.io/npm/v/prodlysfcli.svg?label=prodlysfcli)](https://www.npmjs.com/package/prodlysfcli) [![Downloads/week](https://img.shields.io/npm/dw/prodlysfcli.svg)](https://npmjs.org/package/prodlysfcli) [![License](https://img.shields.io/badge/License-BSD%203--Clause-brightgreen.svg)](https://raw.githubusercontent.com/salesforcecli/prodlysfcli/main/LICENSE.txt)
 
 ## Install
 
