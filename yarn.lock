@@ -1490,32 +1490,7 @@
     strip-ansi "6.0.1"
     ts-retry-promise "^0.8.1"
 
-"@salesforce/core@8.22.0":
-  version "8.22.0"
-  resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-8.22.0.tgz#7c4dc70b6a00c7b17230dc91bba8c2e36a995d87"
-  integrity sha512-TK9kODqvgIUuCP9L3jqrR1e5JLMzPGnAsCXwdtQrD/AjKMj7bT+NRQeuF+55X7aiEtcedO/fs49ldPvBf9bkOA==
-  dependencies:
-    "@jsforce/jsforce-node" "^3.10.4"
-    "@salesforce/kit" "^3.2.2"
-    "@salesforce/schemas" "^1.9.1"
-    "@salesforce/ts-types" "^2.0.11"
-    ajv "^8.17.1"
-    change-case "^4.1.2"
-    fast-levenshtein "^3.0.0"
-    faye "^1.4.1"
-    form-data "^4.0.4"
-    js2xmlparser "^4.0.1"
-    jsonwebtoken "9.0.2"
-    jszip "3.10.1"
-    memfs "^4.30.1"
-    pino "^9.7.0"
-    pino-abstract-transport "^1.2.0"
-    pino-pretty "^11.3.0"
-    proper-lockfile "^4.1.2"
-    semver "^7.6.3"
-    ts-retry-promise "^0.8.1"
-
-"@salesforce/core@^8.18.7", "@salesforce/core@^8.19.1", "@salesforce/core@^8.8.0":
+"@salesforce/core@8.23.0", "@salesforce/core@^8.18.7", "@salesforce/core@^8.19.1", "@salesforce/core@^8.8.0":
   version "8.23.0"
   resolved "https://registry.yarnpkg.com/@salesforce/core/-/core-8.23.0.tgz#19e9effb2175507538157255d969e08925f91f76"
   integrity sha512-njdJlo+SYtmuCBE1p8lwbcQF6oRsE1ZkcEQUElpu4WhB+DT/0mv7oN3eeYfh9Ss9Px95sSgzPJhEFLsZLwGJ4w==
@@ -1545,7 +1520,7 @@
   resolved "https://registry.yarnpkg.com/@salesforce/dev-config/-/dev-config-4.3.2.tgz#10047e2b8d289c93f157ab4243a1b1de57f2d6a2"
   integrity sha512-mxhsWV1rzHfhGMVSFQRLOHZTGfB1R2FtqbuIb3hrgDFsW1NLjEDS2U+eZWBJiCYod1JeGpJxnETNq587lem1Gg==
 
-"@salesforce/dev-scripts@^11.0.3":
+"@salesforce/dev-scripts@^11.0.4":
   version "11.0.4"
   resolved "https://registry.yarnpkg.com/@salesforce/dev-scripts/-/dev-scripts-11.0.4.tgz#9e9fa6d425308b638508e701956dfd4c97eb403c"
   integrity sha512-8RebBJpcgoO0AVmrb3pFwSUD8vCqdWbUmv3JwoDy2lWofAT0vYM3NywCCdKj26XnSASkRgKvsY6AQpkxLs+vVg==
@@ -1589,7 +1564,7 @@
   resolved "https://registry.yarnpkg.com/@salesforce/prettier-config/-/prettier-config-0.0.3.tgz#ba648d4886bb38adabe073dbea0b3a91b3753bb0"
   integrity sha512-hYOhoPTCSYMDYn+U1rlEk16PoBeAJPkrdg4/UtAzupM1mRRJOwEPMG1d7U8DxJFKuXW3DMEYWr2MwAIBDaHmFg==
 
-"@salesforce/schemas@^1.10.0", "@salesforce/schemas@^1.9.1":
+"@salesforce/schemas@^1.10.0":
   version "1.10.2"
   resolved "https://registry.yarnpkg.com/@salesforce/schemas/-/schemas-1.10.2.tgz#ec0e2da8ff4ba1eca386b89f2ba1da2d887ceb69"
   integrity sha512-y+XlAbmLxm2p7m2/rGhY9fomEcYf/r1IACcJiAWoSdHRttVBBoIN8RVVB4oR9vjO7nYIrRJ45dtR6tP8vZ5EvQ==
@@ -6211,7 +6186,7 @@ object.values@^1.2.1:
     define-properties "^1.2.1"
     es-object-atoms "^1.0.0"
 
-oclif@^4.22.14:
+oclif@^4.22.16:
   version "4.22.16"
   resolved "https://registry.yarnpkg.com/oclif/-/oclif-4.22.16.tgz#d8f3409cb3dd7faa0c8e44e0eb64619908e5ed01"
   integrity sha512-8SJb9In38PiG8MLUpj/ZYAzQ80nYkEmKgVZ5gBTelBKVr34jBN6gbW31FsKE1+QwLphdF5QzKgr8TIeAmftWpA==
