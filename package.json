@@ -3,6 +3,7 @@
   "description": "A plugin which provides Prodly application commands on top of the Salesforce CLI.",
   "version": "1.5.5",
   "author": "Prodly Inc.",
+  "license": "proprietary",
   "repository": {
     "type": "git",
     "url": "https://github.com/prodly/prodly-sf-cli.git"
@@ -137,7 +138,11 @@
       "dependencies": [
         "test:compile",
         "test:only",
-        "lint"
+        "test:command-reference",
+        "test:deprecation-policy",
+        "lint",
+        "test:json-schema",
+        "link-check"
       ]
     },
     "test:only": {
