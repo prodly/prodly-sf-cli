@@ -24,11 +24,14 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"
   },
+  "resolutions": {
+    "@types/node": "20.19.4"
+  },
   "lint-staged": {
     "**/*.{ts}": "eslint --cache --fix"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=20.0.0"
   },
   "files": [
     "/lib",
