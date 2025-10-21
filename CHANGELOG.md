@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.8] - 2025-10-21
+
+### Changed
+
+- Updated `@oclif/core` to v4.6.0
+- Updated `@oclif/plugin-command-snapshot` to v5.3.7
+- Updated `oclif` to v4.22.32
+
 ## [1.5.7] - 2025-10-06
 
 ### Changed
