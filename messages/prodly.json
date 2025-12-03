@@ -22,6 +22,7 @@
   "listFlagDescription": "list all managed instances",
   "listReleasesFlagDescription": "list all releases",
   "manageFlagDescription": "manage a new instance",
+  "metadataQuickSelectComponentsFlagDescription": "JSON string of metadata quick select components array, e.g., '[{\"type\":\"Profile\",\"ids\":[\"Profile1\",\"Profile2\"]}]'",
   "newBranchFlagSummary": "if provided it creates a new branch based on the source branch that will be used for version control",
   "notesFlagDescription": "notes for the deployment",
   "printFlagDescription": "print the managed instances in a standard format in addition to returning structured data",

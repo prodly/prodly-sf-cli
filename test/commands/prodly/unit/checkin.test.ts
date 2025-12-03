@@ -60,8 +60,6 @@ describe('prodly:checkin', () => {
         'test',
         '--target-dev-hub',
         'test',
-        '--plan',
-        'test',
         '--comment',
         'test',
         '--filter',
@@ -69,7 +67,47 @@ describe('prodly:checkin', () => {
       ]);
     } catch (error) {
       if (error instanceof SfError) {
-        expect(error.message).to.include(prodlyMessages.getMessage('errorQueryFilterFlag', []));
+        expect(error.message).to.include('All of the following must be provided when using --filter: --dataset');
+      }
+    }
+  });
+
+  it('should throw an error when both data set and deployment flags are provided.', async () => {
+    try {
+      await ProdlyCheckin.run([
+        '--target-org',
+        'test',
+        '--target-dev-hub',
+        'test',
+        '--comment',
+        'test',
+        '--dataset',
+        'test',
+        '--plan',
+        'test',
+      ]);
+    } catch (error) {
+      if (error instanceof SfError) {
+        expect(error.message).to.include(prodlyMessages.getMessage('errorDatasetAndPlanFlags', []));
+      }
+    }
+  });
+
+  it('should not require dataset or plan when metadata quick select components are provided.', async () => {
+    try {
+      await ProdlyCheckin.run([
+        '--target-org',
+        'test',
+        '--target-dev-hub',
+        'test',
+        '--comment',
+        'test',
+        '--metadata-quick-select-components',
+        '[{"type":"Profile","ids":["Profile1"]}]',
+      ]);
+    } catch (error) {
+      if (error instanceof SfError) {
+        expect(error.message).to.not.include(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
       }
     }
   });

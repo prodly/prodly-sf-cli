@@ -33,9 +33,19 @@ describe('prodly:deploy', () => {
     }
   });
 
+  it('should throw an error when deployment name flag is not provided.', async () => {
+    try {
+      await ProdlyDeploy.run(['--target-org', 'test', '--target-dev-hub', 'test', '--dataset', 'test']);
+    } catch (error) {
+      if (error instanceof SfError) {
+        expect(error.message).to.include('Missing required flag name');
+      }
+    }
+  });
+
   it('should throw an error when data set or deployment flags are not provided.', async () => {
     try {
-      await ProdlyDeploy.run(['--target-org', 'test', '--target-dev-hub', 'test']);
+      await ProdlyDeploy.run(['--target-org', 'test', '--target-dev-hub', 'test', '--name', 'test']);
     } catch (error) {
       if (error instanceof SfError) {
         expect(error.message).to.include(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
@@ -45,7 +55,18 @@ describe('prodly:deploy', () => {
 
   it('should throw an error when both data set and deployment flags are provided.', async () => {
     try {
-      await ProdlyDeploy.run(['--target-org', 'test', '--target-dev-hub', 'test', '-t', 'test', '-p', 'test']);
+      await ProdlyDeploy.run([
+        '--target-org',
+        'test',
+        '--target-dev-hub',
+        'test',
+        '-t',
+        'test',
+        '-p',
+        'test',
+        '--name',
+        'test',
+      ]);
     } catch (error) {
       if (error instanceof SfError) {
         expect(error.message).to.include(prodlyMessages.getMessage('errorDatasetAndPlanFlags', []));
@@ -64,20 +85,31 @@ describe('prodly:deploy', () => {
         'test',
         '--filter',
         'test',
+        '--name',
+        'test',
       ]);
     } catch (error) {
       if (error instanceof SfError) {
-        expect(error.message).to.include(prodlyMessages.getMessage('errorQueryFilterFlag', []));
+        expect(error.message).to.include('All of the following must be provided when using --filter: --dataset');
       }
     }
   });
 
-  it('should throw an error when deployment name flag is not provided.', async () => {
+  it('should not require dataset or plan when metadata quick select components are provided.', async () => {
     try {
-      await ProdlyDeploy.run(['--target-org', 'test', '--target-dev-hub', 'test', '--dataset', 'test']);
+      await ProdlyDeploy.run([
+        '--target-org',
+        'test',
+        '--target-dev-hub',
+        'test',
+        '--name',
+        'test',
+        '--metadata-quick-select-components',
+        '[{"type":"Profile","ids":["Profile1"]}]',
+      ]);
     } catch (error) {
       if (error instanceof SfError) {
-        expect(error.message).to.include(prodlyMessages.getMessage('errorDeploymentNameFlag', []));
+        expect(error.message).to.not.include(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
       }
     }
   });

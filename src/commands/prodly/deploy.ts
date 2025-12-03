@@ -24,14 +24,32 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
   public static readonly flags = {
     'target-dev-hub': Flags.requiredHub(),
     'target-org': Flags.requiredOrg(),
-    dataset: Flags.string({ char: 't', summary: prodlyMessages.getMessage('dataSetFlagDescription') }),
+    'metadata-quick-select-components': Flags.string({
+      char: 'm',
+      summary: prodlyMessages.getMessage('metadataQuickSelectComponentsFlagDescription'),
+    }),
+    dataset: Flags.string({
+      char: 't',
+      summary: prodlyMessages.getMessage('dataSetFlagDescription'),
+    }),
     deactivate: Flags.boolean({ char: 'e', summary: prodlyMessages.getMessage('deactivateFlagDescription') }),
     destination: Flags.string({ char: 'd', summary: prodlyMessages.getMessage('destinationFlagDescription') }),
-    filter: Flags.string({ char: 'q', summary: prodlyMessages.getMessage('queryFilterFlagDescription') }),
+    filter: Flags.string({
+      char: 'q',
+      dependsOn: ['dataset'],
+      summary: prodlyMessages.getMessage('queryFilterFlagDescription'),
+    }),
     label: Flags.string({ char: 'b', summary: prodlyMessages.getMessage('instanceNameFlagDescription') }),
-    name: Flags.string({ char: 'n', summary: prodlyMessages.getMessage('deplomentNameFlagDescription') }),
+    name: Flags.string({
+      char: 'n',
+      required: true,
+      summary: prodlyMessages.getMessage('deplomentNameFlagDescription'),
+    }),
     notes: Flags.string({ char: 'z', summary: prodlyMessages.getMessage('notesFlagDescription') }),
-    plan: Flags.string({ char: 'p', summary: prodlyMessages.getMessage('deploymentPlanFlagDescription') }),
+    plan: Flags.string({
+      char: 'p',
+      summary: prodlyMessages.getMessage('deploymentPlanFlagDescription'),
+    }),
     simulation: Flags.boolean({ char: 'l', summary: prodlyMessages.getMessage('simulationFlagDescription') }),
     source: Flags.string({ char: 's', summary: prodlyMessages.getMessage('sourceFlagDescription') }),
   };
@@ -39,6 +57,7 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
   public async run(): Promise<JSONObject> {
     const { flags } = await this.parse(ProdlyDeploy);
     const {
+      'metadata-quick-select-components': metadataQuickSelectComponentsFlag,
       dataset: datasetFlag,
       deactivate: deactivateFlag,
       destination: destinationFlag,
@@ -62,20 +81,18 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
     this.log('Deactivate flag: ' + deactivateFlag);
     this.log('Simulation flag: ' + simulationFlag);
     this.log('Query filter flag: ' + queryFilterFlag);
+    this.log('Metadata quick select components flag: ' + metadataQuickSelectComponentsFlag);
 
-    if (!datasetFlag && !planFlag) {
+    const hasMetadataQuickSelectComponents = metadataQuickSelectComponentsFlag !== undefined;
+
+    // When no metadata quick select components are provided, require either dataset or plan (but not both)
+    if (!hasMetadataQuickSelectComponents && !datasetFlag && !planFlag) {
       throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
     }
+
+    // Dataset and plan are always mutually exclusive
     if (datasetFlag && planFlag) {
       throw new SfError(prodlyMessages.getMessage('errorDatasetAndPlanFlags', []));
-    }
-
-    if (!datasetFlag && queryFilterFlag) {
-      throw new SfError(prodlyMessages.getMessage('errorQueryFilterFlag', []));
-    }
-
-    if (!deploymentNameFlag) {
-      throw new SfError(prodlyMessages.getMessage('errorDeploymentNameFlag', []));
     }
 
     const org = flags['target-org'];
@@ -252,6 +269,24 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
         print,
       });
     }
+    // Parse metadata quick select components if provided
+    let quickDeploymentComponents;
+    if (metadataQuickSelectComponentsFlag) {
+      try {
+        quickDeploymentComponents = JSON.parse(metadataQuickSelectComponentsFlag) as Array<{
+          type: string;
+          ids: string[];
+        }>;
+        this.log(`Parsed metadata quick select components: ${JSON.stringify(quickDeploymentComponents)}`);
+      } catch (error) {
+        throw new SfError(
+          `Invalid JSON format for metadata-quick-select-components flag: ${
+            error instanceof Error ? error.message : String(error)
+          }`
+        );
+      }
+    }
+
     this.log('Launching deployment.');
     const jobId = await this.deploy({
       dataSetId,
@@ -262,6 +297,7 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
       destinationInstanceId,
       hubConn,
       queryFilter: queryFilterFlag,
+      quickDeploymentComponents,
       simulation: simulationFlag,
       sourceInstanceId,
     });
@@ -281,6 +317,7 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
     destinationInstanceId,
     hubConn,
     queryFilter,
+    quickDeploymentComponents,
     simulation,
     sourceInstanceId,
   }: DeployOptions): Promise<string> {
@@ -309,7 +346,7 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
       deploymentNotes,
       engagementId: null,
       data: [dataDeploymentOptions],
-      metadata: {},
+      metadata: quickDeploymentComponents ? { quickDeploymentComponents } : {},
       source: sourceOptions,
     };
 
@@ -318,7 +355,7 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
       method: 'POST' as const,
       url: path,
     };
-
+    this.log('Request: ' + JSON.stringify(request)); // todo: remove this
     const res: string = await hubConn.request(request);
     const jobsWrapper = JSON.parse(res) as Jobs;
 

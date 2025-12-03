@@ -40,6 +40,11 @@ export type Job = {
   userId: string;
 };
 
+export type QuickDeploymentComponent = {
+  type: string;
+  ids: string[];
+};
+
 export type DeployOptions = {
   dataSetId?: string;
   deactivateAllEvents: boolean;
@@ -49,6 +54,7 @@ export type DeployOptions = {
   destinationInstanceId: string;
   hubConn: Connection;
   queryFilter?: string;
+  quickDeploymentComponents?: QuickDeploymentComponent[];
   simulation: boolean;
   sourceInstanceId?: string;
 };
@@ -76,6 +82,7 @@ export type CheckinOptions = {
   filter: string | undefined;
   hubConn: Connection;
   mangedInstanceId: string;
+  quickDeploymentComponents?: QuickDeploymentComponent[];
 };
 
 export type ChangeType = {

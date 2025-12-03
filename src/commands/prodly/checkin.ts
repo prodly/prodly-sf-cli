@@ -20,10 +20,18 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     'data-folder': Flags.string({ char: 'f', summary: prodlyMessages.getMessage('dataBranchFolderFlagDescription') }),
     'target-dev-hub': Flags.requiredHub(),
     'target-org': Flags.requiredOrg(),
+    'metadata-quick-select-components': Flags.string({
+      char: 'm',
+      summary: prodlyMessages.getMessage('metadataQuickSelectComponentsFlagDescription'),
+    }),
     branch: Flags.string({ char: 'b', summary: prodlyMessages.getMessage('branchFlagDescription') }),
     comment: Flags.string({ char: 'c', required: true, summary: prodlyMessages.getMessage('commentFlagDescription') }),
     dataset: Flags.string({ char: 't', summary: prodlyMessages.getMessage('dataSetFlagDescription') }),
-    filter: Flags.string({ char: 'q', summary: prodlyMessages.getMessage('queryFilterFlagDescription') }),
+    filter: Flags.string({
+      char: 'q',
+      dependsOn: ['dataset'],
+      summary: prodlyMessages.getMessage('queryFilterFlagDescription'),
+    }),
     instance: Flags.string({ char: 'i', summary: prodlyMessages.getMessage('instanceFlagDescription') }),
     notes: Flags.string({ char: 'z', summary: prodlyMessages.getMessage('notesFlagDescription') }),
     plan: Flags.string({ char: 'p', summary: prodlyMessages.getMessage('deploymentPlanFlagDescription') }),
@@ -33,6 +41,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     const { flags } = await this.parse(ProdlyCheckin);
 
     const {
+      'metadata-quick-select-components': metadataQuickSelectComponentsFlag,
       branch: branchFlag,
       comment: commentFlag,
       dataset: datasetFlag,
@@ -50,13 +59,16 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     this.log('Data set flag: ' + datasetFlag);
     this.log('Deployment plan flag: ' + planFlag);
     this.log('Query filter flag: ' + queryFilterFlag);
+    this.log('Metadata quick select components flag: ' + metadataQuickSelectComponentsFlag);
 
-    if (!datasetFlag && !planFlag) {
+    const hasMetadataQuickSelectComponents = metadataQuickSelectComponentsFlag !== undefined;
+
+    if (!hasMetadataQuickSelectComponents && !datasetFlag && !planFlag) {
       throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
     }
 
-    if (!datasetFlag && queryFilterFlag) {
-      throw new SfError(prodlyMessages.getMessage('errorQueryFilterFlag', []));
+    if (datasetFlag && planFlag) {
+      throw new SfError(prodlyMessages.getMessage('errorDatasetAndPlanFlags', []));
     }
 
     const org = flags['target-org'];
@@ -89,6 +101,24 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
 
     this.log(`Data set ID: ${dataSetId ?? ''}`);
     this.log(`Deployment plan ID: ${deploymentPlanId ?? ''}`);
+
+    // Parse metadata quick select components if provided
+    let quickDeploymentComponents;
+    if (metadataQuickSelectComponentsFlag) {
+      try {
+        quickDeploymentComponents = JSON.parse(metadataQuickSelectComponentsFlag) as Array<{
+          type: string;
+          ids: string[];
+        }>;
+        this.log(`Parsed metadata quick select components: ${JSON.stringify(quickDeploymentComponents)}`);
+      } catch (error) {
+        throw new SfError(
+          `Invalid JSON format for metadata-quick-select-components flag: ${
+            error instanceof Error ? error.message : String(error)
+          }`
+        );
+      }
+    }
 
     // Check if instance is provided
     if (instanceFlag) {
@@ -128,6 +158,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
       filter: queryFilterFlag,
       hubConn,
       mangedInstanceId,
+      quickDeploymentComponents,
     });
 
     this.log(`Checkin launched with Job ID: ${jobId}`);
@@ -144,6 +175,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     filter,
     hubConn,
     mangedInstanceId,
+    quickDeploymentComponents,
   }: CheckinOptions): Promise<string> {
     this.log(`Performing checkin for managed instance with id ${mangedInstanceId}.`);
 
@@ -155,6 +187,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
       datasetId: dataSetId,
       deploymentNotes,
       deploymentPlanId,
+      metadata: quickDeploymentComponents ? { quickDeploymentComponents } : {},
       options: { commitMessage: comment },
       queryFilter: constructQueryFilter(filter),
     };
