@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.0] - 2025-12-03
+
+### Added
+
+- `prodly:deploy` and `prodly:checkin` now support `--'metadata-quick-select-components` (`-m`) flag.
+
 ## [1.5.9] - 2025-11-19
 
 ### Changed
@@ -9,7 +15,6 @@
 - Updated `@salesforce/core` to v8.23.4
 - Updated `@salesforce/sf-plugins-core` to v12.2.5
 - Updated `oclif` to v4.22.47
-
 
 ## [1.5.8] - 2025-10-21
 
@@ -29,7 +34,6 @@
 - Updated `eslint-plugin-sf-plugin` to v1.20.33
 - Updated `oclif` to v4.22.29
 - Updated `typescript` to v5.9.3
-
 
 ## [1.5.6] - 2025-09-08
 

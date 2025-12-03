@@ -79,7 +79,7 @@ EXAMPLES
   Lists all branch folders
 ```
 
-_See code: [src/commands/prodly/branch-folders.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.5.0/src/commands/prodly/branch-folders.ts)_
+_See code: [src/commands/prodly/branch-folders.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.0/src/commands/prodly/branch-folders.ts)_
 
 ## `sf prodly change-types`
 
@@ -120,7 +120,7 @@ EXAMPLES
   Creates a scratch org based on a change type
 ```
 
-_See code: [src/commands/prodly/change-types.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.5.0/src/commands/prodly/change-types.ts)_
+_See code: [src/commands/prodly/change-types.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.0/src/commands/prodly/change-types.ts)_
 
 ## `sf prodly checkin`
 
@@ -128,22 +128,24 @@ prodly:checkin command
 
 ```
 USAGE
-  $ sf prodly checkin -v <value> -o <value> -c <value> [--json] [--flags-dir <value>] [-f <value>] [-b <value>] [-t
-    <value>] [-q <value>] [-i <value>] [-z <value>] [-p <value>]
+  $ sf prodly checkin -v <value> -o <value> -c <value> [--json] [--flags-dir <value>] [-f <value>] [-m <value>] [-b
+    <value>] [-q <value> -t <value>] [-i <value>] [-z <value>] [-p <value>]
 
 FLAGS
-  -b, --branch=<value>          branch name for deployment
-  -c, --comment=<value>         (required) comment for the command versioning commit
-  -f, --data-folder=<value>     data branch folder id to use
-  -i, --instance=<value>        managed instance ID on which to perform the action
-  -o, --target-org=<value>      (required) Username or alias of the target org. Not required if the `target-org`
-                                configuration variable is already set.
-  -p, --plan=<value>            name or record ID of the deployment plan to deploy
-  -q, --filter=<value>          query filter override for a data set deployment
-  -t, --dataset=<value>         name or record ID of the data set to deploy
-  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
-                                configuration variable is already set.
-  -z, --notes=<value>           notes for the deployment
+  -b, --branch=<value>                            branch name for deployment
+  -c, --comment=<value>                           (required) comment for the command versioning commit
+  -f, --data-folder=<value>                       data branch folder id to use
+  -i, --instance=<value>                          managed instance ID on which to perform the action
+  -m, --metadata-quick-select-components=<value>  JSON string of metadata quick select components array, e.g.,
+                                                  '[{"type":"Profile","ids":["Profile1","Profile2"]}]'
+  -o, --target-org=<value>                        (required) Username or alias of the target org. Not required if the
+                                                  `target-org` configuration variable is already set.
+  -p, --plan=<value>                              name or record ID of the deployment plan to deploy
+  -q, --filter=<value>                            query filter override for a data set deployment
+  -t, --dataset=<value>                           name or record ID of the data set to deploy
+  -v, --target-dev-hub=<value>                    (required) Username or alias of the Dev Hub org. Not required if the
+                                                  `target-dev-hub` configuration variable is already set.
+  -z, --notes=<value>                             notes for the deployment
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -168,7 +170,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/checkin.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.5.0/src/commands/prodly/checkin.ts)_
+_See code: [src/commands/prodly/checkin.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.0/src/commands/prodly/checkin.ts)_
 
 ## `sf prodly checkout`
 
@@ -217,7 +219,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/checkout.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.5.0/src/commands/prodly/checkout.ts)_
+_See code: [src/commands/prodly/checkout.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.0/src/commands/prodly/checkout.ts)_
 
 ## `sf prodly deploy`
 
@@ -225,24 +227,26 @@ prodly:deploy command
 
 ```
 USAGE
-  $ sf prodly deploy -v <value> -o <value> [--json] [--flags-dir <value>] [-t <value>] [-e] [-d <value>] [-q
-    <value>] [-b <value>] [-n <value>] [-z <value>] [-p <value>] [-l] [-s <value>]
+  $ sf prodly deploy -v <value> -o <value> -n <value> [--json] [--flags-dir <value>] [-m <value>] [-e] [-d <value>]
+    [-q <value> -t <value>] [-b <value>] [-z <value>] [-p <value>] [-l] [-s <value>]
 
 FLAGS
-  -b, --label=<value>           connection and managed instance name
-  -d, --destination=<value>     destination managed instance ID
-  -e, --deactivate              deactivate all events for the deployment
-  -l, --simulation              perform a data simulation
-  -n, --name=<value>            name for the deployment
-  -o, --target-org=<value>      (required) Username or alias of the target org. Not required if the `target-org`
-                                configuration variable is already set.
-  -p, --plan=<value>            name or record ID of the deployment plan to deploy
-  -q, --filter=<value>          query filter override for a data set deployment
-  -s, --source=<value>          source managed instance ID
-  -t, --dataset=<value>         name or record ID of the data set to deploy
-  -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
-                                configuration variable is already set.
-  -z, --notes=<value>           notes for the deployment
+  -b, --label=<value>                             connection and managed instance name
+  -d, --destination=<value>                       destination managed instance ID
+  -e, --deactivate                                deactivate all events for the deployment
+  -l, --simulation                                perform a data simulation
+  -m, --metadata-quick-select-components=<value>  JSON string of metadata quick select components array, e.g.,
+                                                  '[{"type":"Profile","ids":["Profile1","Profile2"]}]'
+  -n, --name=<value>                              (required) name for the deployment
+  -o, --target-org=<value>                        (required) Username or alias of the target org. Not required if the
+                                                  `target-org` configuration variable is already set.
+  -p, --plan=<value>                              name or record ID of the deployment plan to deploy
+  -q, --filter=<value>                            query filter override for a data set deployment
+  -s, --source=<value>                            source managed instance ID
+  -t, --dataset=<value>                           name or record ID of the data set to deploy
+  -v, --target-dev-hub=<value>                    (required) Username or alias of the Dev Hub org. Not required if the
+                                                  `target-dev-hub` configuration variable is already set.
+  -z, --notes=<value>                             notes for the deployment
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -267,7 +271,7 @@ EXAMPLES
   Command output... deploying to the scratch org from the UAT sandbox, using the named connection record in the dev hub, control org. Long param names.
 ```
 
-_See code: [src/commands/prodly/deploy.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.5.0/src/commands/prodly/deploy.ts)_
+_See code: [src/commands/prodly/deploy.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.0/src/commands/prodly/deploy.ts)_
 
 ## `sf prodly jobs`
 
@@ -296,7 +300,7 @@ EXAMPLES
   Print the job status for the provided job Id.
 ```
 
-_See code: [src/commands/prodly/jobs.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.5.0/src/commands/prodly/jobs.ts)_
+_See code: [src/commands/prodly/jobs.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.0/src/commands/prodly/jobs.ts)_
 
 ## `sf prodly manage`
 
@@ -344,7 +348,7 @@ EXAMPLES
   Manage and version the org associated with the target username under the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/manage.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.5.0/src/commands/prodly/manage.ts)_
+_See code: [src/commands/prodly/manage.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.0/src/commands/prodly/manage.ts)_
 
 ## `sf prodly releases`
 
@@ -384,7 +388,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/releases.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.5.0/src/commands/prodly/releases.ts)_
+_See code: [src/commands/prodly/releases.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.0/src/commands/prodly/releases.ts)_
 
 ## `sf prodly version`
 
@@ -429,7 +433,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/version.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.5.0/src/commands/prodly/version.ts)_
+_See code: [src/commands/prodly/version.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.0/src/commands/prodly/version.ts)_
 <!-- commandsstop -->
 
 <!-- debugging-your-plugin -->
