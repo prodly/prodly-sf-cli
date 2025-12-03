@@ -355,7 +355,6 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
       method: 'POST' as const,
       url: path,
     };
-    this.log('Request: ' + JSON.stringify(request)); // todo: remove this
     const res: string = await hubConn.request(request);
     const jobsWrapper = JSON.parse(res) as Jobs;
 
