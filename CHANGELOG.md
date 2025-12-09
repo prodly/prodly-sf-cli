@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.1] - 2025-12-09
+
+### Changed
+
+- Updated `@salesforce/core` to v8.24.0
+- Updated `@salesforce/sf-plugins-core` to v12.2.6
+- Updated `oclif` to v4.22.54
+
 ## [1.6.0] - 2025-12-03
 
 ### Added
