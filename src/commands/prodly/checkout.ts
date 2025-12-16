@@ -210,7 +210,6 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
             apexTestClasses: constructApexTestClasses(apexTestClasses, testLevel),
             quickDeploymentComponents,
             testLevel,
-            validation: simulation ?? false,
           }
         : {},
       queryFilter: constructQueryFilter(filter),
