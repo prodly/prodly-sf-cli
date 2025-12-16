@@ -144,6 +144,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
       quickDeploymentComponents: constructQuickDeploymentComponents(metadataQuickSelectComponentsFlag),
     });
 
+    this.log(`Checkin launched with Job ID: ${jobId}`);
     return { jobId, message: 'Checkin launched' };
   }
 
