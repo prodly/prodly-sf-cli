@@ -80,7 +80,6 @@ export type CheckoutOptions = {
 };
 
 export type CheckinOptions = {
-  apexTestClasses?: string;
   branchFlag: string | undefined;
   comment: string | undefined;
   dataFolder: string | undefined;
@@ -91,7 +90,6 @@ export type CheckinOptions = {
   hubConn: Connection;
   mangedInstanceId: string;
   quickDeploymentComponents?: QuickDeploymentComponent[];
-  testLevel?: TTestOption;
 };
 
 export type ChangeType = {
