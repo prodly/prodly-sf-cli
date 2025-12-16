@@ -1,4 +1,5 @@
 import { Connection } from '@salesforce/core';
+import { TTestOption } from '../constants/index.js';
 
 export type ManagedInstances = {
   instances: ManagedInstance[];
@@ -46,6 +47,7 @@ export type QuickDeploymentComponent = {
 };
 
 export type DeployOptions = {
+  apexTestClasses?: string;
   dataSetId?: string;
   deactivateAllEvents: boolean;
   deploymentName?: string;
@@ -57,9 +59,11 @@ export type DeployOptions = {
   quickDeploymentComponents?: QuickDeploymentComponent[];
   simulation: boolean;
   sourceInstanceId?: string;
+  testLevel?: TTestOption;
 };
 
 export type CheckoutOptions = {
+  apexTestClasses?: string;
   branchFlag: string | undefined;
   dataFolder: string | undefined;
   dataSetId: string | undefined;
@@ -70,6 +74,9 @@ export type CheckoutOptions = {
   filter: string | undefined;
   hubConn: Connection;
   mangedInstanceId: string;
+  quickDeploymentComponents?: QuickDeploymentComponent[];
+  simulation: boolean;
+  testLevel?: TTestOption;
 };
 
 export type CheckinOptions = {

@@ -1,11 +1,16 @@
 import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { constructQueryFilter } from '../../helpers/index.js';
+import {
+  constructApexTestClasses,
+  constructQueryFilter,
+  constructQuickDeploymentComponents,
+} from '../../helpers/index.js';
 import { updateConnection } from '../../services/connections.js';
 import { getManagedInstance } from '../../services/manage-instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
 import { JSONObject } from '../../types/generic.js';
 import { CheckoutOptions, Jobs } from '../../types/prodly.js';
+import { TEST_OPTIONS, TTestOption } from '../../constants/index.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.checkout');
@@ -17,9 +22,24 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
   public static readonly examples = commandMessages.getMessages('examples');
 
   public static readonly flags = {
+    'apex-test-classes': Flags.string({
+      char: 'a',
+      summary: prodlyMessages.getMessage('apexTestClassesFlagDescription'),
+      dependsOn: ['test-option'],
+    }),
     'data-folder': Flags.string({ char: 'f', summary: prodlyMessages.getMessage('dataBranchFolderFlagDescription') }),
     'target-dev-hub': Flags.requiredHub(),
     'target-org': Flags.requiredOrg(),
+    'test-option': Flags.string({
+      char: 'r',
+      summary: prodlyMessages.getMessage('testOptionFlagDescription'),
+      dependsOn: ['metadata-quick-select-components'],
+      options: TEST_OPTIONS,
+    }),
+    'metadata-quick-select-components': Flags.string({
+      char: 'm',
+      summary: prodlyMessages.getMessage('metadataQuickSelectComponentsFlagDescription'),
+    }),
     branch: Flags.string({ char: 'b', summary: prodlyMessages.getMessage('branchFlagDescription') }),
     dataset: Flags.string({ char: 't', summary: prodlyMessages.getMessage('dataSetFlagDescription') }),
     deactivate: Flags.boolean({ char: 'e', summary: prodlyMessages.getMessage('deactivateFlagDescription') }),
@@ -28,12 +48,16 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     name: Flags.string({ char: 'n', summary: prodlyMessages.getMessage('deplomentNameFlagDescription') }),
     notes: Flags.string({ char: 'z', summary: prodlyMessages.getMessage('notesFlagDescription') }),
     plan: Flags.string({ char: 'p', summary: prodlyMessages.getMessage('deploymentPlanFlagDescription') }),
+    simulation: Flags.boolean({ char: 'l', summary: prodlyMessages.getMessage('simulationFlagDescription') }),
   };
 
   public async run(): Promise<JSONObject> {
     const { flags } = await this.parse(ProdlyCheckout);
 
     const {
+      'apex-test-classes': apexTestClassesFlag,
+      'metadata-quick-select-components': metadataQuickSelectComponentsFlag,
+      'test-option': testOptionFlag,
       branch: branchFlag,
       dataset: datasetFlag,
       deactivate: deactivateFlag,
@@ -42,6 +66,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
       name: deploymentNameFlag,
       notes: deploymentNotesFlag,
       plan: planFlag,
+      simulation: simulationFlag,
     } = flags;
 
     this.log('Deployment name flag: ' + deploymentNameFlag);
@@ -52,9 +77,16 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     this.log('Data folder flag: ' + flags['data-folder']);
     this.log('Data set flag: ' + datasetFlag);
     this.log('Deployment plan flag: ' + planFlag);
+    this.log('Simulation flag: ' + simulationFlag);
     this.log('Query filter flag: ' + queryFilterFlag);
+    this.log('Metadata quick select components flag: ' + metadataQuickSelectComponentsFlag);
+    this.log('Test option flag: ' + testOptionFlag);
+    this.log('Apex test classes flag: ' + apexTestClassesFlag);
 
-    if (!datasetFlag && !planFlag) {
+    const hasMetadataQuickSelectComponents = metadataQuickSelectComponentsFlag !== undefined;
+
+    // When no metadata quick select components are provided, require either dataset or plan (but not both)
+    if (!hasMetadataQuickSelectComponents && !datasetFlag && !planFlag) {
       throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
     }
 
@@ -125,6 +157,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
 
     // Perform the checkout
     const jobId = await this.checkoutInstance({
+      apexTestClasses: apexTestClassesFlag,
       branchFlag,
       dataFolder: flags['data-folder'],
       dataSetId,
@@ -135,6 +168,9 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
       filter: queryFilterFlag,
       hubConn,
       mangedInstanceId,
+      quickDeploymentComponents: constructQuickDeploymentComponents(metadataQuickSelectComponentsFlag),
+      simulation: simulationFlag,
+      testLevel: testOptionFlag as TTestOption,
     });
 
     this.log(`Checkout launched with Job ID: ${jobId}`);
@@ -142,6 +178,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
   }
 
   private async checkoutInstance({
+    apexTestClasses,
     branchFlag,
     dataFolder,
     dataSetId,
@@ -152,6 +189,9 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     filter,
     hubConn,
     mangedInstanceId,
+    quickDeploymentComponents,
+    simulation,
+    testLevel,
   }: CheckoutOptions): Promise<string> {
     this.log(`Performing checkout for managed instance with id ${mangedInstanceId}.`);
 
@@ -165,7 +205,15 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
       deploymentName: deploymentNameFlag,
       deploymentNotes,
       deploymentPlanId,
+      metadata: quickDeploymentComponents
+        ? {
+            apexTestClasses: constructApexTestClasses(apexTestClasses, testLevel),
+            quickDeploymentComponents,
+            testLevel,
+          }
+        : {},
       queryFilter: constructQueryFilter(filter),
+      validation: simulation ?? false,
     };
 
     const request = {

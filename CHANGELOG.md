@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.7.0] - 2025-12-16
+
+### Added
+
+- `prodly:checkout` now support `--simulation` (`-l`) flag.
+- `prodly:deploy` and `prodly:checkout` now support `--test-option` (`-r`) and `apex-test-classes` (`-a`) flag.
+- `prodly:checkout` now support `--metadata-quick-select-components` (`-m`) flag.
+
 ## [1.6.1] - 2025-12-09
 
 ### Changed
@@ -12,7 +20,7 @@
 
 ### Added
 
-- `prodly:deploy` and `prodly:checkin` now support `--'metadata-quick-select-components` (`-m`) flag.
+- `prodly:deploy` and `prodly:checkin` now support `--metadata-quick-select-components` (`-m`) flag.
 
 ## [1.5.9] - 2025-11-19
 
