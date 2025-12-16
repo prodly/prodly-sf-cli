@@ -1,5 +1,5 @@
 {
-  "apexTestClassesFlagDescription": "comma separated list of Apex test class names to run when RunSpecifiedTests was selected",
+  "apexTestClassesFlagDescription": "comma separated list of Apex test class names to run when RunSpecifiedTests is selected",
   "branchFlagDescription": "branch name for deployment",
   "changeTypeIdFlagDescription": "change type ID",
   "commentFlagDescription": "comment for the command versioning commit",
