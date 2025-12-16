@@ -1,4 +1,5 @@
 {
+  "apexTestClassesFlagDescription": "comma separated list of Apex test class names to run when RunSpecifiedTests was selected",
   "branchFlagDescription": "branch name for deployment",
   "changeTypeIdFlagDescription": "change type ID",
   "commentFlagDescription": "comment for the command versioning commit",
@@ -28,9 +29,10 @@
   "printFlagDescription": "print the managed instances in a standard format in addition to returning structured data",
   "queryFilterFlagDescription": "query filter override for a data set deployment",
   "releaseIdFlagDescription": "release Id to deploy",
-  "simulationFlagDescription": "perform a data simulation",
+  "simulationFlagDescription": "perform a data and/or metadata simulation",
   "sourceBranchFlagSummary": "the version control branch or the base for the new branch (if provided)",
   "sourceFlagDescription": "source managed instance ID",
+  "testOptionFlagDescription": "specifies the Salesforce Validate Change Set tests to run before deploying metadata. Default runs no tests, except when deploying Apex classes or triggers to production, Default runs local tests. Local tests are tests that do not originate from a managed package.",
   "unlinkBranchFlagDescription": "unlink the branch from the managed instance",
   "unmanageFlagDescription": "unmanage the specified instance",
   "validationFlagDescription": "perform a data/metadata validation",

@@ -80,4 +80,46 @@ describe('prodly:checkout', () => {
       }
     }
   });
+
+  it('should not require dataset or plan when metadata quick select components are provided.', async () => {
+    try {
+      await ProdlyCheckout.run([
+        '--target-org',
+        'test',
+        '--target-dev-hub',
+        'test',
+        '--name',
+        'test',
+        '--metadata-quick-select-components',
+        '[{"type":"Profile","ids":["Profile1"]}]',
+      ]);
+    } catch (error) {
+      if (error instanceof SfError) {
+        expect(error.message).to.not.include(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
+      }
+    }
+  });
+
+  it('should throw an error when test-option flag is provided without metadata-quick-select-components', async () => {
+    try {
+      await ProdlyCheckout.run([
+        '--target-org',
+        'test',
+        '--target-dev-hub',
+        'test',
+        '--name',
+        'test',
+        '--test-option',
+        'RunLocalTests',
+        '--dataset',
+        'test',
+      ]);
+    } catch (error) {
+      if (error instanceof SfError) {
+        expect(error.message).to.include(
+          'All of the following must be provided when using --test-option: --metadata-quick-select-components'
+        );
+      }
+    }
+  });
 });
