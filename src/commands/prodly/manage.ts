@@ -5,6 +5,7 @@ import {
   getManagedInstance,
   getManagedInstances,
   manageInstanceAsync,
+  refreshInstance,
   unmanageInstance,
 } from '../../services/manage-instances.js';
 import { JSONObject } from '../../types/generic.js';
@@ -32,6 +33,7 @@ export default class ProdlyManage extends SfCommand<JSONObject> {
     list: Flags.boolean({ char: 'l', summary: prodlyMessages.getMessage('listFlagDescription') }),
     manage: Flags.boolean({ char: 'm', summary: prodlyMessages.getMessage('manageFlagDescription') }),
     print: Flags.boolean({ char: 'p', summary: prodlyMessages.getMessage('printFlagDescription') }),
+    refresh: Flags.boolean({ char: 'r', summary: prodlyMessages.getMessage('refreshFlagDescription') }),
     unmanage: Flags.boolean({ char: 'x', summary: prodlyMessages.getMessage('unmanageFlagDescription') }),
     version: Flags.boolean({ char: 's', summary: prodlyMessages.getMessage('versionFlagDescription') }),
   };
@@ -48,6 +50,7 @@ export default class ProdlyManage extends SfCommand<JSONObject> {
       list: listFlag,
       manage: manageFlag,
       print: printFlag,
+      refresh: refreshFlag,
       unmanage: unmanageFlag,
       version: versionFlag,
     } = flags;
@@ -58,11 +61,12 @@ export default class ProdlyManage extends SfCommand<JSONObject> {
     this.log('Instance flag: ' + instanceFlag);
     this.log('Instance name flag: ' + labelFlag);
     this.log('Unmanage flag: ' + unmanageFlag);
+    this.log('Refresh flag: ' + refreshFlag);
     this.log('Version flag: ' + versionFlag);
     this.log('Comment flag: ' + commentFlag);
     this.log('Connection flag: ' + connectionFlag);
 
-    if (!listFlag && !manageFlag && !unmanageFlag) {
+    if (!listFlag && !manageFlag && !unmanageFlag && !refreshFlag) {
       throw new SfError(prodlyMessages.getMessage('errorNoManageFlags', []));
     }
 
@@ -208,6 +212,19 @@ export default class ProdlyManage extends SfCommand<JSONObject> {
       }
       this.log(`Unmanage Instance with Id ${mangedInstanceId} aborted`);
       return { message: `Unmanage Instance with Id ${mangedInstanceId} aborted` };
+    }
+
+    if (refreshFlag) {
+      this.log('Refreshing instance.');
+
+      if (!instanceFlag) {
+        throw new SfError(prodlyMessages.getMessage('errorRefreshInstanceFlag'));
+      }
+
+      this.log(`Refreshing managed instance with ID: ${instanceFlag}`);
+      await refreshInstance({ instanceId: instanceFlag, hubConn, print });
+      this.log(`Successfully refreshed instance with ID: ${instanceFlag}`);
+      return { message: `Successfully refreshed instance with ID: ${instanceFlag}` };
     }
 
     return {};
