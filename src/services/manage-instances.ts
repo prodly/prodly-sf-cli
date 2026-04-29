@@ -144,6 +144,7 @@ const refreshInstance: RefreshInstanceFn = async ({ hubConn, instanceId }) => {
   const path = `${BASE_PATH}/${instanceId}/refresh`;
 
   const request = {
+    body: null,
     method: 'PATCH' as const,
     url: path,
   };
