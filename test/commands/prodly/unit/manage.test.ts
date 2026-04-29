@@ -57,10 +57,10 @@ describe('prodly:manage', () => {
   it('should throw an error when refresh and unmanage operation flags are provided together', async () => {
     try {
       await ProdlyManage.run(['--target-org', 'test', '--target-dev-hub', 'test', '-r', '-x']);
+      expect.fail('Expected ProdlyManage.run to throw SfError');
     } catch (error) {
-      if (error instanceof SfError) {
-        expect(error.message).to.include(prodlyMessages.getMessage('errorMultipleManageFlags', []));
-      }
+      expect(error).to.be.instanceOf(SfError);
+      expect((error as SfError).message).to.include(prodlyMessages.getMessage('errorMultipleManageFlags', []));
     }
   });
 
