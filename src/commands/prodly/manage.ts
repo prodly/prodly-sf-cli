@@ -215,14 +215,12 @@ export default class ProdlyManage extends SfCommand<JSONObject> {
     }
 
     if (refreshFlag) {
-      this.log('Refreshing instance.');
-
       if (!instanceFlag) {
         throw new SfError(prodlyMessages.getMessage('errorRefreshInstanceFlag'));
       }
 
       this.log(`Refreshing managed instance with ID: ${instanceFlag}`);
-      await refreshInstance({ instanceId: instanceFlag, hubConn, print });
+      await refreshInstance({ instanceId: instanceFlag, hubConn });
       this.log(`Successfully refreshed instance with ID: ${instanceFlag}`);
       return { message: `Successfully refreshed instance with ID: ${instanceFlag}` };
     }

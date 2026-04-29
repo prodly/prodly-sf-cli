@@ -77,12 +77,4 @@ export type PutInstancesFn = ({
   };
 }) => Promise<void>;
 
-export type RefreshInstanceFn = ({
-  instanceId,
-  hubConn,
-  print,
-}: {
-  instanceId: string;
-  hubConn: Connection;
-  print?: printFn;
-}) => Promise<void>;
+export type RefreshInstanceFn = ({ instanceId, hubConn }: { instanceId: string; hubConn: Connection }) => Promise<void>;

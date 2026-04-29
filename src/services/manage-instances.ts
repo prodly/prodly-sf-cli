@@ -140,9 +140,7 @@ const unmanageInstance: UnmanageInstanceFn = async ({ hubConn, instanceId, print
   return;
 };
 
-const refreshInstance: RefreshInstanceFn = async ({ hubConn, instanceId, print }) => {
-  if (print) print(`Refreshing instance with ID ${instanceId}.`);
-
+const refreshInstance: RefreshInstanceFn = async ({ hubConn, instanceId }) => {
   const path = `${BASE_PATH}/${instanceId}/refresh`;
 
   const request = {
