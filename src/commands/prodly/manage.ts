@@ -66,11 +66,14 @@ export default class ProdlyManage extends SfCommand<JSONObject> {
     this.log('Comment flag: ' + commentFlag);
     this.log('Connection flag: ' + connectionFlag);
 
-    if (!listFlag && !manageFlag && !unmanageFlag && !refreshFlag) {
+    const operationFlags = [listFlag, manageFlag, unmanageFlag, refreshFlag];
+    const operationFlagCount = operationFlags.filter(Boolean).length;
+
+    if (operationFlagCount === 0) {
       throw new SfError(prodlyMessages.getMessage('errorNoManageFlags', []));
     }
 
-    if (listFlag && manageFlag) {
+    if (operationFlagCount !== 1) {
       throw new SfError(prodlyMessages.getMessage('errorMultipleManageFlags', []));
     }
 
