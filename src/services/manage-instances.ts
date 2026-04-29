@@ -9,6 +9,7 @@ import {
   ManageInstanceFn,
   PostInstancesFn,
   PutInstancesFn,
+  RefreshInstanceFn,
   UnmanageInstanceFn,
 } from './manage-instances.types.js';
 
@@ -139,6 +140,17 @@ const unmanageInstance: UnmanageInstanceFn = async ({ hubConn, instanceId, print
   return;
 };
 
+const refreshInstance: RefreshInstanceFn = async ({ hubConn, instanceId }) => {
+  const path = `${BASE_PATH}/${instanceId}/refresh`;
+
+  const request = {
+    body: null,
+    method: 'PATCH' as const,
+    url: path,
+  };
+  await hubConn.request(request);
+};
+
 export {
   getManagedInstance,
   getManagedInstances,
@@ -146,5 +158,6 @@ export {
   manageInstanceAsync,
   postInstances,
   putInstances,
+  refreshInstance,
   unmanageInstance,
 };

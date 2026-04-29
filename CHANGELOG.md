@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.2] - 2026-03-23
+
+### Added
+
+- `prodly:manage` now supports `--refresh` (`-r`) flag to refresh a managed instance's org ID after a sandbox refresh.
+
 ## [1.6.1] - 2025-12-09
 
 ### Changed
