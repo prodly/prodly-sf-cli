@@ -79,7 +79,7 @@ EXAMPLES
   Lists all branch folders
 ```
 
-_See code: [src/commands/prodly/branch-folders.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.2/src/commands/prodly/branch-folders.ts)_
+_See code: [src/commands/prodly/branch-folders.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.3/src/commands/prodly/branch-folders.ts)_
 
 ## `sf prodly change-types`
 
@@ -120,7 +120,7 @@ EXAMPLES
   Creates a scratch org based on a change type
 ```
 
-_See code: [src/commands/prodly/change-types.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.2/src/commands/prodly/change-types.ts)_
+_See code: [src/commands/prodly/change-types.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.3/src/commands/prodly/change-types.ts)_
 
 ## `sf prodly checkin`
 
@@ -170,7 +170,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/checkin.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.2/src/commands/prodly/checkin.ts)_
+_See code: [src/commands/prodly/checkin.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.3/src/commands/prodly/checkin.ts)_
 
 ## `sf prodly checkout`
 
@@ -219,7 +219,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/checkout.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.2/src/commands/prodly/checkout.ts)_
+_See code: [src/commands/prodly/checkout.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.3/src/commands/prodly/checkout.ts)_
 
 ## `sf prodly deploy`
 
@@ -271,7 +271,7 @@ EXAMPLES
   Command output... deploying to the scratch org from the UAT sandbox, using the named connection record in the dev hub, control org. Long param names.
 ```
 
-_See code: [src/commands/prodly/deploy.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.2/src/commands/prodly/deploy.ts)_
+_See code: [src/commands/prodly/deploy.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.3/src/commands/prodly/deploy.ts)_
 
 ## `sf prodly jobs`
 
@@ -300,7 +300,7 @@ EXAMPLES
   Print the job status for the provided job Id.
 ```
 
-_See code: [src/commands/prodly/jobs.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.2/src/commands/prodly/jobs.ts)_
+_See code: [src/commands/prodly/jobs.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.3/src/commands/prodly/jobs.ts)_
 
 ## `sf prodly manage`
 
@@ -352,7 +352,7 @@ EXAMPLES
   Refresh the managed instance org ID after a sandbox has been refreshed.
 ```
 
-_See code: [src/commands/prodly/manage.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.2/src/commands/prodly/manage.ts)_
+_See code: [src/commands/prodly/manage.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.3/src/commands/prodly/manage.ts)_
 
 ## `sf prodly releases`
 
@@ -392,7 +392,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/releases.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.2/src/commands/prodly/releases.ts)_
+_See code: [src/commands/prodly/releases.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.3/src/commands/prodly/releases.ts)_
 
 ## `sf prodly version`
 
@@ -437,7 +437,8 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/version.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.2/src/commands/prodly/version.ts)_
+_See code: [src/commands/prodly/version.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.6.3/src/commands/prodly/version.ts)_
+
 <!-- commandsstop -->
 
 <!-- debugging-your-plugin -->
