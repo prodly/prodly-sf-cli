@@ -1,12 +1,28 @@
 # Changelog
 
-## [1.7.0] - 2025-12-16
+## [1.7.0] - 2026-05-08
 
 ### Added
 
 - `prodly:checkout` now support `--simulation` (`-l`) flag.
 - `prodly:deploy` and `prodly:checkout` now support `--test-option` (`-r`) and `apex-test-classes` (`-a`) flag.
 - `prodly:checkout` now support `--metadata-quick-select-components` (`-m`) flag.
+## [1.6.3] - 2026-04-29
+
+### Changed
+
+- Updated `@oclif/core` to v4.10.6
+- Updated `@salesforce/core` to v8.28.4
+- Updated `@salesforce/sf-plugins-core` to v12.2.10
+- Updated `@oclif/plugin-command-snapshot` to v5.3.16
+- Updated `@salesforce/cli-plugins-testkit` to v5.3.54
+- Updated `oclif` to v4.23.0
+
+## [1.6.2] - 2026-03-23
+
+### Added
+
+- `prodly:manage` now supports `--refresh` (`-r`) flag to refresh a managed instance's org ID after a sandbox refresh.
 
 ## [1.6.1] - 2025-12-09
 

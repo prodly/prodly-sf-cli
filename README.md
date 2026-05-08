@@ -41,15 +41,16 @@ sf plugins
 ## Commands
 
 <!-- commands -->
-* [`sf prodly branch-folders`](#sf-prodly-branch-folders)
-* [`sf prodly change-types`](#sf-prodly-change-types)
-* [`sf prodly checkin`](#sf-prodly-checkin)
-* [`sf prodly checkout`](#sf-prodly-checkout)
-* [`sf prodly deploy`](#sf-prodly-deploy)
-* [`sf prodly jobs`](#sf-prodly-jobs)
-* [`sf prodly manage`](#sf-prodly-manage)
-* [`sf prodly releases`](#sf-prodly-releases)
-* [`sf prodly version`](#sf-prodly-version)
+
+- [`sf prodly branch-folders`](#sf-prodly-branch-folders)
+- [`sf prodly change-types`](#sf-prodly-change-types)
+- [`sf prodly checkin`](#sf-prodly-checkin)
+- [`sf prodly checkout`](#sf-prodly-checkout)
+- [`sf prodly deploy`](#sf-prodly-deploy)
+- [`sf prodly jobs`](#sf-prodly-jobs)
+- [`sf prodly manage`](#sf-prodly-manage)
+- [`sf prodly releases`](#sf-prodly-releases)
+- [`sf prodly version`](#sf-prodly-version)
 
 ## `sf prodly branch-folders`
 
@@ -328,7 +329,7 @@ prodly:manage command
 ```
 USAGE
   $ sf prodly manage -v <value> -o <value> [--json] [--flags-dir <value>] [-c <value>] [-n <value>] [-i <value>]
-    [-b <value>] [-l] [-m] [-p] [-x] [-s]
+    [-b <value>] [-l] [-m] [-p] [-r] [-x] [-s]
 
 FLAGS
   -b, --label=<value>           connection and managed instance name
@@ -341,6 +342,7 @@ FLAGS
                                 configuration variable is already set.
   -p, --print                   print the managed instances in a standard format in addition to returning structured
                                 data
+  -r, --refresh                 refresh the org ID of a managed instance after a sandbox refresh
   -s, --version                 version the new managed instance, branch created and data deployed to the org
   -v, --target-dev-hub=<value>  (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub`
                                 configuration variable is already set.
@@ -365,6 +367,9 @@ EXAMPLES
 
   $ sf prodly:manage -m --target-org test-utxac7gbati9@example.com -n dev7sbx
   Manage and version the org associated with the target username under the Prodly account associated with the default DevHub control org.
+
+  $ sf prodly:manage -r -i e1738072-f9fd-4d6a-8278-35fde79c85a9
+  Refresh the managed instance org ID after a sandbox has been refreshed.
 ```
 
 _See code: [src/commands/prodly/manage.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.7.0/src/commands/prodly/manage.ts)_
@@ -453,6 +458,7 @@ EXAMPLES
 ```
 
 _See code: [src/commands/prodly/version.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.7.0/src/commands/prodly/version.ts)_
+
 <!-- commandsstop -->
 
 <!-- debugging-your-plugin -->

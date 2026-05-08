@@ -76,3 +76,5 @@ export type PutInstancesFn = ({
     [key: string]: { [key: string]: unknown };
   };
 }) => Promise<void>;
+
+export type RefreshInstanceFn = ({ instanceId, hubConn }: { instanceId: string; hubConn: Connection }) => Promise<void>;

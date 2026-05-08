@@ -54,6 +54,16 @@ describe('prodly:manage', () => {
     }
   });
 
+  it('should throw an error when refresh and unmanage operation flags are provided together', async () => {
+    try {
+      await ProdlyManage.run(['--target-org', 'test', '--target-dev-hub', 'test', '-r', '-x']);
+      expect.fail('Expected ProdlyManage.run to throw SfError');
+    } catch (error) {
+      expect(error).to.be.instanceOf(SfError);
+      expect((error as SfError).message).to.include(prodlyMessages.getMessage('errorMultipleManageFlags', []));
+    }
+  });
+
   it('should throw an error when instance name flag is not provided because it is required when managing an instance', async () => {
     try {
       await ProdlyManage.run(['--target-org', 'test', '--target-dev-hub', 'test', '-m']);
