@@ -89,6 +89,11 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
         : undefined;
     const hasMetadataQuickSelectComponents = metadataQuickSelectComponents !== undefined;
 
+    // When no metadata quick select components are provided, require either dataset or plan (but not both)
+    if (!hasMetadataQuickSelectComponents && !datasetFlag && !planFlag) {
+      throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
+    }
+
     if (datasetFlag && planFlag) {
       throw new SfError(prodlyMessages.getMessage('errorDatasetAndPlanFlags', []));
     }
@@ -99,11 +104,6 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
 
     if (!datasetFlag && queryFilterFlag) {
       throw new SfError(prodlyMessages.getMessage('errorQueryFilterFlag', []));
-    }
-
-    // When no metadata quick select components are provided, require either dataset or plan (but not both)
-    if (!hasMetadataQuickSelectComponents && !datasetFlag && !planFlag) {
-      throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
     }
 
     const org = flags['target-org'];
