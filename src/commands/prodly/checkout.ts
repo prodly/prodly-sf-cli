@@ -83,11 +83,14 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     this.log('Test option flag: ' + testOptionFlag);
     this.log('Apex test classes flag: ' + apexTestClassesFlag);
 
-    const hasMetadataQuickSelectComponents = metadataQuickSelectComponentsFlag !== undefined;
+    const metadataQuickSelectComponents =
+      metadataQuickSelectComponentsFlag !== undefined && metadataQuickSelectComponentsFlag.trim().length > 0
+        ? metadataQuickSelectComponentsFlag
+        : undefined;
+    const hasMetadataQuickSelectComponents = metadataQuickSelectComponents !== undefined;
 
-    // When no metadata quick select components are provided, require either dataset or plan (but not both)
-    if (!hasMetadataQuickSelectComponents && !datasetFlag && !planFlag) {
-      throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
+    if (datasetFlag && planFlag) {
+      throw new SfError(prodlyMessages.getMessage('errorDatasetAndPlanFlags', []));
     }
 
     if (!deploymentNameFlag) {
@@ -96,6 +99,11 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
 
     if (!datasetFlag && queryFilterFlag) {
       throw new SfError(prodlyMessages.getMessage('errorQueryFilterFlag', []));
+    }
+
+    // When no metadata quick select components are provided, require either dataset or plan (but not both)
+    if (!hasMetadataQuickSelectComponents && !datasetFlag && !planFlag) {
+      throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
     }
 
     const org = flags['target-org'];
@@ -168,7 +176,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
       filter: queryFilterFlag,
       hubConn,
       mangedInstanceId,
-      quickDeploymentComponents: constructQuickDeploymentComponents(metadataQuickSelectComponentsFlag),
+      quickDeploymentComponents: constructQuickDeploymentComponents(metadataQuickSelectComponents),
       simulation: simulationFlag,
       testLevel: testOptionFlag as TTestOption,
     });

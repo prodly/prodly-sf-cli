@@ -81,6 +81,28 @@ describe('prodly:checkout', () => {
     }
   });
 
+  it('should throw an error when both dataset and plan flags are provided.', async () => {
+    let caught: unknown;
+    try {
+      await ProdlyCheckout.run([
+        '--target-org',
+        'test',
+        '--target-dev-hub',
+        'test',
+        '--name',
+        'test',
+        '--dataset',
+        'test',
+        '--plan',
+        'test',
+      ]);
+    } catch (error) {
+      caught = error;
+    }
+    expect(caught).to.be.instanceOf(SfError);
+    expect((caught as SfError).message).to.include(prodlyMessages.getMessage('errorDatasetAndPlanFlags', []));
+  });
+
   it('should not require dataset or plan when metadata quick select components are provided.', async () => {
     try {
       await ProdlyCheckout.run([

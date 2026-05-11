@@ -61,7 +61,11 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     this.log('Query filter flag: ' + queryFilterFlag);
     this.log('Metadata quick select components flag: ' + metadataQuickSelectComponentsFlag);
 
-    const hasMetadataQuickSelectComponents = metadataQuickSelectComponentsFlag !== undefined;
+    const metadataQuickSelectComponents =
+      metadataQuickSelectComponentsFlag !== undefined && metadataQuickSelectComponentsFlag.trim().length > 0
+        ? metadataQuickSelectComponentsFlag
+        : undefined;
+    const hasMetadataQuickSelectComponents = metadataQuickSelectComponents !== undefined;
 
     // When no metadata quick select components are provided, require either dataset or plan (but not both)
     if (!hasMetadataQuickSelectComponents && !datasetFlag && !planFlag) {
@@ -141,7 +145,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
       filter: queryFilterFlag,
       hubConn,
       mangedInstanceId,
-      quickDeploymentComponents: constructQuickDeploymentComponents(metadataQuickSelectComponentsFlag),
+      quickDeploymentComponents: constructQuickDeploymentComponents(metadataQuickSelectComponents),
     });
 
     this.log(`Checkin launched with Job ID: ${jobId}`);
