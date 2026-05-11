@@ -49,10 +49,21 @@ const constructQuickDeploymentComponents = (
 ): QuickDeploymentComponent[] | undefined => {
   if (!quickDeploymentComponents) return undefined;
   try {
-    return JSON.parse(quickDeploymentComponents) as Array<{
-      type: string;
-      ids: string[];
-    }>;
+    const parse = JSON.parse(quickDeploymentComponents) as QuickDeploymentComponent[];
+    const isValid =
+      Array.isArray(parse) &&
+      parse.every(
+        (item) =>
+          item &&
+          typeof item === 'object' &&
+          typeof item.type === 'string' &&
+          Array.isArray(item.ids) &&
+          item.ids.every((id) => typeof id === 'string')
+      );
+    if (!isValid) {
+      throw new Error('Expected an array of objects: { type: string; ids: string[] }');
+    }
+    return parse;
   } catch (error) {
     throw new SfError(
       `Invalid JSON format for metadata-quick-select-components flag: ${
