@@ -1,0 +1,40 @@
+name: check-npm-token
+on:
+  workflow_dispatch:
+
+jobs:
+  whoami:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+
+      - name: npm whoami
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "=== npm whoami ==="
+          if npm whoami; then
+            echo "OK token is valid"
+          else
+            echo "FAIL token is invalid or expired"
+            exit 0
+          fi
+
+      - name: npm access to prodlysfcli
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "=== npm access list packages (filtered) ==="
+          npm access list packages 2>&1 | grep -i prodlysfcli || echo "no prodlysfcli entry returned"
+
+      - name: token metadata
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "=== token info (no secret values printed) ==="
+          curl -sH "Authorization: Bearer $NODE_AUTH_TOKEN" https://registry.npmjs.org/-/npm/v1/tokens \
+            | python3 -c "import json,sys; d=json.load(sys.stdin); [print({'key':o.get('key'),'readonly':o.get('readonly'),'automation':o.get('automation'),'cidr_whitelist':o.get('cidr_whitelist'),'created':o.get('created')}) for o in d.get('objects',[])]" \
+            || echo "could not parse tokens response"
