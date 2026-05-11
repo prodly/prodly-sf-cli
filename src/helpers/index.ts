@@ -22,7 +22,21 @@ const constructQueryFilter = (
 const constructApexTestClasses = (apexTestClassesFlag?: string, testLevel?: TTestOption): string[] | undefined => {
   if (!apexTestClassesFlag || testLevel !== RUN_SPECIFIED_TESTS) return undefined;
   try {
-    return apexTestClassesFlag.split(',').map((testClass) => testClass.trim());
+    const segments = apexTestClassesFlag.split(',');
+    const trimmed = segments.map((testClass) => testClass.trim());
+    const hasEmptySegment = trimmed.some((testClass) => testClass.length === 0);
+    const parsed = trimmed.filter((testClass) => testClass.length > 0);
+
+    if (parsed.length === 0) {
+      throw new Error('Provide at least one Apex test class when RunSpecifiedTests is selected.');
+    }
+    if (hasEmptySegment) {
+      throw new Error(
+        'apex-test-classes cannot include empty entries (remove trailing commas, duplicate commas, or whitespace-only segments).'
+      );
+    }
+
+    return parsed;
   } catch (error) {
     throw new SfError(
       `Invalid format for apex-test-classes flag: ${error instanceof Error ? error.message : String(error)}`
