@@ -113,4 +113,27 @@ describe('prodly:deploy', () => {
       }
     }
   });
+
+  it('should throw an error when test-option flag is provided without metadata-quick-select-components', async () => {
+    try {
+      await ProdlyDeploy.run([
+        '--target-org',
+        'test',
+        '--target-dev-hub',
+        'test',
+        '--name',
+        'test',
+        '--test-option',
+        'RunLocalTests',
+        '--dataset',
+        'test',
+      ]);
+    } catch (error) {
+      if (error instanceof SfError) {
+        expect(error.message).to.include(
+          'All of the following must be provided when using --test-option: --metadata-quick-select-components'
+        );
+      }
+    }
+  });
 });

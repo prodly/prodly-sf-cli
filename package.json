@@ -1,7 +1,7 @@
 {
   "name": "prodlysfcli",
   "description": "A plugin which provides Prodly application commands on top of the Salesforce CLI.",
-  "version": "1.6.3",
+  "version": "1.7.1",
   "author": "Prodly Inc.",
   "repository": {
     "type": "git",
@@ -11,13 +11,13 @@
     "url": "https://github.com/prodly/prodly-sf-cli/issues"
   },
   "dependencies": {
-    "@oclif/core": "4.10.6",
-    "@salesforce/core": "8.28.4",
-    "@salesforce/sf-plugins-core": "12.2.10"
+    "@oclif/core": "4.11.2",
+    "@salesforce/core": "8.29.1",
+    "@salesforce/sf-plugins-core": "12.2.16"
   },
   "devDependencies": {
-    "@oclif/plugin-command-snapshot": "^5.3.16",
-    "@salesforce/cli-plugins-testkit": "^5.3.54",
+    "@oclif/plugin-command-snapshot": "^5.3.19",
+    "@salesforce/cli-plugins-testkit": "^5.3.57",
     "@salesforce/dev-scripts": "^11.0.4",
     "eslint-plugin-sf-plugin": "^1.20.33",
     "oclif": "^4.23.0",

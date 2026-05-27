@@ -1,6 +1,6 @@
 import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { constructQueryFilter } from '../../helpers/index.js';
+import { constructQueryFilter, constructQuickDeploymentComponents } from '../../helpers/index.js';
 import { updateConnection } from '../../services/connections.js';
 import { getManagedInstance } from '../../services/manage-instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
@@ -61,8 +61,13 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     this.log('Query filter flag: ' + queryFilterFlag);
     this.log('Metadata quick select components flag: ' + metadataQuickSelectComponentsFlag);
 
-    const hasMetadataQuickSelectComponents = metadataQuickSelectComponentsFlag !== undefined;
+    const metadataQuickSelectComponents =
+      metadataQuickSelectComponentsFlag !== undefined && metadataQuickSelectComponentsFlag.trim().length > 0
+        ? metadataQuickSelectComponentsFlag
+        : undefined;
+    const hasMetadataQuickSelectComponents = metadataQuickSelectComponents !== undefined;
 
+    // When no metadata quick select components are provided, require either dataset or plan (but not both)
     if (!hasMetadataQuickSelectComponents && !datasetFlag && !planFlag) {
       throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
     }
@@ -102,24 +107,6 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
     this.log(`Data set ID: ${dataSetId ?? ''}`);
     this.log(`Deployment plan ID: ${deploymentPlanId ?? ''}`);
 
-    // Parse metadata quick select components if provided
-    let quickDeploymentComponents;
-    if (metadataQuickSelectComponentsFlag) {
-      try {
-        quickDeploymentComponents = JSON.parse(metadataQuickSelectComponentsFlag) as Array<{
-          type: string;
-          ids: string[];
-        }>;
-        this.log(`Parsed metadata quick select components: ${JSON.stringify(quickDeploymentComponents)}`);
-      } catch (error) {
-        throw new SfError(
-          `Invalid JSON format for metadata-quick-select-components flag: ${
-            error instanceof Error ? error.message : String(error)
-          }`
-        );
-      }
-    }
-
     // Check if instance is provided
     if (instanceFlag) {
       // Use provided managed instance
@@ -158,7 +145,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
       filter: queryFilterFlag,
       hubConn,
       mangedInstanceId,
-      quickDeploymentComponents,
+      quickDeploymentComponents: constructQuickDeploymentComponents(metadataQuickSelectComponents),
     });
 
     this.log(`Checkin launched with Job ID: ${jobId}`);

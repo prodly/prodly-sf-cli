@@ -1,12 +1,17 @@
 /* eslint-disable complexity */
 import { Messages, SfError } from '@salesforce/core';
 import { Flags, SfCommand } from '@salesforce/sf-plugins-core';
-import { constructQueryFilter } from '../../helpers/index.js';
+import {
+  constructApexTestClasses,
+  constructQueryFilter,
+  constructQuickDeploymentComponents,
+} from '../../helpers/index.js';
 import { createConnection, getConnectionId, updateConnection } from '../../services/connections.js';
 import { getManagedInstance, manageInstance } from '../../services/manage-instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
 import { JSONObject } from '../../types/generic.js';
 import { DeployOptions, Jobs } from '../../types/prodly.js';
+import { TEST_OPTIONS, TTestOption } from '../../constants/index.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.deploy');
@@ -22,8 +27,19 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
   public static readonly examples = commandMessages.getMessages('examples');
 
   public static readonly flags = {
+    'apex-test-classes': Flags.string({
+      char: 'a',
+      summary: prodlyMessages.getMessage('apexTestClassesFlagDescription'),
+      dependsOn: ['test-option'],
+    }),
     'target-dev-hub': Flags.requiredHub(),
     'target-org': Flags.requiredOrg(),
+    'test-option': Flags.string({
+      char: 'r',
+      summary: prodlyMessages.getMessage('testOptionFlagDescription'),
+      dependsOn: ['metadata-quick-select-components'],
+      options: TEST_OPTIONS,
+    }),
     'metadata-quick-select-components': Flags.string({
       char: 'm',
       summary: prodlyMessages.getMessage('metadataQuickSelectComponentsFlagDescription'),
@@ -57,7 +73,9 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
   public async run(): Promise<JSONObject> {
     const { flags } = await this.parse(ProdlyDeploy);
     const {
+      'apex-test-classes': apexTestClassesFlag,
       'metadata-quick-select-components': metadataQuickSelectComponentsFlag,
+      'test-option': testOptionFlag,
       dataset: datasetFlag,
       deactivate: deactivateFlag,
       destination: destinationFlag,
@@ -82,6 +100,8 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
     this.log('Simulation flag: ' + simulationFlag);
     this.log('Query filter flag: ' + queryFilterFlag);
     this.log('Metadata quick select components flag: ' + metadataQuickSelectComponentsFlag);
+    this.log('Test option flag: ' + testOptionFlag);
+    this.log('Apex test classes flag: ' + apexTestClassesFlag);
 
     const hasMetadataQuickSelectComponents = metadataQuickSelectComponentsFlag !== undefined;
 
@@ -269,26 +289,10 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
         print,
       });
     }
-    // Parse metadata quick select components if provided
-    let quickDeploymentComponents;
-    if (metadataQuickSelectComponentsFlag) {
-      try {
-        quickDeploymentComponents = JSON.parse(metadataQuickSelectComponentsFlag) as Array<{
-          type: string;
-          ids: string[];
-        }>;
-        this.log(`Parsed metadata quick select components: ${JSON.stringify(quickDeploymentComponents)}`);
-      } catch (error) {
-        throw new SfError(
-          `Invalid JSON format for metadata-quick-select-components flag: ${
-            error instanceof Error ? error.message : String(error)
-          }`
-        );
-      }
-    }
 
     this.log('Launching deployment.');
     const jobId = await this.deploy({
+      apexTestClasses: apexTestClassesFlag,
       dataSetId,
       deactivateAllEvents: deactivateFlag,
       deploymentName: deploymentNameFlag,
@@ -297,9 +301,10 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
       destinationInstanceId,
       hubConn,
       queryFilter: queryFilterFlag,
-      quickDeploymentComponents,
+      quickDeploymentComponents: constructQuickDeploymentComponents(metadataQuickSelectComponentsFlag),
       simulation: simulationFlag,
       sourceInstanceId,
+      testLevel: testOptionFlag as TTestOption,
     });
 
     this.log(`Deployment launched with Job ID: ${jobId}`);
@@ -309,6 +314,7 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
   }
 
   private async deploy({
+    apexTestClasses,
     dataSetId,
     deactivateAllEvents,
     deploymentName,
@@ -320,6 +326,7 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
     quickDeploymentComponents,
     simulation,
     sourceInstanceId,
+    testLevel,
   }: DeployOptions): Promise<string> {
     this.log('Invoking deployment.');
 
@@ -344,9 +351,15 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
     const deployInstance = {
       deploymentName,
       deploymentNotes,
-      engagementId: null,
       data: [dataDeploymentOptions],
-      metadata: quickDeploymentComponents ? { quickDeploymentComponents } : {},
+      metadata: quickDeploymentComponents
+        ? {
+            apexTestClasses: constructApexTestClasses(apexTestClasses, testLevel),
+            quickDeploymentComponents,
+            testLevel,
+            validation: simulation ?? false,
+          }
+        : {},
       source: sourceOptions,
     };
 

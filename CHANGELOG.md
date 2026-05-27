@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.7.1] - 2026-05-11
+
+### Changed
+
+- Updated `@oclif/core` to v4.11.2
+- Updated `@salesforce/core` to v8.29.1
+- Updated `@salesforce/sf-plugins-core` to v12.2.16
+- Updated `@oclif/plugin-command-snapshot` to v5.3.19
+- Updated `@salesforce/cli-plugins-testkit` to v5.3.57
+
+## [1.7.0] - 2026-05-08
+
+### Added
+
+- `prodly:checkout` now support `--simulation` (`-l`) flag.
+- `prodly:deploy` and `prodly:checkout` now support `--test-option` (`-r`) and `apex-test-classes` (`-a`) flag.
+- `prodly:checkout` now support `--metadata-quick-select-components` (`-m`) flag.
+
 ## [1.6.3] - 2026-04-29
 
 ### Changed
@@ -29,7 +47,7 @@
 
 ### Added
 
-- `prodly:deploy` and `prodly:checkin` now support `--'metadata-quick-select-components` (`-m`) flag.
+- `prodly:deploy` and `prodly:checkin` now support `--metadata-quick-select-components` (`-m`) flag.
 
 ## [1.5.9] - 2025-11-19
 
