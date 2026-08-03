@@ -1,4 +1,5 @@
 import { Connection, SfError } from '@salesforce/core';
+import { hubRequest } from '../utils/index.js';
 
 const BASE_PATH = '/services/apexrest/PDRI/v1/releases';
 
@@ -15,7 +16,7 @@ export const postReleases: PostReleasesFn = async ({ body, hubConn }) => {
     method: 'POST' as const,
     url: BASE_PATH,
   };
-  const res: string = await hubConn.request(request);
+  const res = await hubRequest<string>(hubConn, request);
   const jobWrapper = JSON.parse(res) as { id: string };
   const jobId = jobWrapper.id;
   if (!jobId) throw new SfError('No job ID returned.');
