@@ -1,6 +1,6 @@
 import { SfError } from '@salesforce/core';
 import { Jobs, ManagedInstance, ManagedInstances } from '../types/prodly.js';
-import { delay } from '../utils/index.js';
+import { delay, hubRequest } from '../utils/index.js';
 import { jobCompletion } from './jobs.js';
 import {
   GetManagedInstanceFn,
@@ -18,7 +18,7 @@ const BASE_PATH = '/services/apexrest/PDRI/v1/instances';
 const getManagedInstances: GetManagedInstancesFn = async ({ hubConn, print }) => {
   if (print) print('Retrieving all managed instances.');
 
-  const managedInstances: ManagedInstances = await hubConn.request(`${hubConn.instanceUrl}${BASE_PATH}`);
+  const managedInstances = await hubRequest<ManagedInstances>(hubConn, `${hubConn.instanceUrl}${BASE_PATH}`);
   return managedInstances;
 };
 
@@ -42,7 +42,7 @@ const manageInstance: ManageInstanceFn = async ({ body, hubConn, orgId, print })
     url: BASE_PATH,
   };
 
-  const res: string = await hubConn.request(request);
+  const res = await hubRequest<string>(hubConn, request);
   if (print) print(`Manage instance response ${res}.`);
   const jobsWrapper = JSON.parse(res) as Jobs;
   const jobId = jobsWrapper.jobs[0].id;
@@ -86,7 +86,7 @@ const manageInstanceAsync: ManageInstanceAsyncFn = async ({ body, hubConn, print
     url: BASE_PATH,
   };
 
-  const res: string = await hubConn.request(request);
+  const res = await hubRequest<string>(hubConn, request);
   if (print) {
     print('Manage instance response:');
     print(res);
@@ -107,7 +107,7 @@ const postInstances: PostInstancesFn = async ({ body, hubConn }) => {
     url: BASE_PATH,
   };
 
-  const res: string = await hubConn.request(request);
+  const res = await hubRequest<string>(hubConn, request);
   const jobsWrapper = JSON.parse(res) as Jobs;
   const jobId = jobsWrapper.jobs[0].id;
   if (!jobId) {
@@ -123,7 +123,7 @@ const putInstances: PutInstancesFn = async ({ body, hubConn }) => {
     url: BASE_PATH,
   };
 
-  await hubConn.request(request);
+  await hubRequest(hubConn, request);
 };
 
 const unmanageInstance: UnmanageInstanceFn = async ({ hubConn, instanceId, print }) => {
@@ -135,7 +135,7 @@ const unmanageInstance: UnmanageInstanceFn = async ({ hubConn, instanceId, print
     method: 'DELETE' as const,
     url: path,
   };
-  await hubConn.request(request);
+  await hubRequest(hubConn, request);
 
   return;
 };
@@ -148,7 +148,7 @@ const refreshInstance: RefreshInstanceFn = async ({ hubConn, instanceId }) => {
     method: 'PATCH' as const,
     url: path,
   };
-  await hubConn.request(request);
+  await hubRequest(hubConn, request);
 };
 
 export {

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.7.3] - 2026-08-03
+
+### Fixed
+
+- Improved error messages returned from Apex REST / jsforce request failures.
+
 ## [1.7.2] - 2026-06-02
 
 ### Changed
