@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.7.4] - 2026-08-24
+
+### Changed
+
+- Node.js v22 or later is now required (`@salesforce/core` v9 and `@salesforce/sf-plugins-core` v13 dropped support for earlier versions)
+- Updated `@oclif/core` to v4.14.0
+- Updated `@oclif/plugin-command-snapshot` to v5.3.35
+- Updated `@salesforce/cli-plugins-testkit` to v5.3.66
+- Updated `@salesforce/core` to v9.1.5
+- Updated `@salesforce/dev-scripts` to v13.0.2
+- Updated `@salesforce/sf-plugins-core` to v13.0.3
+- Updated `eslint-plugin-sf-plugin` to v3.0.0
+- Updated `oclif` to v4.23.30
+- Migrated linting to ESLint v10 flat config (`eslint.config.mjs` replaces `.eslintrc.cjs`)
+
 ## [1.7.2] - 2026-06-02
 
 ### Changed

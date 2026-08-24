@@ -131,14 +131,14 @@ export default class ProdlyManage extends SfCommand<JSONObject> {
         });
       }
 
-      return managedInstances as unknown as JSONObject;
+      return managedInstances;
     }
 
     if (manageFlag) {
       this.log('Managing instance.');
       this.log('Refreshing org session auth');
       await org.refreshAuth();
-      let connectionId = null;
+      let connectionId: string | undefined;
 
       if (connectionFlag) {
         this.log('Connection to use for the managed instances provided: ' + connectionFlag);
@@ -181,7 +181,7 @@ export default class ProdlyManage extends SfCommand<JSONObject> {
     if (unmanageFlag) {
       this.log('Unmanaging instance.');
 
-      let mangedInstanceId = '';
+      let mangedInstanceId: string;
 
       if (instanceFlag) {
         // Use provided managed instance
