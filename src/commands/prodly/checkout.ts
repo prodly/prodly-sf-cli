@@ -111,7 +111,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     const hubConn = hubOrg.getConnection();
     const print = (message: string | undefined, ...args: unknown[]): void => this.log(message, ...args);
 
-    let mangedInstanceId = null;
+    let mangedInstanceId: string;
     let dataSetId;
     let deploymentPlanId;
 

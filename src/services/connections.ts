@@ -16,13 +16,13 @@ const prodlyMessages = Messages.loadMessages('prodlysfcli', 'prodly');
 const createConnection: CreateConnectionFn = async ({ hubConn, name, org }) => {
   const trailSlashRegex = /\/$/;
 
-  let type = '';
+  let type: string;
   if (await org.determineIfScratch()) type = ORG_TYPE_SCRATCH_ORG;
   else if (await org.determineIfSandbox()) type = ORG_TYPE_SANDBOX;
   else type = ORG_TYPE_PRODUCTION;
 
   const connection = {
-    Name: name ? name : `${org.getUsername() ?? ''} ${org.getOrgId()}`,
+    Name: name?.length ? name : `${org.getUsername() ?? ''} ${org.getOrgId()}`,
     PDRI__Access_Token__c: org.getConnection().getConnectionOptions().accessToken,
     PDRI__Active__c: true,
     PDRI__Instance_URL__c: org.getConnection().getConnectionOptions().instanceUrl?.replace(trailSlashRegex, ''),

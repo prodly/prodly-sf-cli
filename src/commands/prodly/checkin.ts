@@ -82,7 +82,7 @@ export default class ProdlyCheckin extends SfCommand<JSONObject> {
 
     const print = (message: string | undefined, ...args: unknown[]): void => this.log(message, ...args);
 
-    let mangedInstanceId = null;
+    let mangedInstanceId: string;
     let dataSetId;
     let deploymentPlanId;
 

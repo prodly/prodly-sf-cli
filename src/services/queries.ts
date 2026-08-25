@@ -13,7 +13,7 @@ const getDeploymentEntityId = async ({
   dataEntityFlag: string;
   dataEntityType: string;
   hubConn: Connection;
-  print?: (message?: string | undefined, ...args: unknown[]) => void;
+  print?: (message?: string, ...args: unknown[]) => void;
 }): Promise<string | undefined> => {
   const isId = ORG_ID_REG_EXP.test(dataEntityFlag);
   if (print) print('Is org ID: ' + isId);

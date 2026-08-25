@@ -2,7 +2,7 @@ import { Connection, Org } from '@salesforce/core';
 import { ProdlyConnection } from '../types/prodly.js';
 import { SaveResult } from '../types/salesforce.js';
 
-type printFn = (message?: string | undefined, ...args: unknown[]) => void;
+type printFn = (message?: string, ...args: unknown[]) => void;
 
 export type CreateConnectionFn = ({
   hubConn,
