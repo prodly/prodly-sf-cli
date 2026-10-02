@@ -2,7 +2,16 @@
   "extends": "@salesforce/dev-config/tsconfig-strict-esm",
   "compilerOptions": {
     "outDir": "lib",
-    "rootDir": "src"
+    "rootDir": "src",
+    "types": ["node"]
   },
-  "include": ["./src/**/*.ts"]
+  "include": ["./src/**/*.ts"],
+  // TypeScript 6 dropped the automatic inclusion of every @types package, and ts-node
+  // type-checks the tests against this config, so mocha's globals must be listed here.
+  "ts-node": {
+    "esm": true,
+    "compilerOptions": {
+      "types": ["node", "mocha"]
+    }
+  }
 }
