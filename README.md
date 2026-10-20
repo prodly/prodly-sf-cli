@@ -129,8 +129,8 @@ prodly:checkin command
 
 ```
 USAGE
-  $ sf prodly checkin -v <value> -o <value> -c <value> [--json] [--flags-dir <value>] [-f <value>] [-m <value>] [-b
-    <value>] [-q <value> -t <value>] [-i <value>] [-z <value>] [-p <value>]
+  $ sf prodly checkin -v <value> -o <value> -c <value> [--json] [--flags-dir <value>] [-f <value>] [--metadata-folder
+    <value>] [-m <value>] [-b <value>] [-q <value> -t <value>] [-i <value>] [-z <value>] [-p <value>]
 
 FLAGS
   -b, --branch=<value>                            branch name for deployment
@@ -147,6 +147,7 @@ FLAGS
   -v, --target-dev-hub=<value>                    (required) Username or alias of the Dev Hub org. Not required if the
                                                   `target-dev-hub` configuration variable is already set.
   -z, --notes=<value>                             notes for the deployment
+      --metadata-folder=<value>                   metadata branch folder id to use
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -180,9 +181,9 @@ prodly:checkout command
 ```
 USAGE
   $ sf prodly checkout -v <value> -o <value> [--json] [--flags-dir <value>] [-a <value> -r
-    NoTestRun|RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests] [-f <value>] [--destructive-changes-order pre|post -d
-    <value>] [-m <value>] [-b <value>] [-t <value>] [-e] [-q <value>] [-i <value>] [-n <value>] [-z <value>] [-p
-    <value>] [-l]
+    NoTestRun|RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests] [-f <value>] [--metadata-folder <value>]
+    [--destructive-changes-order pre|post -d <value>] [-m <value>] [-b <value>] [-t <value>] [-e] [-q <value>] [-i
+    <value>] [-n <value>] [-z <value>] [-p <value>] [-l]
 
 FLAGS
   -a, --apex-test-classes=<value>                           comma separated list of Apex test class names to run when
@@ -218,6 +219,7 @@ FLAGS
                                                             delete: before (pre) or after (post) deploying the other
                                                             components. Defaults to pre.
                                                             <options: pre|post>
+      --metadata-folder=<value>                             metadata branch folder id to use
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.

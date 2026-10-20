@@ -173,7 +173,7 @@ describe('prodly:checkout', () => {
     const testOrg = new MockTestOrgData();
     const hubOrg = new MockTestOrgData();
     hubOrg.makeDevHub();
-    let checkoutBody: { metadata: Record<string, unknown> } | undefined;
+    let checkoutBody: { dataFolder?: string; metadata: Record<string, unknown>; metadataFolder?: string } | undefined;
 
     const runCheckout = (flags: string[]): Promise<unknown> =>
       ProdlyCheckout.run([
@@ -194,7 +194,7 @@ describe('prodly:checkout', () => {
       $$.fakeConnectionRequest = (request: AnyJson): Promise<AnyJson> => {
         const { body, url } = request as { body: string; url: string };
         if (url.endsWith('/services/apexrest/PDRI/v1/instances/f50616b6-57b1-4941-802f-ee0e2506f217/checkout')) {
-          checkoutBody = JSON.parse(body) as { metadata: Record<string, unknown> };
+          checkoutBody = JSON.parse(body) as typeof checkoutBody;
           return Promise.resolve(JSON.stringify({ jobs: [{ id: 'job-1' }] }));
         }
         return Promise.reject(new Error(`Unexpected request: ${url}`));
@@ -214,6 +214,21 @@ describe('prodly:checkout', () => {
         quickDeploymentComponents: [{ type: 'ApexClass', ids: ['Foo'] }],
         testLevel: 'RunLocalTests',
       });
+      expect(checkoutBody).to.not.have.property('metadataFolder');
+    });
+
+    it('sends the metadata folder and data folder ids', async () => {
+      await runCheckout([
+        '--metadata-quick-select-components',
+        '[{"type":"ApexClass","ids":["Foo"]}]',
+        '--metadata-folder',
+        'a3di8000000AVc1AAG',
+        '--data-folder',
+        'a3di8000000AVaPAAW',
+      ]);
+
+      expect(checkoutBody?.metadataFolder).to.equal('a3di8000000AVc1AAG');
+      expect(checkoutBody?.dataFolder).to.equal('a3di8000000AVaPAAW');
     });
 
     it('sends a delete-only checkout without a data set, plan or components to deploy', async () => {

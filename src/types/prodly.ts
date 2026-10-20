@@ -75,6 +75,7 @@ export type CheckoutOptions = {
   filter: string | undefined;
   hubConn: Connection;
   mangedInstanceId: string;
+  metadataFolder?: string;
   quickDeploymentComponents?: QuickDeploymentComponent[];
   quickDeploymentComponentsToDelete?: QuickDeploymentComponent[];
   simulation: boolean;
@@ -91,6 +92,7 @@ export type CheckinOptions = {
   filter: string | undefined;
   hubConn: Connection;
   mangedInstanceId: string;
+  metadataFolder?: string;
   quickDeploymentComponents?: QuickDeploymentComponent[];
 };
 

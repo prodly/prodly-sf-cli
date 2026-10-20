@@ -29,6 +29,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
       dependsOn: ['test-option'],
     }),
     'data-folder': Flags.string({ char: 'f', summary: prodlyMessages.getMessage('dataBranchFolderFlagDescription') }),
+    'metadata-folder': Flags.string({ summary: prodlyMessages.getMessage('metadataBranchFolderFlagDescription') }),
     'destructive-changes-order': Flags.option({
       summary: prodlyMessages.getMessage('destructiveChangesOrderFlagDescription'),
       dependsOn: ['metadata-quick-select-components-to-delete'],
@@ -92,6 +93,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     this.log('Deployment description flag: ' + deploymentNotesFlag);
     this.log('Branch flag: ' + branchFlag);
     this.log('Data folder flag: ' + flags['data-folder']);
+    this.log('Metadata folder flag: ' + flags['metadata-folder']);
     this.log('Data set flag: ' + datasetFlag);
     this.log('Deployment plan flag: ' + planFlag);
     this.log('Simulation flag: ' + simulationFlag);
@@ -201,6 +203,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
       filter: queryFilterFlag,
       hubConn,
       mangedInstanceId,
+      metadataFolder: flags['metadata-folder'],
       quickDeploymentComponents: constructQuickDeploymentComponents(metadataQuickSelectComponents),
       quickDeploymentComponentsToDelete,
       simulation: simulationFlag,
@@ -224,6 +227,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     filter,
     hubConn,
     mangedInstanceId,
+    metadataFolder,
     quickDeploymentComponents,
     quickDeploymentComponentsToDelete,
     simulation,
@@ -251,6 +255,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
               testLevel,
             }
           : {},
+      metadataFolder,
       queryFilter: constructQueryFilter(filter),
       validation: simulation ?? false,
     };
