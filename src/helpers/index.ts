@@ -45,7 +45,8 @@ const constructApexTestClasses = (apexTestClassesFlag?: string, testLevel?: TTes
 };
 
 const constructQuickDeploymentComponents = (
-  quickDeploymentComponents?: string
+  quickDeploymentComponents?: string,
+  flagName = 'metadata-quick-select-components'
 ): QuickDeploymentComponent[] | undefined => {
   if (!quickDeploymentComponents) return undefined;
   try {
@@ -66,11 +67,26 @@ const constructQuickDeploymentComponents = (
     return parse;
   } catch (error) {
     throw new SfError(
-      `Invalid JSON format for metadata-quick-select-components flag: ${
-        error instanceof Error ? error.message : String(error)
-      }`
+      `Invalid JSON format for ${flagName} flag: ${error instanceof Error ? error.message : String(error)}`
     );
   }
 };
 
-export { constructApexTestClasses, constructQuickDeploymentComponents, constructQueryFilter };
+// A blank flag or an empty list means there is nothing to delete
+const constructQuickDeploymentComponentsToDelete = (
+  quickDeploymentComponentsToDelete?: string
+): QuickDeploymentComponent[] | undefined => {
+  if (!quickDeploymentComponentsToDelete?.trim()) return undefined;
+  const parsed = constructQuickDeploymentComponents(
+    quickDeploymentComponentsToDelete,
+    'metadata-quick-select-components-to-delete'
+  );
+  return parsed?.length ? parsed : undefined;
+};
+
+export {
+  constructApexTestClasses,
+  constructQuickDeploymentComponents,
+  constructQuickDeploymentComponentsToDelete,
+  constructQueryFilter,
+};

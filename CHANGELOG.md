@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.8.0] - 2026-10-20
+
+### Added
+
+- `prodly:checkout` now supports `--metadata-quick-select-components-to-delete` (`-d`) to delete metadata from the target org. It takes the same JSON format as `--metadata-quick-select-components`, and a checkout can delete metadata without a data set, deployment plan or components to deploy. Requires the metadata destructive changes setting to be enabled in Prodly.
+- `prodly:checkout` now supports `--destructive-changes-order` (`pre` or `post`) to delete the components before or after deploying the others. Defaults to `pre`.
+
+### Changed
+
+- `prodly:checkout` `--test-option` (`-r`) and `--apex-test-classes` (`-a`) can now be used when only components to delete are given.
+
 ## [1.7.5] - 2026-10-02
 
 ### Changed
