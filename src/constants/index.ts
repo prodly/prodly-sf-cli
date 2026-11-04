@@ -13,3 +13,6 @@ export const RUN_SPECIFIED_TESTS = 'RunSpecifiedTests';
 
 export const TEST_OPTIONS = [NO_TEST_RUN, RUN_LOCAL_TESTS, RUN_ALL_TESTS, RUN_SPECIFIED_TESTS] as const;
 export type TTestOption = (typeof TEST_OPTIONS)[number];
+
+export const DESTRUCTIVE_CHANGES_ORDERS = ['pre', 'post'] as const;
+export type TDestructiveChangesOrder = (typeof DESTRUCTIVE_CHANGES_ORDERS)[number];

@@ -1,5 +1,6 @@
 import { Messages, SfError } from '@salesforce/core';
-import { TestContext } from '@salesforce/core/testSetup';
+import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
+import { AnyJson } from '@salesforce/ts-types';
 import { expect } from 'chai';
 import ProdlyCheckin from '../../../../src/commands/prodly/checkin.js';
 
@@ -110,5 +111,60 @@ describe('prodly:checkin', () => {
         expect(error.message).to.not.include(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
       }
     }
+  });
+
+  describe('checkin request', () => {
+    const testOrg = new MockTestOrgData();
+    const hubOrg = new MockTestOrgData();
+    hubOrg.makeDevHub();
+    let checkinBody: { dataFolder?: string; metadataFolder?: string } | undefined;
+
+    const runCheckin = (flags: string[]): Promise<unknown> =>
+      ProdlyCheckin.run([
+        '--target-org',
+        testOrg.username,
+        '--target-dev-hub',
+        hubOrg.username,
+        '--instance',
+        'f50616b6-57b1-4941-802f-ee0e2506f217',
+        '--comment',
+        'CI checkin',
+        '--metadata-quick-select-components',
+        '[{"type":"ApexClass","ids":["Foo"]}]',
+        ...flags,
+      ]);
+
+    beforeEach(async () => {
+      checkinBody = undefined;
+      await $$.stubAuths(testOrg, hubOrg);
+      $$.fakeConnectionRequest = (request: AnyJson): Promise<AnyJson> => {
+        const { body, url } = request as { body: string; url: string };
+        if (url.endsWith('/services/apexrest/PDRI/v1/instances/f50616b6-57b1-4941-802f-ee0e2506f217/checkin')) {
+          checkinBody = JSON.parse(body) as typeof checkinBody;
+          return Promise.resolve(JSON.stringify({ jobs: [{ id: 'job-1' }] }));
+        }
+        return Promise.reject(new Error(`Unexpected request: ${url}`));
+      };
+    });
+
+    it('sends the metadata folder and data folder ids', async () => {
+      const result = await runCheckin([
+        '--metadata-folder',
+        'a3di8000000AVc1AAG',
+        '--data-folder',
+        'a3di8000000AVaPAAW',
+      ]);
+
+      expect(result).to.deep.equal({ jobId: 'job-1', message: 'Checkin launched' });
+      expect(checkinBody?.metadataFolder).to.equal('a3di8000000AVc1AAG');
+      expect(checkinBody?.dataFolder).to.equal('a3di8000000AVaPAAW');
+    });
+
+    it('leaves the folders to the server defaults when they are not given', async () => {
+      await runCheckin([]);
+
+      expect(checkinBody).to.not.have.property('metadataFolder');
+      expect(checkinBody).to.not.have.property('dataFolder');
+    });
   });
 });

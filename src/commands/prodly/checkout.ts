@@ -4,13 +4,14 @@ import {
   constructApexTestClasses,
   constructQueryFilter,
   constructQuickDeploymentComponents,
+  constructQuickDeploymentComponentsToDelete,
 } from '../../helpers/index.js';
 import { updateConnection } from '../../services/connections.js';
 import { getManagedInstance } from '../../services/manage-instances.js';
 import { getDeploymentEntityId } from '../../services/queries.js';
 import { JSONObject } from '../../types/generic.js';
 import { CheckoutOptions, Jobs } from '../../types/prodly.js';
-import { TEST_OPTIONS, TTestOption } from '../../constants/index.js';
+import { DESTRUCTIVE_CHANGES_ORDERS, TEST_OPTIONS, TTestOption } from '../../constants/index.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const commandMessages = Messages.loadMessages('prodlysfcli', 'prodly.checkout');
@@ -28,17 +29,32 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
       dependsOn: ['test-option'],
     }),
     'data-folder': Flags.string({ char: 'f', summary: prodlyMessages.getMessage('dataBranchFolderFlagDescription') }),
+    'metadata-folder': Flags.string({ summary: prodlyMessages.getMessage('metadataBranchFolderFlagDescription') }),
+    'destructive-changes-order': Flags.option({
+      summary: prodlyMessages.getMessage('destructiveChangesOrderFlagDescription'),
+      dependsOn: ['metadata-quick-select-components-to-delete'],
+      options: DESTRUCTIVE_CHANGES_ORDERS,
+    })(),
     'target-dev-hub': Flags.requiredHub(),
     'target-org': Flags.requiredOrg(),
     'test-option': Flags.string({
       char: 'r',
       summary: prodlyMessages.getMessage('testOptionFlagDescription'),
-      dependsOn: ['metadata-quick-select-components'],
+      relationships: [
+        {
+          type: 'some',
+          flags: ['metadata-quick-select-components', 'metadata-quick-select-components-to-delete'],
+        },
+      ],
       options: TEST_OPTIONS,
     }),
     'metadata-quick-select-components': Flags.string({
       char: 'm',
       summary: prodlyMessages.getMessage('metadataQuickSelectComponentsFlagDescription'),
+    }),
+    'metadata-quick-select-components-to-delete': Flags.string({
+      char: 'd',
+      summary: prodlyMessages.getMessage('metadataQuickSelectComponentsToDeleteFlagDescription'),
     }),
     branch: Flags.string({ char: 'b', summary: prodlyMessages.getMessage('branchFlagDescription') }),
     dataset: Flags.string({ char: 't', summary: prodlyMessages.getMessage('dataSetFlagDescription') }),
@@ -56,7 +72,9 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
 
     const {
       'apex-test-classes': apexTestClassesFlag,
+      'destructive-changes-order': destructiveChangesOrderFlag,
       'metadata-quick-select-components': metadataQuickSelectComponentsFlag,
+      'metadata-quick-select-components-to-delete': metadataQuickSelectComponentsToDeleteFlag,
       'test-option': testOptionFlag,
       branch: branchFlag,
       dataset: datasetFlag,
@@ -75,11 +93,14 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     this.log('Deployment description flag: ' + deploymentNotesFlag);
     this.log('Branch flag: ' + branchFlag);
     this.log('Data folder flag: ' + flags['data-folder']);
+    this.log('Metadata folder flag: ' + flags['metadata-folder']);
     this.log('Data set flag: ' + datasetFlag);
     this.log('Deployment plan flag: ' + planFlag);
     this.log('Simulation flag: ' + simulationFlag);
     this.log('Query filter flag: ' + queryFilterFlag);
     this.log('Metadata quick select components flag: ' + metadataQuickSelectComponentsFlag);
+    this.log('Metadata quick select components to delete flag: ' + metadataQuickSelectComponentsToDeleteFlag);
+    this.log('Destructive changes order flag: ' + destructiveChangesOrderFlag);
     this.log('Test option flag: ' + testOptionFlag);
     this.log('Apex test classes flag: ' + apexTestClassesFlag);
 
@@ -89,8 +110,13 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
         : undefined;
     const hasMetadataQuickSelectComponents = metadataQuickSelectComponents !== undefined;
 
-    // When no metadata quick select components are provided, require either dataset or plan (but not both)
-    if (!hasMetadataQuickSelectComponents && !datasetFlag && !planFlag) {
+    const quickDeploymentComponentsToDelete = constructQuickDeploymentComponentsToDelete(
+      metadataQuickSelectComponentsToDeleteFlag
+    );
+    const hasMetadataQuickSelectComponentsToDelete = quickDeploymentComponentsToDelete !== undefined;
+
+    // When no metadata quick select components to deploy or delete are provided, require either dataset or plan (but not both)
+    if (!hasMetadataQuickSelectComponents && !hasMetadataQuickSelectComponentsToDelete && !datasetFlag && !planFlag) {
       throw new SfError(prodlyMessages.getMessage('errorNoDatasetAndPlanFlags', []));
     }
 
@@ -173,10 +199,13 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
       deploymentNameFlag,
       deploymentNotes: deploymentNotesFlag,
       deploymentPlanId,
+      destructiveChangesOrder: hasMetadataQuickSelectComponentsToDelete ? destructiveChangesOrderFlag : undefined,
       filter: queryFilterFlag,
       hubConn,
       mangedInstanceId,
+      metadataFolder: flags['metadata-folder'],
       quickDeploymentComponents: constructQuickDeploymentComponents(metadataQuickSelectComponents),
+      quickDeploymentComponentsToDelete,
       simulation: simulationFlag,
       testLevel: testOptionFlag as TTestOption,
     });
@@ -194,10 +223,13 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     deploymentNameFlag,
     deploymentNotes,
     deploymentPlanId,
+    destructiveChangesOrder,
     filter,
     hubConn,
     mangedInstanceId,
+    metadataFolder,
     quickDeploymentComponents,
+    quickDeploymentComponentsToDelete,
     simulation,
     testLevel,
   }: CheckoutOptions): Promise<string> {
@@ -213,13 +245,17 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
       deploymentName: deploymentNameFlag,
       deploymentNotes,
       deploymentPlanId,
-      metadata: quickDeploymentComponents
-        ? {
-            apexTestClasses: constructApexTestClasses(apexTestClasses, testLevel),
-            quickDeploymentComponents,
-            testLevel,
-          }
-        : {},
+      metadata:
+        quickDeploymentComponents ?? quickDeploymentComponentsToDelete
+          ? {
+              apexTestClasses: constructApexTestClasses(apexTestClasses, testLevel),
+              quickDeploymentComponents,
+              quickDeploymentComponentsToDelete,
+              destructiveChangesOrder,
+              testLevel,
+            }
+          : {},
+      metadataFolder,
       queryFilter: constructQueryFilter(filter),
       validation: simulation ?? false,
     };

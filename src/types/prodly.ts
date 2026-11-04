@@ -1,5 +1,5 @@
 import { Connection } from '@salesforce/core';
-import { TTestOption } from '../constants/index.js';
+import { TDestructiveChangesOrder, TTestOption } from '../constants/index.js';
 
 export type ManagedInstances = {
   instances: ManagedInstance[];
@@ -71,10 +71,13 @@ export type CheckoutOptions = {
   deploymentNameFlag: string | undefined;
   deploymentNotes: string | undefined;
   deploymentPlanId: string | undefined;
+  destructiveChangesOrder?: TDestructiveChangesOrder;
   filter: string | undefined;
   hubConn: Connection;
   mangedInstanceId: string;
+  metadataFolder?: string;
   quickDeploymentComponents?: QuickDeploymentComponent[];
+  quickDeploymentComponentsToDelete?: QuickDeploymentComponent[];
   simulation: boolean;
   testLevel?: TTestOption;
 };
@@ -89,6 +92,7 @@ export type CheckinOptions = {
   filter: string | undefined;
   hubConn: Connection;
   mangedInstanceId: string;
+  metadataFolder?: string;
   quickDeploymentComponents?: QuickDeploymentComponent[];
 };
 

@@ -80,7 +80,7 @@ EXAMPLES
   Lists all branch folders
 ```
 
-_See code: [src/commands/prodly/branch-folders.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.7.2/src/commands/prodly/branch-folders.ts)_
+_See code: [src/commands/prodly/branch-folders.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/branch-folders.ts)_
 
 ## `sf prodly change-types`
 
@@ -121,7 +121,7 @@ EXAMPLES
   Creates a scratch org based on a change type
 ```
 
-_See code: [src/commands/prodly/change-types.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.7.2/src/commands/prodly/change-types.ts)_
+_See code: [src/commands/prodly/change-types.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/change-types.ts)_
 
 ## `sf prodly checkin`
 
@@ -129,8 +129,8 @@ prodly:checkin command
 
 ```
 USAGE
-  $ sf prodly checkin -v <value> -o <value> -c <value> [--json] [--flags-dir <value>] [-f <value>] [-m <value>] [-b
-    <value>] [-q <value> -t <value>] [-i <value>] [-z <value>] [-p <value>]
+  $ sf prodly checkin -v <value> -o <value> -c <value> [--json] [--flags-dir <value>] [-f <value>] [--metadata-folder
+    <value>] [-m <value>] [-b <value>] [-q <value> -t <value>] [-i <value>] [-z <value>] [-p <value>]
 
 FLAGS
   -b, --branch=<value>                            branch name for deployment
@@ -147,6 +147,7 @@ FLAGS
   -v, --target-dev-hub=<value>                    (required) Username or alias of the Dev Hub org. Not required if the
                                                   `target-dev-hub` configuration variable is already set.
   -z, --notes=<value>                             notes for the deployment
+      --metadata-folder=<value>                   metadata branch folder id to use
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -171,7 +172,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/checkin.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.7.2/src/commands/prodly/checkin.ts)_
+_See code: [src/commands/prodly/checkin.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/checkin.ts)_
 
 ## `sf prodly checkout`
 
@@ -180,33 +181,45 @@ prodly:checkout command
 ```
 USAGE
   $ sf prodly checkout -v <value> -o <value> [--json] [--flags-dir <value>] [-a <value> -r
-    NoTestRun|RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests] [-f <value>] [-m <value>] [-b <value>] [-t <value>] [-e]
-    [-q <value>] [-i <value>] [-n <value>] [-z <value>] [-p <value>] [-l]
+    NoTestRun|RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests] [-f <value>] [--metadata-folder <value>]
+    [--destructive-changes-order pre|post -d <value>] [-m <value>] [-b <value>] [-t <value>] [-e] [-q <value>] [-i
+    <value>] [-n <value>] [-z <value>] [-p <value>] [-l]
 
 FLAGS
-  -a, --apex-test-classes=<value>                 comma separated list of Apex test class names to run when
-                                                  RunSpecifiedTests was selected
-  -b, --branch=<value>                            branch name for deployment
-  -e, --deactivate                                deactivate all events for the deployment
-  -f, --data-folder=<value>                       data branch folder id to use
-  -i, --instance=<value>                          managed instance ID on which to perform the action
-  -l, --simulation                                perform a data and/or metadata simulation
-  -m, --metadata-quick-select-components=<value>  JSON string of metadata quick select components array, e.g.,
-                                                  '[{"type":"Profile","ids":["Profile1","Profile2"]}]'
-  -n, --name=<value>                              name for the deployment
-  -o, --target-org=<value>                        (required) Username or alias of the target org. Not required if the
-                                                  `target-org` configuration variable is already set.
-  -p, --plan=<value>                              name or record ID of the deployment plan to deploy
-  -q, --filter=<value>                            query filter override for a data set deployment
-  -r, --test-option=<option>                      specifies the Salesforce Validate Change Set tests to run before
-                                                  deploying metadata. Default runs no tests, except when deploying Apex
-                                                  classes or triggers to production, Default runs local tests. Local
-                                                  tests are tests that do not originate from a managed package.
-                                                  <options: NoTestRun|RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests>
-  -t, --dataset=<value>                           name or record ID of the data set to deploy
-  -v, --target-dev-hub=<value>                    (required) Username or alias of the Dev Hub org. Not required if the
-                                                  `target-dev-hub` configuration variable is already set.
-  -z, --notes=<value>                             notes for the deployment
+  -a, --apex-test-classes=<value>                           comma separated list of Apex test class names to run when
+                                                            RunSpecifiedTests is selected
+  -b, --branch=<value>                                      branch name for deployment
+  -d, --metadata-quick-select-components-to-delete=<value>  JSON string of metadata quick select components to delete
+                                                            from the target org, in the same format as
+                                                            --metadata-quick-select-components, e.g.,
+                                                            '[{"type":"ApexClass","ids":["OldClass"]}]'
+  -e, --deactivate                                          deactivate all events for the deployment
+  -f, --data-folder=<value>                                 data branch folder id to use
+  -i, --instance=<value>                                    managed instance ID on which to perform the action
+  -l, --simulation                                          perform a data and/or metadata simulation
+  -m, --metadata-quick-select-components=<value>            JSON string of metadata quick select components array, e.g.,
+                                                            '[{"type":"Profile","ids":["Profile1","Profile2"]}]'
+  -n, --name=<value>                                        name for the deployment
+  -o, --target-org=<value>                                  (required) Username or alias of the target org. Not required
+                                                            if the `target-org` configuration variable is already set.
+  -p, --plan=<value>                                        name or record ID of the deployment plan to deploy
+  -q, --filter=<value>                                      query filter override for a data set deployment
+  -r, --test-option=<option>                                specifies the Salesforce Validate Change Set tests to run
+                                                            before deploying metadata. Default runs no tests, except
+                                                            when deploying Apex classes or triggers to production,
+                                                            Default runs local tests. Local tests are tests that do not
+                                                            originate from a managed package.
+                                                            <options: NoTestRun|RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests>
+  -t, --dataset=<value>                                     name or record ID of the data set to deploy
+  -v, --target-dev-hub=<value>                              (required) Username or alias of the Dev Hub org. Not
+                                                            required if the `target-dev-hub` configuration variable is
+                                                            already set.
+  -z, --notes=<value>                                       notes for the deployment
+      --destructive-changes-order=<option>                  when to delete the metadata quick select components to
+                                                            delete: before (pre) or after (post) deploying the other
+                                                            components. Defaults to pre.
+                                                            <options: pre|post>
+      --metadata-folder=<value>                             metadata branch folder id to use
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -229,9 +242,13 @@ EXAMPLES
   $ sf prodly:checkout -i f50616b6-57b1-4941-802f-ee0e2506f217
   Deploy managed data to the managed instance org from the associated branch.
   The instance should be managed by the Prodly account associated with the default DevHub control org.
+
+  $ sf prodly:checkout -i f50616b6-57b1-4941-802f-ee0e2506f217 --name "Remove old classes" --metadata-quick-select-components-to-delete '[{"type":"ApexClass","ids":["OldClass"]}]' --destructive-changes-order post
+  Delete metadata from the managed instance org, after deploying any other quick select components.
+  Members already missing from the org are skipped. The metadata destructive changes setting must be enabled in Prodly.
 ```
 
-_See code: [src/commands/prodly/checkout.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.7.2/src/commands/prodly/checkout.ts)_
+_See code: [src/commands/prodly/checkout.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/checkout.ts)_
 
 ## `sf prodly deploy`
 
@@ -245,7 +262,7 @@ USAGE
 
 FLAGS
   -a, --apex-test-classes=<value>                 comma separated list of Apex test class names to run when
-                                                  RunSpecifiedTests was selected
+                                                  RunSpecifiedTests is selected
   -b, --label=<value>                             connection and managed instance name
   -d, --destination=<value>                       destination managed instance ID
   -e, --deactivate                                deactivate all events for the deployment
@@ -291,7 +308,7 @@ EXAMPLES
   Command output... deploying to the scratch org from the UAT sandbox, using the named connection record in the dev hub, control org. Long param names.
 ```
 
-_See code: [src/commands/prodly/deploy.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.7.2/src/commands/prodly/deploy.ts)_
+_See code: [src/commands/prodly/deploy.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/deploy.ts)_
 
 ## `sf prodly jobs`
 
@@ -320,7 +337,7 @@ EXAMPLES
   Print the job status for the provided job Id.
 ```
 
-_See code: [src/commands/prodly/jobs.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.7.2/src/commands/prodly/jobs.ts)_
+_See code: [src/commands/prodly/jobs.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/jobs.ts)_
 
 ## `sf prodly manage`
 
@@ -372,7 +389,7 @@ EXAMPLES
   Refresh the managed instance org ID after a sandbox has been refreshed.
 ```
 
-_See code: [src/commands/prodly/manage.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.7.2/src/commands/prodly/manage.ts)_
+_See code: [src/commands/prodly/manage.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/manage.ts)_
 
 ## `sf prodly releases`
 
@@ -412,7 +429,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/releases.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.7.2/src/commands/prodly/releases.ts)_
+_See code: [src/commands/prodly/releases.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/releases.ts)_
 
 ## `sf prodly version`
 
@@ -457,7 +474,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/version.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.7.2/src/commands/prodly/version.ts)_
+_See code: [src/commands/prodly/version.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/version.ts)_
 
 <!-- commandsstop -->
 
