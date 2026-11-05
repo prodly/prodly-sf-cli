@@ -7,6 +7,7 @@
 - `prodly:checkout` now supports `--metadata-quick-select-components-to-delete` (`-d`) to delete metadata from the target org. It takes the same JSON format as `--metadata-quick-select-components`, and a checkout can delete metadata without a data set, deployment plan or components to deploy. Requires the metadata destructive changes setting to be enabled in Prodly.
 - `prodly:checkout` now supports `--destructive-changes-order` (`pre` or `post`) to delete the components before or after deploying the others. Defaults to `pre`.
 - `prodly:checkin` and `prodly:checkout` now support `--metadata-folder` to choose the repository's metadata folder by ID, like `--data-folder` does for data. `prodly:branch-folders -l` lists the folder IDs. Without it, the default metadata folder is used.
+- `prodly:checkout` and `prodly:deploy` now support `--metadata-rollback-on-failure`. It defaults to true, as in the Prodly UI: if any metadata component fails to deploy, all metadata changes are rolled back. Use `--no-metadata-rollback-on-failure` to keep the components that deployed. This works only for sandboxes and scratch orgs; production deployments always roll back.
 
 ### Changed
 

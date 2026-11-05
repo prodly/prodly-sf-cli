@@ -26,6 +26,7 @@
   "manageFlagDescription": "manage a new instance",
   "metadataQuickSelectComponentsToDeleteFlagDescription": "JSON string of metadata quick select components to delete from the target org, in the same format as --metadata-quick-select-components, e.g., '[{\"type\":\"ApexClass\",\"ids\":[\"OldClass\"]}]'",
   "metadataBranchFolderFlagDescription": "metadata branch folder id to use",
+  "metadataRollbackOnFailureFlagDescription": "roll back all metadata changes if any component fails to deploy. Defaults to true; use --no-metadata-rollback-on-failure to keep the components that deployed (sandboxes and scratch orgs only; production deployments always roll back).",
   "metadataQuickSelectComponentsFlagDescription": "JSON string of metadata quick select components array, e.g., '[{\"type\":\"Profile\",\"ids\":[\"Profile1\",\"Profile2\"]}]'",
   "newBranchFlagSummary": "if provided it creates a new branch based on the source branch that will be used for version control",
   "notesFlagDescription": "notes for the deployment",

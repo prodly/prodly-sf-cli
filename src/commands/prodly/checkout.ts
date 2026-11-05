@@ -56,6 +56,11 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
       char: 'd',
       summary: prodlyMessages.getMessage('metadataQuickSelectComponentsToDeleteFlagDescription'),
     }),
+    'metadata-rollback-on-failure': Flags.boolean({
+      summary: prodlyMessages.getMessage('metadataRollbackOnFailureFlagDescription'),
+      default: true,
+      allowNo: true,
+    }),
     branch: Flags.string({ char: 'b', summary: prodlyMessages.getMessage('branchFlagDescription') }),
     dataset: Flags.string({ char: 't', summary: prodlyMessages.getMessage('dataSetFlagDescription') }),
     deactivate: Flags.boolean({ char: 'e', summary: prodlyMessages.getMessage('deactivateFlagDescription') }),
@@ -103,6 +108,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     this.log('Destructive changes order flag: ' + destructiveChangesOrderFlag);
     this.log('Test option flag: ' + testOptionFlag);
     this.log('Apex test classes flag: ' + apexTestClassesFlag);
+    this.log('Metadata rollback on failure flag: ' + flags['metadata-rollback-on-failure']);
 
     const metadataQuickSelectComponents =
       metadataQuickSelectComponentsFlag !== undefined && metadataQuickSelectComponentsFlag.trim().length > 0
@@ -204,6 +210,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
       hubConn,
       mangedInstanceId,
       metadataFolder: flags['metadata-folder'],
+      metadataRollbackOnFailure: flags['metadata-rollback-on-failure'],
       quickDeploymentComponents: constructQuickDeploymentComponents(metadataQuickSelectComponents),
       quickDeploymentComponentsToDelete,
       simulation: simulationFlag,
@@ -228,6 +235,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
     hubConn,
     mangedInstanceId,
     metadataFolder,
+    metadataRollbackOnFailure,
     quickDeploymentComponents,
     quickDeploymentComponentsToDelete,
     simulation,
@@ -252,6 +260,7 @@ export default class ProdlyCheckout extends SfCommand<JSONObject> {
               quickDeploymentComponents,
               quickDeploymentComponentsToDelete,
               destructiveChangesOrder,
+              metadataRollbackOnFailure,
               testLevel,
             }
           : {},
