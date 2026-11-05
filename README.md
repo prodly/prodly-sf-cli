@@ -250,7 +250,8 @@ FLAGS
 
   --[no-]metadata-rollback-on-failure
       roll back all metadata changes if any component fails to deploy. Defaults to true; use
-      --no-metadata-rollback-on-failure to keep the components that deployed.
+      --no-metadata-rollback-on-failure to keep the components that deployed (sandboxes and scratch orgs only; production
+      deployments always roll back).
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -317,7 +318,8 @@ FLAGS
   -z, --notes=<value>                             notes for the deployment
       --[no-]metadata-rollback-on-failure         roll back all metadata changes if any component fails to deploy.
                                                   Defaults to true; use --no-metadata-rollback-on-failure to keep the
-                                                  components that deployed.
+                                                  components that deployed (sandboxes and scratch orgs only; production
+                                                  deployments always roll back).
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
