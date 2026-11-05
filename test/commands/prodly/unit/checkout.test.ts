@@ -211,10 +211,27 @@ describe('prodly:checkout', () => {
 
       expect(result).to.deep.equal({ jobId: 'job-1', message: 'Checkout launched' });
       expect(checkoutBody?.metadata).to.deep.equal({
+        metadataRollbackOnFailure: true,
         quickDeploymentComponents: [{ type: 'ApexClass', ids: ['Foo'] }],
         testLevel: 'RunLocalTests',
       });
       expect(checkoutBody).to.not.have.property('metadataFolder');
+    });
+
+    it('asks for metadata rollback on failure by default', async () => {
+      await runCheckout(['--metadata-quick-select-components', '[{"type":"ApexClass","ids":["Foo"]}]']);
+
+      expect(checkoutBody?.metadata).to.have.property('metadataRollbackOnFailure', true);
+    });
+
+    it('turns off metadata rollback on failure with --no-metadata-rollback-on-failure', async () => {
+      await runCheckout([
+        '--metadata-quick-select-components-to-delete',
+        '[{"type":"CustomLabel","ids":["OldLabel"]}]',
+        '--no-metadata-rollback-on-failure',
+      ]);
+
+      expect(checkoutBody?.metadata).to.have.property('metadataRollbackOnFailure', false);
     });
 
     it('sends the metadata folder and data folder ids', async () => {
@@ -241,6 +258,7 @@ describe('prodly:checkout', () => {
 
       expect(result).to.deep.equal({ jobId: 'job-1', message: 'Checkout launched' });
       expect(checkoutBody?.metadata).to.deep.equal({
+        metadataRollbackOnFailure: true,
         quickDeploymentComponentsToDelete: [
           { type: 'ApexClass', ids: ['OldClass'] },
           { type: 'CustomField', ids: ['Account.Old__c'] },
@@ -253,6 +271,7 @@ describe('prodly:checkout', () => {
       await runCheckout(['--metadata-quick-select-components-to-delete', '[{"type":"ApexClass","ids":["OldClass"]}]']);
 
       expect(checkoutBody?.metadata).to.deep.equal({
+        metadataRollbackOnFailure: true,
         quickDeploymentComponentsToDelete: [{ type: 'ApexClass', ids: ['OldClass'] }],
       });
     });
@@ -268,6 +287,7 @@ describe('prodly:checkout', () => {
       ]);
 
       expect(checkoutBody?.metadata).to.deep.equal({
+        metadataRollbackOnFailure: true,
         quickDeploymentComponents: [{ type: 'ApexClass', ids: ['Foo'] }],
         quickDeploymentComponentsToDelete: [{ type: 'ApexClass', ids: ['OldClass'] }],
         destructiveChangesOrder: 'pre',
@@ -285,6 +305,7 @@ describe('prodly:checkout', () => {
       ]);
 
       expect(checkoutBody?.metadata).to.deep.equal({
+        metadataRollbackOnFailure: true,
         apexTestClasses: ['FooTest', 'BarTest'],
         quickDeploymentComponentsToDelete: [{ type: 'ApexClass', ids: ['OldClass'] }],
         testLevel: 'RunSpecifiedTests',
@@ -302,6 +323,7 @@ describe('prodly:checkout', () => {
       ]);
 
       expect(checkoutBody?.metadata).to.deep.equal({
+        metadataRollbackOnFailure: true,
         quickDeploymentComponents: [{ type: 'ApexClass', ids: ['Foo'] }],
       });
     });

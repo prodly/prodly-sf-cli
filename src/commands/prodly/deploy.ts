@@ -44,6 +44,11 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
       char: 'm',
       summary: prodlyMessages.getMessage('metadataQuickSelectComponentsFlagDescription'),
     }),
+    'metadata-rollback-on-failure': Flags.boolean({
+      summary: prodlyMessages.getMessage('metadataRollbackOnFailureFlagDescription'),
+      default: true,
+      allowNo: true,
+    }),
     dataset: Flags.string({
       char: 't',
       summary: prodlyMessages.getMessage('dataSetFlagDescription'),
@@ -102,6 +107,7 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
     this.log('Metadata quick select components flag: ' + metadataQuickSelectComponentsFlag);
     this.log('Test option flag: ' + testOptionFlag);
     this.log('Apex test classes flag: ' + apexTestClassesFlag);
+    this.log('Metadata rollback on failure flag: ' + flags['metadata-rollback-on-failure']);
 
     const hasMetadataQuickSelectComponents = metadataQuickSelectComponentsFlag !== undefined;
 
@@ -300,6 +306,7 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
       deploymentPlanId,
       destinationInstanceId,
       hubConn,
+      metadataRollbackOnFailure: flags['metadata-rollback-on-failure'],
       queryFilter: queryFilterFlag,
       quickDeploymentComponents: constructQuickDeploymentComponents(metadataQuickSelectComponentsFlag),
       simulation: simulationFlag,
@@ -322,6 +329,7 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
     deploymentPlanId,
     destinationInstanceId,
     hubConn,
+    metadataRollbackOnFailure,
     queryFilter,
     quickDeploymentComponents,
     simulation,
@@ -355,6 +363,7 @@ export default class ProdlyDeploy extends SfCommand<JSONObject> {
       metadata: quickDeploymentComponents
         ? {
             apexTestClasses: constructApexTestClasses(apexTestClasses, testLevel),
+            metadataRollbackOnFailure,
             quickDeploymentComponents,
             testLevel,
             validation: simulation ?? false,

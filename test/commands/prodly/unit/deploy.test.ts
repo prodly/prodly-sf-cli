@@ -1,5 +1,6 @@
 import { Messages, SfError } from '@salesforce/core';
-import { TestContext } from '@salesforce/core/testSetup';
+import { MockTestOrgData, TestContext } from '@salesforce/core/testSetup';
+import { AnyJson } from '@salesforce/ts-types';
 import { expect } from 'chai';
 import ProdlyDeploy from '../../../../src/commands/prodly/deploy.js';
 
@@ -135,5 +136,54 @@ describe('prodly:deploy', () => {
         );
       }
     }
+  });
+
+  describe('deploy request', () => {
+    const testOrg = new MockTestOrgData();
+    const hubOrg = new MockTestOrgData();
+    hubOrg.makeDevHub();
+    let deployBody: { metadata: Record<string, unknown> } | undefined;
+
+    const runDeploy = (flags: string[]): Promise<unknown> =>
+      ProdlyDeploy.run([
+        '--target-org',
+        testOrg.username,
+        '--target-dev-hub',
+        hubOrg.username,
+        '--source',
+        'source-instance-id',
+        '--destination',
+        'destination-instance-id',
+        '--name',
+        'CI deployment',
+        '--metadata-quick-select-components',
+        '[{"type":"ApexClass","ids":["Foo"]}]',
+        ...flags,
+      ]);
+
+    beforeEach(async () => {
+      deployBody = undefined;
+      await $$.stubAuths(testOrg, hubOrg);
+      $$.fakeConnectionRequest = (request: AnyJson): Promise<AnyJson> => {
+        const { body, url } = request as { body: string; url: string };
+        if (url.endsWith('/services/apexrest/PDRI/v1/instances/destination-instance-id/deploy')) {
+          deployBody = JSON.parse(body) as typeof deployBody;
+          return Promise.resolve(JSON.stringify({ jobs: [{ id: 'job-1' }] }));
+        }
+        return Promise.reject(new Error(`Unexpected request: ${url}`));
+      };
+    });
+
+    it('asks for metadata rollback on failure by default', async () => {
+      await runDeploy([]);
+
+      expect(deployBody?.metadata).to.have.property('metadataRollbackOnFailure', true);
+    });
+
+    it('turns off metadata rollback on failure with --no-metadata-rollback-on-failure', async () => {
+      await runDeploy(['--no-metadata-rollback-on-failure']);
+
+      expect(deployBody?.metadata).to.have.property('metadataRollbackOnFailure', false);
+    });
   });
 });

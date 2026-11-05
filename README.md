@@ -182,44 +182,75 @@ prodly:checkout command
 USAGE
   $ sf prodly checkout -v <value> -o <value> [--json] [--flags-dir <value>] [-a <value> -r
     NoTestRun|RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests] [-f <value>] [--metadata-folder <value>]
-    [--destructive-changes-order pre|post -d <value>] [-m <value>] [-b <value>] [-t <value>] [-e] [-q <value>] [-i
-    <value>] [-n <value>] [-z <value>] [-p <value>] [-l]
+    [--destructive-changes-order pre|post -d <value>] [-m <value>] [--metadata-rollback-on-failure] [-b <value>] [-t
+    <value>] [-e] [-q <value>] [-i <value>] [-n <value>] [-z <value>] [-p <value>] [-l]
 
 FLAGS
-  -a, --apex-test-classes=<value>                           comma separated list of Apex test class names to run when
-                                                            RunSpecifiedTests is selected
-  -b, --branch=<value>                                      branch name for deployment
-  -d, --metadata-quick-select-components-to-delete=<value>  JSON string of metadata quick select components to delete
-                                                            from the target org, in the same format as
-                                                            --metadata-quick-select-components, e.g.,
-                                                            '[{"type":"ApexClass","ids":["OldClass"]}]'
-  -e, --deactivate                                          deactivate all events for the deployment
-  -f, --data-folder=<value>                                 data branch folder id to use
-  -i, --instance=<value>                                    managed instance ID on which to perform the action
-  -l, --simulation                                          perform a data and/or metadata simulation
-  -m, --metadata-quick-select-components=<value>            JSON string of metadata quick select components array, e.g.,
-                                                            '[{"type":"Profile","ids":["Profile1","Profile2"]}]'
-  -n, --name=<value>                                        name for the deployment
-  -o, --target-org=<value>                                  (required) Username or alias of the target org. Not required
-                                                            if the `target-org` configuration variable is already set.
-  -p, --plan=<value>                                        name or record ID of the deployment plan to deploy
-  -q, --filter=<value>                                      query filter override for a data set deployment
-  -r, --test-option=<option>                                specifies the Salesforce Validate Change Set tests to run
-                                                            before deploying metadata. Default runs no tests, except
-                                                            when deploying Apex classes or triggers to production,
-                                                            Default runs local tests. Local tests are tests that do not
-                                                            originate from a managed package.
-                                                            <options: NoTestRun|RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests>
-  -t, --dataset=<value>                                     name or record ID of the data set to deploy
-  -v, --target-dev-hub=<value>                              (required) Username or alias of the Dev Hub org. Not
-                                                            required if the `target-dev-hub` configuration variable is
-                                                            already set.
-  -z, --notes=<value>                                       notes for the deployment
-      --destructive-changes-order=<option>                  when to delete the metadata quick select components to
-                                                            delete: before (pre) or after (post) deploying the other
-                                                            components. Defaults to pre.
-                                                            <options: pre|post>
-      --metadata-folder=<value>                             metadata branch folder id to use
+  -a, --apex-test-classes=<value>
+      comma separated list of Apex test class names to run when RunSpecifiedTests is selected
+
+  -b, --branch=<value>
+      branch name for deployment
+
+  -d, --metadata-quick-select-components-to-delete=<value>
+      JSON string of metadata quick select components to delete from the target org, in the same format as
+      --metadata-quick-select-components, e.g., '[{"type":"ApexClass","ids":["OldClass"]}]'
+
+  -e, --deactivate
+      deactivate all events for the deployment
+
+  -f, --data-folder=<value>
+      data branch folder id to use
+
+  -i, --instance=<value>
+      managed instance ID on which to perform the action
+
+  -l, --simulation
+      perform a data and/or metadata simulation
+
+  -m, --metadata-quick-select-components=<value>
+      JSON string of metadata quick select components array, e.g., '[{"type":"Profile","ids":["Profile1","Profile2"]}]'
+
+  -n, --name=<value>
+      name for the deployment
+
+  -o, --target-org=<value>
+      (required) Username or alias of the target org. Not required if the `target-org` configuration variable is already
+      set.
+
+  -p, --plan=<value>
+      name or record ID of the deployment plan to deploy
+
+  -q, --filter=<value>
+      query filter override for a data set deployment
+
+  -r, --test-option=<option>
+      specifies the Salesforce Validate Change Set tests to run before deploying metadata. Default runs no tests, except
+      when deploying Apex classes or triggers to production, Default runs local tests. Local tests are tests that do not
+      originate from a managed package.
+      <options: NoTestRun|RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests>
+
+  -t, --dataset=<value>
+      name or record ID of the data set to deploy
+
+  -v, --target-dev-hub=<value>
+      (required) Username or alias of the Dev Hub org. Not required if the `target-dev-hub` configuration variable is
+      already set.
+
+  -z, --notes=<value>
+      notes for the deployment
+
+  --destructive-changes-order=<option>
+      when to delete the metadata quick select components to delete: before (pre) or after (post) deploying the other
+      components. Defaults to pre.
+      <options: pre|post>
+
+  --metadata-folder=<value>
+      metadata branch folder id to use
+
+  --[no-]metadata-rollback-on-failure
+      roll back all metadata changes if any component fails to deploy. Defaults to true; use
+      --no-metadata-rollback-on-failure to keep the components that deployed.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
@@ -257,8 +288,8 @@ prodly:deploy command
 ```
 USAGE
   $ sf prodly deploy -v <value> -o <value> -n <value> [--json] [--flags-dir <value>] [-a <value> -r
-    NoTestRun|RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests] [-m <value>] [-e] [-d <value>] [-q <value> -t <value>]
-    [-b <value>] [-z <value>] [-p <value>] [-l] [-s <value>]
+    NoTestRun|RunLocalTests|RunAllTestsInOrg|RunSpecifiedTests] [-m <value>] [--metadata-rollback-on-failure] [-e] [-d
+    <value>] [-q <value> -t <value>] [-b <value>] [-z <value>] [-p <value>] [-l] [-s <value>]
 
 FLAGS
   -a, --apex-test-classes=<value>                 comma separated list of Apex test class names to run when
@@ -284,6 +315,9 @@ FLAGS
   -v, --target-dev-hub=<value>                    (required) Username or alias of the Dev Hub org. Not required if the
                                                   `target-dev-hub` configuration variable is already set.
   -z, --notes=<value>                             notes for the deployment
+      --[no-]metadata-rollback-on-failure         roll back all metadata changes if any component fails to deploy.
+                                                  Defaults to true; use --no-metadata-rollback-on-failure to keep the
+                                                  components that deployed.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.

@@ -55,6 +55,7 @@ export type DeployOptions = {
   deploymentPlanId?: string;
   destinationInstanceId: string;
   hubConn: Connection;
+  metadataRollbackOnFailure: boolean;
   queryFilter?: string;
   quickDeploymentComponents?: QuickDeploymentComponent[];
   simulation: boolean;
@@ -76,6 +77,7 @@ export type CheckoutOptions = {
   hubConn: Connection;
   mangedInstanceId: string;
   metadataFolder?: string;
+  metadataRollbackOnFailure: boolean;
   quickDeploymentComponents?: QuickDeploymentComponent[];
   quickDeploymentComponentsToDelete?: QuickDeploymentComponent[];
   simulation: boolean;
