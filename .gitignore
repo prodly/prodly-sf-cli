@@ -1,7 +1,6 @@
 # -- CLEAN
 tmp/
-# use yarn by default, so ignore npm
-package-lock.json
+# generated from package-lock.json when packing
 npm-shrinkwrap.json
 
 # never checkin npm config
@@ -9,7 +8,6 @@ npm-shrinkwrap.json
 
 # debug logs
 npm-error.log
-yarn-error.log
 
 
 # compile source
