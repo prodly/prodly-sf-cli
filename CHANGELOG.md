@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.8.1] - 2026-11-25
+
+### Changed
+
+- Switched the project from Yarn to npm. `package-lock.json` replaces `yarn.lock`, and the build steps are now `npm install && npm run build`. `sf plugins link` will soon stop installing dependencies for Yarn projects, so install them before you link.
+- The published package no longer includes `oclif.lock`. It was a copy of `yarn.lock` that recent Salesforce CLI versions ignore. `npm-shrinkwrap.json` still locks the dependency versions.
+- Updated `@oclif/core` to v5.1.12
+- Updated `@oclif/plugin-command-snapshot` to v6.0.13
+- Updated `@salesforce/cli-plugins-testkit` to v5.3.95
+- Updated `@salesforce/core` to v9.6.0
+- Updated `@salesforce/dev-scripts` to v15.0.1
+- Updated `@salesforce/sf-plugins-core` to v13.0.9
+- Updated `eslint` to v10.15.0
+- Updated `eslint-config-salesforce-typescript` to v7.0.9
+- Updated `eslint-plugin-sf-plugin` to v3.0.4
+- Updated `oclif` to v6.0.15
+
 ## [1.8.0] - 2026-10-20
 
 ### Added

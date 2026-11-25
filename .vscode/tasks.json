@@ -8,13 +8,13 @@
         "kind": "build",
         "isDefault": true
       },
-      "command": "yarn",
+      "command": "npx",
       "type": "shell",
       "presentation": {
         "focus": false,
         "panel": "dedicated"
       },
-      "args": ["run", "pretest"],
+      "args": ["tsc", "-p", "./test", "--pretty"],
       "isBackground": false
     }
   ]

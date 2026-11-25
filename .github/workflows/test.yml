@@ -7,6 +7,14 @@ on:
 jobs:
   unit-tests:
     uses: salesforcecli/github-workflows/.github/workflows/unitTest.yml@main
+    with:
+      package-manager: npm
+      cache-dependency-path: package-lock.json
+      install-command: npm ci
+      build-command: npm run build
+      test-command: npm test
+      # wireit comes from package-lock.json, so only check that it is installed
+      wireit-install-command: npm ls wireit
   nuts:
     needs: unit-tests
     uses: salesforcecli/github-workflows/.github/workflows/nut.yml@main
@@ -17,3 +25,10 @@ jobs:
       fail-fast: false
     with:
       os: ${{ matrix.os }}
+      package-manager: npm
+      cache-dependency-path: package-lock.json
+      install-command: npm ci
+      compile-command: npm run compile
+      oclif-manifest-command: npx oclif manifest
+      command: npm run test:nuts
+      wireit-install-command: npm ls wireit

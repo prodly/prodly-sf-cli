@@ -14,14 +14,14 @@ Please report any issues at https://github.com/prodly/prodly-sf-cli/issues
 
 ### Build
 
-To build the plugin locally, make sure to have yarn installed and run the following commands:
+To build the plugin locally, make sure to have Node.js 22 or later installed and run the following commands:
 
 ```bash
 # Clone the repository
 git clone https://github.com/prodly/prodly-sf-cli.git
 
 # Install the dependencies and compile
-yarn && yarn build
+npm install && npm run build
 ```
 
 ```bash
@@ -29,7 +29,7 @@ yarn && yarn build
 ./bin/run.js prodly:manage -l -p
 ```
 
-There should be no differences when running via the Salesforce CLI or using the local run file. However, it can be useful to link the plugin to do some additional testing or run your commands from anywhere on your machine.
+There should be no differences when running via the Salesforce CLI or using the local run file. However, it can be useful to link the plugin to do some additional testing or run your commands from anywhere on your machine. Do not rely on `sf plugins link` to install dependencies; run the install and build step above first.
 
 ```bash
 # Link your plugin to the sf cli
@@ -80,7 +80,7 @@ EXAMPLES
   Lists all branch folders
 ```
 
-_See code: [src/commands/prodly/branch-folders.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/branch-folders.ts)_
+_See code: [src/commands/prodly/branch-folders.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.1/src/commands/prodly/branch-folders.ts)_
 
 ## `sf prodly change-types`
 
@@ -121,7 +121,7 @@ EXAMPLES
   Creates a scratch org based on a change type
 ```
 
-_See code: [src/commands/prodly/change-types.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/change-types.ts)_
+_See code: [src/commands/prodly/change-types.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.1/src/commands/prodly/change-types.ts)_
 
 ## `sf prodly checkin`
 
@@ -172,7 +172,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/checkin.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/checkin.ts)_
+_See code: [src/commands/prodly/checkin.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.1/src/commands/prodly/checkin.ts)_
 
 ## `sf prodly checkout`
 
@@ -280,7 +280,7 @@ EXAMPLES
   Members already missing from the org are skipped. The metadata destructive changes setting must be enabled in Prodly.
 ```
 
-_See code: [src/commands/prodly/checkout.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/checkout.ts)_
+_See code: [src/commands/prodly/checkout.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.1/src/commands/prodly/checkout.ts)_
 
 ## `sf prodly deploy`
 
@@ -344,7 +344,7 @@ EXAMPLES
   Command output... deploying to the scratch org from the UAT sandbox, using the named connection record in the dev hub, control org. Long param names.
 ```
 
-_See code: [src/commands/prodly/deploy.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/deploy.ts)_
+_See code: [src/commands/prodly/deploy.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.1/src/commands/prodly/deploy.ts)_
 
 ## `sf prodly jobs`
 
@@ -373,7 +373,7 @@ EXAMPLES
   Print the job status for the provided job Id.
 ```
 
-_See code: [src/commands/prodly/jobs.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/jobs.ts)_
+_See code: [src/commands/prodly/jobs.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.1/src/commands/prodly/jobs.ts)_
 
 ## `sf prodly manage`
 
@@ -425,7 +425,7 @@ EXAMPLES
   Refresh the managed instance org ID after a sandbox has been refreshed.
 ```
 
-_See code: [src/commands/prodly/manage.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/manage.ts)_
+_See code: [src/commands/prodly/manage.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.1/src/commands/prodly/manage.ts)_
 
 ## `sf prodly releases`
 
@@ -465,7 +465,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/releases.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/releases.ts)_
+_See code: [src/commands/prodly/releases.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.1/src/commands/prodly/releases.ts)_
 
 ## `sf prodly version`
 
@@ -510,7 +510,7 @@ EXAMPLES
   The instance should be managed by the Prodly account associated with the default DevHub control org.
 ```
 
-_See code: [src/commands/prodly/version.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.0/src/commands/prodly/version.ts)_
+_See code: [src/commands/prodly/version.ts](https://github.com/prodly/prodly-sf-cli/blob/v1.8.1/src/commands/prodly/version.ts)_
 
 <!-- commandsstop -->
 
